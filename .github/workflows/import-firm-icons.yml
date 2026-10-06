@@ -78,7 +78,7 @@ jobs:
           catalog = Path("src/components/web3/firmCatalog.js")
           s = catalog.read_text(encoding="utf-8")
           s = s.replace('logo:"https://www.dojifunded.com/favicon.ico"', 'logo:"/brands/dojifunded.png"')
-          s = s.replace('logo:"/brands/hyperpnl.svg"', 'logo:"/brands/hyperpnl.svg"')
+          s = s.replace('logo:"https://hyperpnl.com/favicon.ico"', 'logo:"/brands/hyperpnl.svg"')
           catalog.write_text(s, encoding="utf-8")
           PY
 
