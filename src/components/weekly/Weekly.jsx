@@ -181,7 +181,7 @@ function ClaimForm({initialAddress,onDone}){
   submitted.current=false;if(submissionTimer.current)clearTimeout(submissionTimer.current);setBusy(false);setSent(true);setStatus('Submitted for review. MASSIVE will check your withdrawal against the onchain record before publishing your profile.');
  }
  async function submit(e){
-  e.preventDefault();if(!agree||busy||sent)return;
+  e.preventDefault();if(busy||sent)return;if(!agree){setStatus('Check the consent box before submitting.');return;}
   const form=e.currentTarget,input=form.elements.attachment,attachment=input?.files?.[0];
   if(form.elements._honey?.value)return;
   if(!walletList.length){setStatus('Add at least one payout wallet.');return;}
@@ -237,6 +237,6 @@ function ClaimForm({initialAddress,onDone}){
  <p className="wk-claim-note">Keep the payout details visible and remove unrelated personal information. If you added multiple wallets, use the details box to explain the connection if helpful. Your confirmation and contact email are sent through FormSubmit to MASSIVE for review, not published on the leaderboard.</p>
  <label className="wk-consent"><input type="checkbox" required checked={agree} disabled={busy||sent} onChange={e=>setAgree(e.target.checked)}/>I agree to my approved name, Twitter @, tag and payout wallet(s) appearing publicly as one combined profile.</label>
  {busy&&<div ref={waitingRef} className="wk-wisp-wait" role="status" aria-live="polite"><div className="wk-wisp-wait-art" aria-hidden="true"><img src="/mascot/wisp.png" alt=""/></div><div className="wk-wisp-wait-copy"><span>WISP’S ON IT<span className="wk-wisp-wait-dots" aria-hidden="true"><i/><i/><i/></span></span><strong>Don’t leave me yet.</strong><p>Keep this window open until you see <b>“Submission received.”</b></p></div></div>}
- <button className="wk-primary" disabled={!agree||busy||sent} type="submit">{busy?'Submitting…':'Submit profile for review'}<ArrowUpRight size={15}/></button>
+ <button className="wk-primary" disabled={busy||sent} type="submit">{busy?'Submitting…':'Submit profile for review'}<ArrowUpRight size={15}/></button>
  <p className="wk-claim-note">Your profile goes live after manual approval. No wallet connection or signature needed.</p><p role="status" className="wk-claim-status">{status}</p></form></>;
 }
