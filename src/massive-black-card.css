@@ -1,0 +1,233 @@
+/* MASSIVE — global BLACK CARD material system
+   Structural layout stays owned by each page; this file only unifies material, tone and brand atmosphere. */
+
+:root{
+  --massive-black:#070708;
+  --massive-ink:#0b0b0d;
+  --massive-panel:#0d0d10;
+  --massive-panel-2:#121115;
+  --massive-card:#151419;
+  --massive-cream:#ece8df;
+  --massive-soft:#c9c2ba;
+  --massive-muted:#777176;
+  --massive-faint:#4b474c;
+  --massive-line:rgba(236,232,223,.075);
+  --massive-line-strong:rgba(212,188,125,.18);
+  --massive-gold:#d4bc7d;
+  --massive-platinum:#b9b6b3;
+  --massive-purple:#9b87f5;
+}
+
+html,body,#root{background:var(--massive-black)!important}
+body{color:var(--massive-cream)}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(ellipse at 76% 6%,rgba(212,188,125,.045),transparent 27%),
+    radial-gradient(ellipse at 16% 72%,rgba(255,255,255,.018),transparent 24%),
+    linear-gradient(180deg,#070708,#09090a 52%,#070708);
+}
+
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test){
+  --bg:var(--massive-black)!important;
+  --panel:var(--massive-panel)!important;
+  --panel2:var(--massive-panel-2)!important;
+  --ink:var(--massive-cream)!important;
+  --text:var(--massive-cream)!important;
+  --muted:var(--massive-muted)!important;
+  --line:var(--massive-line)!important;
+  color:var(--massive-cream)!important;
+  background:
+    radial-gradient(ellipse at 82% 4%,rgba(212,188,125,.032),transparent 26%),
+    linear-gradient(180deg,#080809,#070708)!important;
+}
+
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test) a{
+  text-underline-offset:3px;
+}
+
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test)
+:is(nav,header){
+  border-color:var(--massive-line)!important;
+}
+
+/* Primary wordmarks / high-value type */
+:is(.gp-wordmark,.vf-brand,.fh-brand,.mm-brand,.tm-brand,.atm-gp,.pf-brand,.learn-nav .gp,.gp-email-test>header>a:first-child){
+  color:var(--massive-cream)!important;
+  letter-spacing:-.055em!important;
+}
+:is(.gp-wordmark,.vf-brand,.fh-brand,.mm-brand,.tm-brand,.atm-gp,.pf-brand) span{
+  color:var(--massive-gold)!important;
+}
+
+/* Home / comparison surfaces */
+.gp-site .review-row,
+.gp-site .firm-drawer,
+.gp-site .gp-leaderboard-stage,
+.gp-site .gp-outcome-story,
+.gp-site .gp-fee-board,
+.gp-site .fn-bonus,
+.gp-site .raw-matrix,
+.gp-site .gp-model-note,
+.gp-site .gp-about-content,
+.gp-site .gp-ripple-firm{
+  border-color:var(--massive-line)!important;
+  background:
+    radial-gradient(ellipse at 86% 0%,rgba(212,188,125,.03),transparent 28%),
+    linear-gradient(145deg,rgba(20,19,22,.92),rgba(10,10,12,.94))!important;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.025),
+    0 24px 70px rgba(0,0,0,.22)!important;
+}
+.gp-site :is(h1,h2,h3,h4,strong){color:var(--massive-cream)}
+.gp-site :is(p,small,dt,.review-source,.gp-section-note){color:var(--massive-muted)!important}
+.gp-site .gp-primary-link,
+.gp-site .firm-drawer-cta{
+  background:var(--massive-cream)!important;
+  color:#111114!important;
+  border-color:var(--massive-cream)!important;
+}
+.gp-site .review-row.is-top-pick{
+  border-color:rgba(212,188,125,.24)!important;
+  box-shadow:inset 2px 0 var(--massive-gold),inset 0 1px rgba(255,255,255,.025)!important;
+}
+.gp-site :is(.pick-label,.gp-eyebrow,.gp-section-no,.review-offer){
+  color:var(--massive-gold)!important;
+}
+.gp-site .gp-rbar-fill{background:linear-gradient(90deg,#807660,var(--massive-gold))!important}
+
+/* Vest referral remains the signature black-card object */
+:is(.gp-site,.learnperps,.vf) :is(.gp-hero-vest-offer,.lp-vest-ref,.vf-referral){
+  border-color:rgba(212,188,125,.28)!important;
+  background:linear-gradient(115deg,#333139,#1b1b21 60%,#302a20)!important;
+  color:var(--massive-cream)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.06),0 18px 46px rgba(0,0,0,.26)!important;
+}
+
+/* Leaderboard */
+.wk{
+  background:
+    radial-gradient(ellipse at 75% 8%,rgba(212,188,125,.035),transparent 26%),
+    #070708!important;
+}
+.wk :is(.wk-podium-card,.wk-award-canvas,.wk-award-place,.wk-profile-card,.wk-rank-card,.wk-table,.wk-panel,.wk-board,.wk-row){
+  border-color:var(--massive-line)!important;
+}
+.wk :is(.wk-podium-card,.wk-profile-card,.wk-rank-card,.wk-panel,.wk-board){
+  background:
+    radial-gradient(circle at 88% 12%,rgba(212,188,125,.025),transparent 28%),
+    linear-gradient(145deg,#111014,#09090b)!important;
+}
+.wk :is(h1,h2,h3,strong,.wk-podium-amount){color:var(--massive-cream)!important}
+.wk :is(p,small,.wk-sub,.wk-meta){color:var(--massive-muted)!important}
+.wk :is(.wk-trader-tag,.wk-eyebrow,.wk-kicker){color:var(--massive-gold)!important}
+
+/* Flow directory / trackers */
+.fh,.vf{background:#070708!important}
+.fh :is(.fh-card,.fh-firm-card,.fh-directory-card,.fh-panel),
+.vf :is(.vf-network,.vf-funding-story,.vf-stats article,.vf-chart-panel,.vf-feed,.vf-transfer-card,.vf-inspector,.vf-wallet){
+  border-color:var(--massive-line)!important;
+  background:
+    radial-gradient(ellipse at 82% 0%,rgba(212,188,125,.025),transparent 30%),
+    linear-gradient(145deg,rgba(18,17,20,.94),rgba(8,8,10,.96))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.022)!important;
+}
+.vf :is(h1,h2,h3,strong),.fh :is(h1,h2,h3,strong){color:var(--massive-cream)!important}
+.vf :is(p,small,.vf-scope,.vf-footer),.fh :is(p,small){color:var(--massive-muted)!important}
+.vf .vf-heading h1 i,.vf .vf-eyebrow,.fh .fh-eyebrow{color:var(--massive-gold)!important}
+.vf .vf-tabs button[aria-pressed="true"],
+.vf .vf-period button[aria-pressed="true"]{
+  border-color:rgba(212,188,125,.26)!important;
+  color:var(--massive-cream)!important;
+  background:rgba(212,188,125,.06)!important;
+}
+
+/* LearnPerps: same playful structure, BLACK CARD materials */
+.learnperps{
+  --cream:var(--massive-panel)!important;
+  --mint:#161914!important;
+  --lilac:#17151d!important;
+  --peach:#1b1512!important;
+  --sky:#12171b!important;
+  --yellow:#1d1910!important;
+  --panel:rgba(17,16,19,.88)!important;
+  color:var(--massive-cream)!important;
+  background:
+    radial-gradient(circle at 88% 5%,rgba(212,188,125,.045),transparent 26%),
+    radial-gradient(circle at 12% 48%,rgba(155,135,245,.018),transparent 22%),
+    linear-gradient(180deg,#080809,#0a090b 48%,#070708)!important;
+}
+.learnperps .lp-hero h1{color:var(--massive-cream)!important}
+.learnperps .lp-hero h1 em{color:var(--massive-soft)!important}
+.learnperps :is(.lp-hero p,.lp-config-head p,.lp-ticket-copy p,.lp-costs-copy p,.lp-session-copy p,.lp-play-head p,.lp-finish p){
+  color:var(--massive-muted)!important;
+}
+.learnperps :is(.lp-config,.lp-ticket-section,.lp-costs,.lp-session,.lp-playground,.lp-finish){
+  border-color:var(--massive-line)!important;
+  background:
+    radial-gradient(ellipse at 85% 0%,rgba(212,188,125,.025),transparent 30%),
+    linear-gradient(145deg,rgba(20,19,22,.92),rgba(9,9,11,.94))!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.025)!important;
+}
+.learnperps :is(.lp-metric,.lp-config-group button,.lp-session-picker button,.lp-stop-choice button,.lp-ticket-note,.lp-book,.lp-book-caption,.lp-fill-want,.lp-mini-ladder,.lp-fill-result,.lp-true-r,.lp-kept,.lp-tuner-controls label,.lp-tuner-footer>div){
+  border-color:var(--massive-line)!important;
+  background:rgba(13,13,16,.76)!important;
+  color:var(--massive-cream)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025)!important;
+  backdrop-filter:blur(14px)!important;
+}
+.learnperps :is(.lp-config-group button.active,.lp-session-picker button.active,.lp-stop-choice button.active){
+  background:var(--massive-cream)!important;
+  color:#111114!important;
+  border-color:var(--massive-cream)!important;
+}
+.learnperps :is(.lp-section-tag,.lp-cost-cards span,.lp-metric>span,.lp-ticket-note span,.lp-book-head span,.lp-tuner-controls label>span){
+  color:#8c8379!important;
+}
+.learnperps :is(.lp-cost-cards .fee,.lp-cost-cards .spread,.lp-cost-cards .slip){
+  border-color:var(--massive-line)!important;
+  background:
+    radial-gradient(circle at 84% 14%,rgba(212,188,125,.035),transparent 30%),
+    linear-gradient(145deg,#17161a,#0d0d10)!important;
+}
+.learnperps .lp-cost-cards b{color:var(--massive-cream)!important}
+.learnperps .lp-cost-cards p{color:var(--massive-muted)!important}
+.learnperps .lp-ticket-card{
+  background:
+    radial-gradient(circle at 82% 12%,rgba(212,188,125,.035),transparent 28%),
+    linear-gradient(145deg,#1b1a1e,#0d0d10)!important;
+  border:1px solid var(--massive-line)!important;
+}
+.learnperps .lp-kept-bar{
+  background:#0c0c0f!important;
+  border-color:var(--massive-line)!important;
+}
+.learnperps .lp-kept-bar .keep{background:linear-gradient(90deg,#6e6a61,#9c927e)!important}
+.learnperps .lp-kept-bar .fee{background:#bda66d!important}
+.learnperps .lp-kept-bar .spread{background:#6f677b!important}
+.learnperps .lp-kept-bar .slip{background:#8a6d62!important}
+.learnperps input[type=range]{accent-color:var(--massive-gold)!important}
+
+/* VIP / lifetime record already Black Card; unify remaining chrome */
+.profile-page{background:#070708!important}
+.profile-page :is(.pf-nav,.pf-switch-row,.pf-signature){border-color:var(--massive-line)!important}
+
+/* Education / milestone / email studio */
+.atm,.mm,.tm,.gp-email-test{background:#070708!important}
+.atm :is(.atm-hero,.atm-playbook,.atm-workspace,.atm-step-panel,.atm-principles>div),
+.mm :is(.mm-certificate,.mm-live,.mm-actions),
+.tm :is(.tm-hero,.tm-panel,.tm-card),
+.gp-email-test :is(section,form,.gp-email-preview){
+  border-color:var(--massive-line)!important;
+  background:
+    radial-gradient(ellipse at 82% 0%,rgba(212,188,125,.025),transparent 28%),
+    linear-gradient(145deg,#121115,#09090b)!important;
+}
+
+/* Selection / focus */
+::selection{background:rgba(212,188,125,.24);color:var(--massive-cream)}
+:focus-visible{outline-color:var(--massive-gold)!important}
