@@ -2,7 +2,7 @@ export const firmProfiles = {
   "Maven": {
     market: "CFDs",
     url: "https://maventrading.com/",
-    icon: "https://maventrading.com/favicon.ico",
+    icon: "/brands/maven.png",
     pick: {
       name: "100K OMO 2-Step",
       why: "Room to work, no consistency score, and the deepest proof trail in my archive.",
@@ -12,7 +12,7 @@ export const firmProfiles = {
   "Lucid Trading": {
     market: "Futures",
     url: "https://www.lucidtrading.com/",
-    icon: "https://www.lucidtrading.com/favicon.ico",
+    icon: "/brands/lucid.png",
     pick: {
       name: "Flex 50K",
       why: "No funded consistency, no payout buffer, and a clean EOD drawdown structure.",
@@ -22,7 +22,7 @@ export const firmProfiles = {
   "FundedNext": {
     market: "CFDs",
     url: "https://fundednext.com/",
-    icon: "https://fundednext.com/favicon.ico",
+    icon: "/brands/fundednext-icon-dark.png",
     pick: {
       name: "Stellar Lite 100K",
       why: "The strongest all-around CFD value: static drawdown, a clean two-step path, and on-demand payouts with the add-ons.",
@@ -39,7 +39,7 @@ export const firmProfiles = {
   "Tradeify": {
     market: "Futures",
     url: "https://tradeify.co/",
-    icon: "https://tradeify.co/favicon.ico",
+    icon: "/brands/tradeify.png",
     pick: {
       name: "Select 50K · Flex",
       why: "No DLL, no funded consistency, no payout buffer, and useful five-day payout cadence.",
@@ -49,7 +49,7 @@ export const firmProfiles = {
   "Breakout": {
     market: "Perps",
     url: "https://www.breakoutprop.com/pricing/",
-    icon: "https://www.breakoutprop.com/favicon.ico",
+    icon: "/brands/breakout.ico",
     pick: {
       name: "100K Turbo",
       why: "Cheap fixed-risk shot with static drawdown and on-demand funded payouts.",
@@ -59,17 +59,17 @@ export const firmProfiles = {
   "Topstep": {
     market: "Futures",
     url: "https://www.topstep.com/",
-    icon: "https://www.topstep.com/favicon.ico",
+    icon: "/brands/topstep.png",
   },
   "MyFundedPerps": {
     market: "Perps",
     url: "https://myfundedperpetuals.com/",
-    icon: "https://myfundedperpetuals.com/favicon.ico",
+    icon: "/brands/myfundedperps.png",
   },
   "Propr": {
     market: "Perps",
     url: "https://app.propr.xyz/r/7gJmpEjv",
-    icon: "https://www.propr.xyz/favicon.ico",
+    icon: "/brands/propr-icon.svg",
     referral: true,
     pick: {
       name: "Classic 1-Step · 10/6/3",
@@ -79,6 +79,7 @@ export const firmProfiles = {
   },
   "Hypernova": {
     market: "Perps",
+    icon: "/brands/hypernova.ico",
     url: "https://hn.xyz/r/4sjg1b",
     referral: true,
     pick: {

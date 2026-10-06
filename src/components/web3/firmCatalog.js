@@ -60,7 +60,7 @@ export const firms = [
     ]
   },
   {
-    id:"doji", name:"DojiFunded", mark:"DJ", domain:"dojifunded.com", logo:"https://www.dojifunded.com/favicon.ico", url:"https://www.dojifunded.com/",
+    id:"doji", name:"DojiFunded", mark:"DJ", domain:"dojifunded.com", logo:"/brands/dojifunded.png", url:"https://www.dojifunded.com/",
     status:"ARBITRUM", venue:"GMX + Ostium", price:231, plan:"1-Step", target:10, daily:"3%", drawdown:"6%", split:"80%",
     payout:"On-demand · USDC", leverage:"Up to 25x FX", indexLev:10, edge:"Multi-venue on-chain",
     note:"On-chain account records, multi-asset execution and API automation.",
@@ -145,7 +145,7 @@ export const firms = [
     ]
   },
   {
-    id:"hyperpnl", name:"HyperPNL", mark:"HP", domain:"hyperpnl.com", logo:"https://hyperpnl.com/favicon.ico", url:"https://hyperpnl.com/",
+    id:"hyperpnl", name:"HyperPNL", mark:"HP", domain:"hyperpnl.com", logo:"/brands/hyperpnl.svg", url:"https://hyperpnl.com/",
     status:"ON-CHAIN", venue:"Hyperliquid + Ostium", price:215, plan:"1-Step Flex", target:10, daily:"3%", drawdown:"5% static", split:"80%",
     payout:"Daily · smart-contract", leverage:"Market-specific", indexLev:null, edge:"Code-enforced payouts",
     note:"Hyperliquid and Ostium access with smart-contract payout enforcement.",
