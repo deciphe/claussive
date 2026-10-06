@@ -11,7 +11,7 @@ for source in sorted(Path('public/payouts/topstep-studio').glob('*.svg')):
 <rect x="30" y="30" width="1540" height="940" rx="30" fill="#0c100d" stroke="#283027"/>
 <path d="M80 181H1520" stroke="#283027"/>
 <text x="82" y="116" fill="#dce4d4" font-family="DejaVu Sans,sans-serif" font-size="42" font-weight="bold" letter-spacing="-1">TOPSTEP</text>
-<text x="1520" y="112" text-anchor="end" fill="#c4d0ba" font-family="DejaVu Sans,sans-serif" font-size="36" font-weight="bold">GP<tspan fill="#a8c38a">.</tspan></text>
+<text x="1520" y="112" text-anchor="end" fill="#c4d0ba" font-family="DejaVu Sans,sans-serif" font-size="36" font-weight="bold">MASSIVE<tspan fill="#a8c38a">.</tspan></text>
 <text x="84" y="270" fill="#829079" font-family="DejaVu Sans,sans-serif" font-size="20" letter-spacing="4">PERSONAL PAYOUT RECORD</text>
 <circle cx="112" cy="346" r="29" fill="#131c10" stroke="#36452d"/>
 <path d="M120 335L104 351M104 337V351H118" stroke="#a8c38a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>

@@ -550,7 +550,7 @@
   .lp-fill-demo{grid-template-columns:1fr}
 }
 
-/* Vest GP referral — main-site widget treatment */
+/* Vest MASSIVE referral — main-site widget treatment */
 .lp-vest-ref-wrap{
   display:flex;
   align-items:center;
@@ -619,7 +619,7 @@
 }
 
 
-/* GP glass zoom bar — keep the meaningful 60–100% range visible */
+/* MASSIVE glass zoom bar — keep the meaningful 60–100% range visible */
 .lp-kept{
   position:relative;
   overflow:hidden!important;
@@ -778,7 +778,7 @@
 }
 
 
-/* Black Card pass — darker GP tuner, honest 0–100 context + 60–100 focus */
+/* Black Card pass — darker MASSIVE tuner, honest 0–100 context + 60–100 focus */
 .lp-playground{
   background:
     radial-gradient(ellipse at 14% 8%,rgba(124,108,170,.10),transparent 34%),
@@ -1025,7 +1025,7 @@
 }
 
 
-/* Pastel glass pass — preserve Black Card hierarchy, soften into milky GP glass */
+/* Pastel glass pass — preserve Black Card hierarchy, soften into milky MASSIVE glass */
 .lp-playground{
   background:
     radial-gradient(ellipse at 12% 8%,rgba(223,215,255,.52),transparent 34%),

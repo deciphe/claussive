@@ -139,7 +139,7 @@ padding:23px 24px;display:flex;align-items:center;justify-content:space-between;
 @media(max-width:900px){.pf-person{align-items:flex-start}.pf-avatar{width:62px;height:62px}.pf-trophy{min-height:300px}.pf-pulse-card{border-bottom:1px solid #ffffff0b}}
 @media(max-width:560px){.pf-person{gap:12px}.pf-avatar{width:52px;height:52px}.pf-person h1{font-size:34px}.pf-trophy{padding:30px 20px;min-height:260px}.pf-total{font-size:70px}.pf-calendar{padding:16px}.pf-day.paid strong{font-size:10px}}
 
-/* referral-card sourced palette — warm platinum / GP gold / muted purple */
+/* referral-card sourced palette — warm platinum / MASSIVE gold / muted purple */
 .profile-page{
   --platinum:#dedad2;
   --platinum2:#aaa5ab;
@@ -1109,7 +1109,7 @@ padding:23px 24px;display:flex;align-items:center;justify-content:space-between;
   }
 }
 
-/* GP ARCANE — floating prestige portrait system */
+/* MASSIVE ARCANE — floating prestige portrait system */
 .pf-arcane{
   position:absolute;
   right:7%;
@@ -1329,7 +1329,7 @@ padding:23px 24px;display:flex;align-items:center;justify-content:space-between;
  .pf-club-door-credential{min-height:64px}
 }
 
-/* VIP landing reset — restore GP BLACK CARD, entrance only */
+/* VIP landing reset — restore MASSIVE BLACK CARD, entrance only */
 .profile-page:has(.pf-entry-club){
   background:#070708;
 }

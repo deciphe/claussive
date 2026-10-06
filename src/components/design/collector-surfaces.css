@@ -95,7 +95,7 @@
 .vf .vf-status{position:relative;z-index:1;background:#080d0999;border:1px solid #b4c59c24;padding:10px 13px;border-radius:2px;backdrop-filter:blur(5px)}
 .vf .vf-status>span{font-size:11px}.vf .vf-flow-nav a{border-radius:2px}
 .vf .vf-referral{position:relative;overflow:hidden;border-radius:3px;background:linear-gradient(110deg,#25301c66,#10170d 60%,#26341b33);border-color:#a8c38a38}
-.vf .vf-referral:after{content:'GP';position:absolute;right:27%;top:-25px;font-size:100px;line-height:1;font-weight:800;letter-spacing:-10px;color:#c1d4a606;pointer-events:none}
+.vf .vf-referral:after{content:'MASSIVE';position:absolute;right:27%;top:-25px;font-size:100px;line-height:1;font-weight:800;letter-spacing:-10px;color:#c1d4a606;pointer-events:none}
 .vf .vf-network{border-radius:3px;border-color:#bccaaa25;background:radial-gradient(ellipse at 50% 48%,#35432b44,transparent 50%),linear-gradient(125deg,#151e1140,#0b0e0c 45%,#20192726)}
 .vf .vf-core-copy .vf-core-symbol{height:34px;display:grid;place-items:center;margin-bottom:6px}
 .vf .vf-core-symbol img{width:39px;height:32px;object-fit:contain;filter:grayscale(.6);opacity:.85}
