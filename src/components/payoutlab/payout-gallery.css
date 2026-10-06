@@ -1,0 +1,41 @@
+.payout-gallery{background:#090a0e;color:#edeef1;padding:96px 24px;font-family:inherit}
+.payout-gallery-inner{max-width:1320px;margin:auto}
+.payout-gallery-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:32px}
+.payout-eyebrow{font-family:monospace;font-size:11px;letter-spacing:.2em;color:#b5adc9;margin:0 0 16px}
+.payout-gallery h2{font-family:inherit;font-size:clamp(32px,5vw,60px);font-weight:650;line-height:1.08;letter-spacing:-.04em;margin:0}
+.payout-intro{color:#a1a3b0;font-size:14px;margin:18px 0 0}
+.payout-summary{display:flex;gap:28px;flex-shrink:0}
+.payout-summary strong{display:block;font-size:25px;font-weight:500;color:#d2cadf;letter-spacing:-.03em}
+.payout-summary span{display:block;margin-top:7px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#9294a3}
+.payout-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.payout-filters button,.payout-gallery-footer button{border:1px solid #30323d;border-radius:8px;background:#111218;color:#b5b6c2;padding:10px 14px;font:inherit;font-size:12px;cursor:pointer}
+.payout-filters button span{margin-left:9px;opacity:.65;font-size:10px}
+.payout-filters button[aria-pressed=true]{background:#282432;border-color:#706482;color:#f0eaf9}
+.payout-filters button:hover,.payout-gallery-footer button:hover{border-color:#a396b6;color:#fff}
+.payout-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 18px}
+.payout-card{display:block;min-width:0;text-align:left;color:inherit;background:#101116;border:1px solid #262833;border-radius:12px;overflow:hidden;padding:10px;cursor:pointer;font:inherit}
+.payout-card:hover{border-color:#7a6b8e;background:#15141d}
+.payout-card-image{aspect-ratio:4/3;background:#08090c;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden}
+.payout-card-image img{width:100%;height:100%;object-fit:contain}
+.payout-card-caption{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin:14px 3px 0}
+.payout-card-caption strong{color:#d2cadf;font-weight:500;white-space:nowrap}
+.payout-card-date{font-family:monospace;font-size:10px;color:#9294a3;margin:7px 3px 5px}
+.payout-gallery-footer{display:flex;align-items:center;justify-content:space-between;margin-top:30px;gap:16px;color:#9294a3;font-size:12px}
+.payout-gallery button:focus-visible,.payout-hero-preview a:focus-visible{outline:2px solid #c3b4dc;outline-offset:4px}
+.payout-dialog{position:fixed;margin:auto;padding:18px;width:min(860px,calc(100vw - 32px));max-height:92vh;overflow:auto;background:#101116;color:#edeef1;border:1px solid #4b435b;border-radius:14px}
+.payout-dialog::backdrop{background:rgba(3,4,8,.88)}
+.payout-dialog header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px}
+.payout-dialog header strong{display:block;font-size:15px}
+.payout-dialog header span{display:block;font-size:12px;margin-top:4px;color:#b5b6c2}
+.payout-dialog header button{background:#282432;border:1px solid #706482;color:#f0eaf9;border-radius:6px;padding:8px 12px;cursor:pointer}
+.payout-dialog>img{display:block;width:100%;max-height:70vh;object-fit:contain;background:#08090c}
+.payout-record-note{font-size:11px;line-height:1.5;color:#a4a1b0;margin:14px 0 0}
+.payout-hero-preview{align-self:center;padding:28px 0 28px 42px}
+.payout-hero-preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.payout-hero-preview a{display:block;border:1px solid #37323f;border-radius:10px;background:#101116;padding:8px;text-decoration:none}
+.payout-hero-preview img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#08090c;border-radius:5px}
+.payout-hero-preview span{display:block;color:#b7afc8;font-size:10px;margin:8px 2px 3px}
+.payout-hero-preview>p{font-family:monospace;font-size:10px;letter-spacing:.15em;color:#9690a3;margin:18px 0 0}
+@media(max-width:1100px){.payout-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.payout-gallery-heading{align-items:flex-start;flex-direction:column}}
+@media(max-width:767px){.payout-gallery{padding:64px 16px}.payout-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.payout-card-caption{font-size:11px;flex-wrap:wrap}.payout-hero-preview{padding:40px 0 0}.payout-hero-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.payout-summary strong{font-size:23px}.payout-filters button{padding:10px}}
+@media(max-width:380px){.payout-card-grid{grid-template-columns:1fr}}

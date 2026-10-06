@@ -1,0 +1,8 @@
+.wk .wk-vest-offer{display:flex;align-items:center;gap:15px;width:fit-content;max-width:100%;margin:20px 0 8px;padding:13px 18px;border:1px solid #d4bc7d45;border-radius:7px;background:linear-gradient(115deg,#302f36,#17171d 65%,#30281d);color:#e9e5dc;text-decoration:none;box-shadow:inset 0 1px 0 #ffffff12;transition:border-color .2s}
+.wk .wk-vest-offer:hover{border-color:#d4bc7d99}.wk .wk-vest-offer:focus-visible{outline:2px solid #d4bc7d;outline-offset:4px}
+.wk-vest-offer>img{width:29px;height:24px;object-fit:contain;opacity:.9}
+.wk-vest-offer>span{display:flex;flex-direction:column;gap:5px}
+.wk-vest-offer strong{font-size:13px;font-weight:600;letter-spacing:-.3px}
+.wk-vest-offer small{font-size:9px;color:#aaa3ac;letter-spacing:1px}
+.wk-vest-offer>b{white-space:nowrap;padding:7px 9px;border:1px solid #d4bc7d33;border-radius:4px;color:#e3cd98;font-size:10px;letter-spacing:1px;background:#d4bc7d0b}
+@media(max-width:480px){.wk .wk-vest-offer{width:100%;padding:12px;gap:10px}.wk-vest-offer>span{flex:1}.wk-vest-offer strong{font-size:11px}.wk-vest-offer>svg{width:13px;flex-shrink:0}}

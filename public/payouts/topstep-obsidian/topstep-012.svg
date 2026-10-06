@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<title>Topstep personal payout record — $928 USD — NOV 10, 2025 — couldbeluck</title>
+<rect width="1600" height="1000" fill="#080a09"/>
+<rect x="30" y="30" width="1540" height="940" rx="30" fill="#0c100d" stroke="#283027"/>
+<path d="M80 181H1520" stroke="#283027"/>
+<text x="82" y="116" fill="#dce4d4" font-family="DejaVu Sans,sans-serif" font-size="42" font-weight="bold" letter-spacing="-1">TOPSTEP</text>
+<text x="1520" y="112" text-anchor="end" fill="#c4d0ba" font-family="DejaVu Sans,sans-serif" font-size="36" font-weight="bold">GP<tspan fill="#a8c38a">.</tspan></text>
+<text x="84" y="270" fill="#829079" font-family="DejaVu Sans,sans-serif" font-size="20" letter-spacing="4">PERSONAL PAYOUT RECORD</text>
+<circle cx="112" cy="346" r="29" fill="#131c10" stroke="#36452d"/>
+<path d="M120 335L104 351M104 337V351H118" stroke="#a8c38a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="161" y="356" fill="#a7b59d" font-family="DejaVu Sans,sans-serif" font-size="28">TopstepTrader LLC</text>
+<text x="80" y="549" fill="#e7ecdf" font-family="DejaVu Sans,sans-serif" font-size="144" font-weight="normal" letter-spacing="-6">$928</text>
+<text x="88" y="613" fill="#8e9f80" font-family="DejaVu Sans,sans-serif" font-size="22" letter-spacing="4">USD</text>
+<path d="M84 682H1516" stroke="#273024"/>
+<path d="M84 682H344" stroke="#a8c38a" stroke-opacity=".45" stroke-width="2"/>
+<text x="84" y="748" fill="#76846e" font-family="DejaVu Sans,sans-serif" font-size="18" letter-spacing="3">PAYOUT DATE</text>
+<text x="84" y="798" fill="#c7d2bd" font-family="DejaVu Sans,sans-serif" font-size="30">NOV 10, 2025</text>
+<path d="M790 723V826" stroke="#273024"/>
+<text x="858" y="748" fill="#8e809b" font-family="DejaVu Sans,sans-serif" font-size="18" letter-spacing="3">TRADER</text>
+<text x="858" y="798" fill="#cec4da" font-family="DejaVu Sans,sans-serif" font-size="30">couldbeluck</text>
+<path d="M80 877H1520" stroke="#222a21"/>
+<text x="84" y="929" fill="#70816a" font-family="DejaVu Sans,sans-serif" font-size="17" letter-spacing="2">GIGAPROP RESTYLED RECORD</text>
+<text x="1516" y="929" text-anchor="end" fill="#67735f" font-family="DejaVu Sans,sans-serif" font-size="16">Source information preserved</text>
+</svg>

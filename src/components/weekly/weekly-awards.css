@@ -1,0 +1,108 @@
+.wk-weekly-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:16px 0 22px;font-family:Manrope,sans-serif}
+.wk-weekly-tools>span{color:#959599;font-size:11px}
+.wk-archive-toggle,.wk-week-archive button{border:1px solid #ffffff24;background:#ffffff04;color:#d0cfca;border-radius:5px;padding:9px 13px;font:inherit;font-size:11px;cursor:pointer}
+.wk-archive-toggle:hover,.wk-week-archive button:hover{border-color:#ffffff50;color:#f0ece2}
+.wk-week-archive{display:flex;flex-wrap:wrap;gap:8px;padding:16px;margin-bottom:22px;border:1px solid #ffffff1a;background:#0c0d0f}
+.wk-week-archive button.active{border-color:#c6b58b80;color:#e0d7c1;background:#c6b58b0b}
+.wk-week-archive p{margin:0;color:#969699;font-size:12px}
+.wk-weekly-awards{margin:24px 0 32px;padding:24px;border:1px solid #ffffff21;background:linear-gradient(120deg,#17181b,#0b0c0e);font-family:Manrope,sans-serif}
+.wk-weekly-awards-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wk-weekly-awards-head span{font-size:8px;letter-spacing:.2em;color:#a9a69d}
+.wk-weekly-awards-head h3{margin:7px 0 0;font-size:24px;line-height:1.25;font-weight:500;letter-spacing:-.04em;color:#ebe8df}
+.wk-weekly-awards-head p{margin:0;max-width:310px;color:#96979b;font-size:11px;line-height:1.7}
+.wk-weekly-award-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.wk-weekly-award-actions button{display:flex;align-items:center;gap:8px;border:1px solid #ffffff24;border-radius:4px;padding:11px 14px;background:#ffffff03;color:#dbd9d3;font:inherit;font-size:11px;cursor:pointer}
+.wk-weekly-award-actions button:hover:not(:disabled){border-color:#d2c7a7;background:#ffffff08}
+.wk-weekly-award-actions button:disabled{opacity:.38;cursor:not-allowed}
+.wk-weekly-award-actions button:nth-child(2){color:#cbb887}.wk-weekly-award-actions button:nth-child(3){color:#cbcdd0}.wk-weekly-award-actions button:nth-child(4){color:#b69b85}
+@media(max-width:600px){.wk-weekly-awards{padding:18px}.wk-weekly-awards-head{align-items:flex-start;flex-direction:column;gap:12px}.wk-weekly-tools{align-items:flex-start}.wk-weekly-tools>span{max-width:65%;line-height:1.65}.wk-weekly-award-actions button{flex:1 1 40%;justify-content:center}}
+
+/* Export the same podium component, with fixed desktop geometry on every device. */
+.wk-award-preview{position:relative;width:100%;overflow:hidden}
+.wk-award-canvas{width:1168px;padding:24px;background:#09090b;color:#ecece8;transform-origin:top left;font-family:Manrope,sans-serif;box-sizing:border-box}
+.wk-award-canvas.wk-award-single{width:420px}
+.wk-award-heading{display:flex;align-items:center;gap:18px;padding:2px 0 20px}
+.wk-award-heading>b{font-size:28px;font-weight:800;letter-spacing:-2px}
+.wk-award-heading>span{font:9px 'DM Mono',monospace;letter-spacing:1.5px;color:#aaa59a}
+.wk-award-heading>small{margin-left:auto;font:10px 'DM Mono',monospace;color:#8f8c89}
+.wk-award-single .wk-award-heading{flex-wrap:wrap;gap:8px 16px}.wk-award-single .wk-award-heading>small{margin:0;flex-basis:100%;font-size:9px}
+.wk-award-canvas .wk-podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:18px;align-items:end;padding:0}
+.wk-award-canvas .wk-award-place-1{grid-column:2;grid-row:1}.wk-award-canvas .wk-award-place-2{grid-column:1;grid-row:1}.wk-award-canvas .wk-award-place-3{grid-column:3;grid-row:1}
+.wk-award-single .wk-podium{display:block}
+.wk-award-canvas .wk-podium-card{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:25px 26px 15px;cursor:default;transform:none!important;transition:none;box-shadow:none}
+.wk-award-canvas .wk-place-1{min-height:560px;padding-top:28px}.wk-award-canvas .wk-place-2{min-height:520px}.wk-award-canvas .wk-place-3{min-height:480px}
+.wk-award-canvas .wk-card-art,.wk-award-canvas .wk-podium-card:not(.wk-place-1) .wk-card-art{margin:12px -26px 9px;grid-area:auto;height:197px}
+.wk-award-canvas .wk-place-1 .wk-card-art{height:233px}.wk-award-canvas .wk-place-2 .wk-card-art{height:208px}.wk-award-canvas .wk-place-3 .wk-card-art{height:184px}
+.wk-award-canvas .wk-monument-rank{left:24px;top:0;font-size:174px;letter-spacing:-17px}.wk-award-canvas .wk-place-1 .wk-monument-rank{font-size:215px;letter-spacing:-22px}.wk-award-canvas .wk-place-3 .wk-monument-rank{font-size:160px}
+.wk-award-canvas .wk-wallet-name{font-size:21px}.wk-award-canvas .wk-place-1 .wk-wallet-name{font-size:23px}.wk-award-canvas .wk-place-3 .wk-wallet-name{font-size:19px}
+.wk-award-canvas .wk-podium-amount{font-size:34px;margin:24px 0 18px}.wk-award-canvas .wk-place-1 .wk-podium-amount{font-size:38px}.wk-award-canvas .wk-place-3 .wk-podium-amount{font-size:29px}
+.wk-award-canvas .wk-identity{font-size:10px}.wk-award-canvas .wk-podium-top{grid-column:auto;margin-bottom:21px}.wk-award-canvas .wk-trader-tag{font-size:9px;padding:8px 11px;grid-column:auto;letter-spacing:1.5px}.wk-award-canvas .wk-place-1 .wk-tag-link{font-size:11px;padding:9px 12px}
+.wk-award-canvas .wk-podium-foot{grid-column:auto;margin-top:auto;padding-top:17px}.wk-award-canvas .wk-podium-foot>span{font-size:10px}.wk-award-canvas .wk-badges>span{font-size:9px}
+.wk-award-signoff{display:flex;justify-content:space-between;padding-top:20px;color:#8b8882;font-size:10px}.wk-award-signoff>span{color:#666668}
+
+/* Individual awards use the card's exact bounds, without the group poster frame. */
+.wk-award-preview:has(.wk-award-single){max-width:372px;margin-inline:auto}
+.wk-award-canvas.wk-award-single{width:372px;padding:0}
+.wk-award-single .wk-award-heading,.wk-award-single .wk-award-signoff{display:none}
+.wk-award-single .wk-podium{margin:0;padding:0}
+
+/* single-card export hardfix — preserve full weekly card geometry and prevent clipping */
+.wk-award-preview:has(.wk-award-single){
+  max-width:420px;
+  margin-inline:auto;
+  overflow:visible;
+}
+.wk-award-canvas.wk-award-single{
+  width:420px;
+  padding:0;
+  height:auto;
+  min-height:0;
+  overflow:visible;
+}
+.wk-award-single .wk-podium{
+  display:block;
+  margin:0;
+  padding:0;
+  height:auto;
+  min-height:0;
+  overflow:visible;
+}
+.wk-award-single .wk-award-place{
+  width:100%;
+  height:auto;
+  min-height:0;
+  overflow:visible;
+}
+.wk-award-single .wk-podium-card{
+  width:100%;
+  min-height:640px;
+  height:auto;
+  overflow:visible;
+  padding:25px 26px 18px;
+}
+.wk-award-single .wk-place-3{
+  min-height:640px;
+}
+.wk-award-single .wk-place-3 .wk-card-art{
+  height:240px;
+  margin:12px -26px 14px;
+}
+.wk-award-single .wk-place-3 .wk-monument-rank{
+  font-size:190px;
+  line-height:.78;
+  left:24px;
+  top:8px;
+}
+.wk-award-single .wk-place-3 .wk-wallet-name{
+  font-size:22px;
+  margin-top:2px;
+}
+.wk-award-single .wk-place-3 .wk-podium-amount{
+  font-size:36px;
+  margin:24px 0 20px;
+}
+.wk-award-single .wk-podium-foot{
+  margin-top:24px;
+  padding-top:18px;
+  min-height:46px;
+}

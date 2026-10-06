@@ -1,0 +1,18 @@
+/* Wisp peeks from the actual panel edge; the lower body stays behind it. */
+.wisp-companion{position:absolute;width:100px;pointer-events:none;z-index:2}
+.wisp-peek{height:66px;overflow:hidden;position:relative;mix-blend-mode:screen}
+.wisp-peek img{display:block;width:100px;height:100px;max-width:none;object-fit:contain;mix-blend-mode:screen;transform:translateY(3px) rotate(-8deg);transition:transform .5s ease}
+.wisp-companion::after{content:"";position:absolute;top:65px;left:12px;right:10px;height:1px;background:linear-gradient(90deg,transparent,#64734a,transparent);box-shadow:0 3px 7px 2px #0009}
+.wisp-caption{display:none}
+.tr-intro{position:relative}
+.wisp-intro{right:18px;bottom:0}
+.tr-equation{position:relative}
+.tr-equation .wisp-note{right:20px;top:-66px}
+.tr-verdict{position:relative;border-top:1px solid #292929;margin-top:38px}
+.tr-verdict .wisp-note{right:26px;top:-66px}
+.wisp-lesson-link{position:relative;display:table;margin-top:34px}
+.wisp-home{right:8px;top:-42px}
+.wisp-lesson-link a{position:relative;z-index:3;box-shadow:0 -5px 12px #0005}
+.wisp-lesson-link:hover .wisp-peek img,.tr-equation:hover .wisp-peek img,.tr-verdict:hover .wisp-peek img{transform:translateY(-1px) rotate(3deg)}
+@media(max-width:700px){.wisp-intro{right:0;bottom:36px}.tr-intro h1{padding-right:50px}.tr-intro-foot{padding-right:0}.tr-equation{margin-top:62px}.wisp-companion{width:80px}.wisp-peek{height:56px}.wisp-peek img{width:80px;height:80px}.wisp-companion::after{top:55px}.tr-equation .wisp-note,.tr-verdict .wisp-note{top:-56px}.wisp-home{top:-32px}}
+@media(prefers-reduced-motion:reduce){.wisp-peek img{transition:none}}

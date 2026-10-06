@@ -1,0 +1,28 @@
+{
+  "name": "gigaprop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "audit:onchain": "node scripts/match-onchain.mjs",
+    "preview": "vite preview",
+    "leaderboard:email": "node scripts/send-leaderboard-live.mjs"
+  },
+  "dependencies": {
+    "framer-motion": "^11.16.4",
+    "html-to-image": "^1.11.13",
+    "lucide-react": "^0.475.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "playwright": "^1.63.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.1.0"
+  }
+}
