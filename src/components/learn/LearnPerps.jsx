@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {BRAND_ASSETS} from '../../lib/brand-assets.js';
 import {ArrowUpRight} from 'lucide-react';
 import './learn-perps.css';
 
@@ -140,7 +141,7 @@ export default function LearnPerps(){
 
     <div className="lp-vest-ref-wrap">
       <a className="lp-vest-ref" href="https://next.vestmarkets.com/r/isgigaprop" target="_blank" rel="sponsored noopener noreferrer" aria-label="Open Vest with MASSIVE referral for 5% off">
-        <img src="/brands/vest-symbol.svg" alt=""/>
+        <img src={BRAND_ASSETS.vestSymbol} alt=""/>
         <span><strong>Vest</strong><small>MASSIVE referral</small></span>
         <b>5% OFF</b>
         <ArrowUpRight size={15}/>
