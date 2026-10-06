@@ -1,4 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
+import {BRAND_ASSETS} from '../../lib/brand-assets.js';
 import {ArrowUpRight,ArrowLeft,Download,RefreshCw} from 'lucide-react';
 import {VEST_CHAINS} from '../../lib/flow-config.js';
 import {fetchFlow} from '../../lib/flow-data.js';
@@ -59,8 +60,8 @@ export default function Million(){
  <nav className="mm-nav"><a className="mm-brand" href="#">MASSIVE.</a><span>MILESTONES / 001</span><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></nav>
  <div className="mm-intro"><span>VESTMARKETS × MASSIVE</span><p>The first million deserves its own moment.</p></div>
  <section className="mm-certificate" ref={certificate}>
- <header><img className="mm-official-logo" src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span className="mm-collab">× <b>MASSIVE.</b></span><small>{crossing?'MILESTONE / 001':'MILESTONE PREVIEW'}</small></header>
- <div className="mm-hero"><span className="mm-kicker">{crossing?'A MILLION PAID. A MILESTONE MADE.':'THE MILLION-DOLLAR MILESTONE'}</span><h1>$1,000,000<span>.</span></h1><p>{crossing?'PAID OUT.':'IN PAYOUTS.'}</p><div className="mm-mini-payout"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>{crossing?'THE CROSSING PAYOUT':'PAYOUT'}</small><strong>${money(crossing?.amount||560)}</strong><span>USDC <i>PAID OUT</i></span></div></div>
+ <header><img className="mm-official-logo" src={BRAND_ASSETS.vestOfficial} alt="Vest Markets"/><span className="mm-collab">× <b>MASSIVE.</b></span><small>{crossing?'MILESTONE / 001':'MILESTONE PREVIEW'}</small></header>
+ <div className="mm-hero"><span className="mm-kicker">{crossing?'A MILLION PAID. A MILESTONE MADE.':'THE MILLION-DOLLAR MILESTONE'}</span><h1>$1,000,000<span>.</span></h1><p>{crossing?'PAID OUT.':'IN PAYOUTS.'}</p><div className="mm-mini-payout"><div><img src={BRAND_ASSETS.vestOfficial} alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>{crossing?'THE CROSSING PAYOUT':'PAYOUT'}</small><strong>${money(crossing?.amount||560)}</strong><span>USDC <i>PAID OUT</i></span></div></div>
  <div className="mm-recipient"><span className="mm-kicker">{crossing?'THE WALLET THAT MADE IT A MILLION':'THE WALLET THAT MAKES IT A MILLION'}</span>
  {address?<a className="mm-address" href={crossing.explorer+'/address/'+address} target="_blank" rel="noopener noreferrer">{address}<ArrowUpRight size={16}/></a>:<p className="mm-await">One final payout. One place in the record<span>.</span></p>}
  {crossing?<div className="mm-proof"><strong>+{money(crossing.amount)} USDC</strong><span>{crossing.chain}</span><a href={crossing.explorer+'/tx/'+crossing.hash} target="_blank" rel="noopener noreferrer">View the transaction <ArrowUpRight size={12}/></a></div>:<p className="mm-sub">Recorded here when the tracked total crosses $1 million.</p>}
