@@ -6,7 +6,7 @@ await mkdir(dest,{recursive:true});
 const results=await Promise.allSettled(FLOW_SOURCES.map(async config=>{
  let previous;
  try{
-  const response=await fetch(`https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/${config.slug}.json`,{signal:AbortSignal.timeout(15000)});
+  const response=await fetch(`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${config.slug}.json`,{signal:AbortSignal.timeout(15000)});
   if(response.ok)previous=await response.json();
  }catch{}
  try{const bundled=JSON.parse(await readFile(new URL(`../public/data/${config.slug}.json`,import.meta.url),'utf8'));if(!previous||Date.parse(bundled.updatedAt)>Date.parse(previous.updatedAt))previous=bundled;}catch{}
