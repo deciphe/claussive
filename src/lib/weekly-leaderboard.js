@@ -1,9 +1,10 @@
+import {BRAND_ASSETS} from './brand-assets.js';
 import {canonicalTraderWallet,traderWallets} from './trader-wallets.js';
 import {FLOW_CONFIGS,VEST_CHAINS,NOVA_WALLETS,FLOW_SOURCES} from './flow-config.js';
 import {combineFlows} from './flow-metrics.js';
 import {isPayoutRecipientTransfer} from './flow-classification.js';
 export const WEEK=7*86400000;
-export const WEEKLY_FIRMS=[{id:'vest',name:'Vest',logo:'/brands/vest-symbol.svg',color:'#d4bc7d'},{id:'breakout',name:'Breakout',logo:'/brands/breakout.ico',color:'#b2bfdc'},{id:'nova',name:'Hypernova',logo:'/brands/hypernova.ico',color:'#bc9ed8'},{id:'propr',name:'Propr',logo:'/brands/propr-icon.svg',color:'#8fc5b5'}];
+export const WEEKLY_FIRMS=[{id:'vest',name:'Vest',logo:BRAND_ASSETS.vestSymbol,color:'#d4bc7d'},{id:'breakout',name:'Breakout',logo:BRAND_ASSETS.breakout,color:'#b2bfdc'},{id:'nova',name:'Hypernova',logo:BRAND_ASSETS.hypernova,color:'#bc9ed8'},{id:'propr',name:'Propr',logo:BRAND_ASSETS.propr,color:'#8fc5b5'}];
 export const weeklySources=id=>id==='vest'?VEST_CHAINS:id==='nova'?NOVA_WALLETS:[FLOW_CONFIGS[id]];
 export function weekStart(time=Date.now()){const d=new Date(time);d.setUTCHours(0,0,0,0);d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.getTime();}
 export const weekKey=t=>new Date(t).toISOString().slice(0,10);
