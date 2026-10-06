@@ -1,0 +1,39 @@
+name: Bootstrap MASSIVE clone
+
+on:
+  push:
+    paths:
+      - ".github/workflows/bootstrap-clone.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout MASSIVE
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Clone GIGAPROP baseline
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          git clone --depth 1 https://github.com/deciphe/thepayoutlab.git "$TMP_DIR/source"
+
+          rsync -a --delete \
+            --exclude ".git" \
+            --exclude ".github/workflows/bootstrap-clone.yml" \
+            "$TMP_DIR/source/" ./
+
+          rm -f .clone-init
+
+      - name: Commit cloned baseline
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Clone GIGAPROP baseline into MASSIVE" || exit 0
+          git push origin HEAD:main
