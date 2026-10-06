@@ -190,27 +190,34 @@ function ClaimForm({initialAddress,onDone}){
   if(!attachment?.size){setStatus('Attach a screenshot of your Vest withdrawal confirmation email.');return;}
   if(attachment.size>10*1024*1024){setStatus('Please use an image under 10 MB.');return;}
   if(!['image/png','image/jpeg','image/webp'].includes(attachment.type)){setStatus('Use a PNG, JPG or WebP screenshot.');return;}
-   setBusy(true);setStatus('Sending your screenshot and profile…');
-   try{
-    // Submit the original validated image. Avoid createImageBitmap/DataTransfer: those
-    // APIs are not reliable across mobile browsers and could abort before FormSubmit.
-    const addMeta=(name,value)=>{let hidden=form.querySelector('input[name="'+name+'"]');if(!hidden){hidden=document.createElement('input');hidden.type='hidden';hidden.name=name;form.appendChild(hidden)}hidden.value=String(value)};
-    addMeta('attachment_filename',attachment.name||'withdrawal-proof');addMeta('attachment_bytes',attachment.size);addMeta('attachment_type',attachment.type||'unknown');
-    input.disabled=false;
-    submitted.current=true;
-    if(submissionTimer.current)clearTimeout(submissionTimer.current);
-    submissionTimer.current=setTimeout(()=>{if(submitted.current){submitted.current=false;setBusy(false);setStatus('The submission did not confirm. Please try again — your screenshot was not marked as received.');}},30000);
-    HTMLFormElement.prototype.submit.call(form);
-   }catch{
-    submitted.current=false;setBusy(false);setStatus('The claim could not be submitted. Please try again.');
-   }
+  setBusy(true);setStatus('Sending your screenshot and profile…');
+  const controller=new AbortController();
+  if(submissionTimer.current)clearTimeout(submissionTimer.current);
+  submissionTimer.current=setTimeout(()=>controller.abort(),45000);
+  try{
+   const data=new FormData(form);
+   data.set('attachment_filename',attachment.name||'withdrawal-proof');
+   data.set('attachment_bytes',String(attachment.size));
+   data.set('attachment_type',attachment.type||'unknown');
+   // FormSubmit's AJAX endpoint gives us a real response instead of relying on
+   // a cross-origin iframe redirect that mobile browsers can leave unresolved.
+   data.delete('_next');
+   const response=await fetch('https://formsubmit.co/ajax/gp@gigaprop.xyz',{method:'POST',body:data,headers:{Accept:'application/json'},signal:controller.signal});
+   const result=await response.json().catch(()=>null);
+   if(!response.ok||result?.success===false)throw Error(result?.message||('FormSubmit returned '+response.status));
+   if(submissionTimer.current)clearTimeout(submissionTimer.current);
+   submitted.current=false;setBusy(false);setSent(true);setStatus('Submitted for review. MASSIVE will check your withdrawal against the onchain record before publishing your profile.');
+  }catch(error){
+   if(submissionTimer.current)clearTimeout(submissionTimer.current);
+   submitted.current=false;setBusy(false);
+   setStatus(error?.name==='AbortError'?'FormSubmit timed out. Nothing was marked received — please try again.':'FormSubmit rejected the submission. Please try again.');
+   console.error('MASSIVE profile claim submission failed',error);
+  }
  }
  if(sent)return <div className="wk-claim-form wk-submission wk-submission-success" role="status" aria-live="polite"><div className="wk-success-mark"><Check size={32}/></div><span className="wk-profile-label">PROFILE CLAIM / RECEIVED</span><h2>Submission received.</h2><p>Your claim is in. MASSIVE will review the withdrawal confirmation and combine the approved payout wallets into one leaderboard profile.</p><div className="wk-success-wallet wk-success-wallets"><span>{walletList.length===1?'Submitted wallet':walletList.length+' submitted wallets'}</span><div>{walletList.map(wallet=><strong key={wallet}>{short(wallet)}</strong>)}</div></div><p className="wk-claim-note">You do not need to submit again. If anything is missing, MASSIVE will follow up using the contact email you provided.</p><button className="wk-primary wk-success-done" type="button" onClick={onDone}><Check size={16}/> Done</button></div>;
- return <><iframe name="massiveprop-claim-submit" title="Profile claim submission" className="wk-claim-submit-frame" onLoad={submittedFrameLoaded}/>
- <form className="wk-claim-form wk-submission" onSubmit={submit} action="https://formsubmit.co/gp@gigaprop.xyz" method="POST" target="massiveprop-claim-submit" encType="multipart/form-data"><ShieldCheck size={30}/><span className="wk-profile-label">VEST / MANUAL PROFILE REVIEW</span><h2>Put your name on it.</h2><p>Submit your Vest withdrawal confirmation and every payout wallet you want under the profile. MASSIVE will cross-reference the receiving addresses onchain before publishing them as one combined identity.</p>
+ return <form className="wk-claim-form wk-submission" onSubmit={submit} action="https://formsubmit.co/ajax/gp@gigaprop.xyz" method="POST" encType="multipart/form-data"><ShieldCheck size={30}/><span className="wk-profile-label">VEST / MANUAL PROFILE REVIEW</span><h2>Put your name on it.</h2><p>Submit your Vest withdrawal confirmation and every payout wallet you want under the profile. MASSIVE will cross-reference the receiving addresses onchain before publishing them as one combined identity.</p>
  <input name="_honey" type="text" tabIndex={-1} autoComplete="off" style={{display:'none'}} aria-hidden="true"/>
  <input type="hidden" name="_captcha" value="false"/>
- <input type="hidden" name="_next" value="https://massiveprop.xyz/claim-received.html"/>
   <input type="hidden" name="_subject" value={'MASSIVE VEST PROFILE REVIEW — @'+twitter.trim().replace(/^@/,'')}/>
  <input type="hidden" name="source" value="massiveprop.xyz/#leaderboard"/>
  <input type="hidden" name="consent" value="I agree to publication of the approved profile details and payout wallet(s)."/>
@@ -238,5 +245,5 @@ function ClaimForm({initialAddress,onDone}){
  <label className="wk-consent"><input type="checkbox" required checked={agree} disabled={busy||sent} onChange={e=>setAgree(e.target.checked)}/>I agree to my approved name, Twitter @, tag and payout wallet(s) appearing publicly as one combined profile.</label>
  {busy&&<div ref={waitingRef} className="wk-wisp-wait" role="status" aria-live="polite"><div className="wk-wisp-wait-art" aria-hidden="true"><img src="/mascot/wisp.png" alt=""/></div><div className="wk-wisp-wait-copy"><span>WISP’S ON IT<span className="wk-wisp-wait-dots" aria-hidden="true"><i/><i/><i/></span></span><strong>Don’t leave me yet.</strong><p>Keep this window open until you see <b>“Submission received.”</b></p></div></div>}
  <button className="wk-primary" disabled={busy||sent} type="submit">{busy?'Submitting…':'Submit profile for review'}<ArrowUpRight size={15}/></button>
- <p className="wk-claim-note">Your profile goes live after manual approval. No wallet connection or signature needed.</p><p role="status" className="wk-claim-status">{status}</p></form></>;
+ <p className="wk-claim-note">Your profile goes live after manual approval. No wallet connection or signature needed.</p><p role="status" className="wk-claim-status">{status}</p></form>;
 }
