@@ -39,6 +39,7 @@ jobs:
           node scripts/test-web3.mjs
           node scripts/test-flows.mjs
           node scripts/test-weekly.mjs
+          node scripts/test-assets.mjs
 
 
 
