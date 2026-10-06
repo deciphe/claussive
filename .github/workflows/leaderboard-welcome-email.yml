@@ -1,0 +1,65 @@
+name: Send MASSIVE welcome email
+on:
+  workflow_dispatch:
+    inputs:
+      wallet:
+        description: 'Trader payout wallet (must already be in traders.json)'
+        required: true
+        type: string
+      email:
+        description: 'Recipient email address'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: leaderboard-welcome-email
+  cancel-in-progress: false
+jobs:
+  send-email:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+      - name: Validate recipient and approved profile
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {canonicalTraderWallet} from './src/lib/trader-wallets.js';
+          const {inputs} = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          const email = inputs.email.trim();
+          const wallet = inputs.wallet.trim().toLowerCase();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email)) throw Error('Enter a valid recipient email.');
+          console.log('::add-mask::' + email.replaceAll('%', '%25'));
+          if (!/^0x[a-f0-9]{40}$/.test(wallet)) throw Error('Enter a complete payout wallet address.');
+          const traders = JSON.parse(fs.readFileSync('src/data/traders.json', 'utf8'));
+          const trader = traders.find(t => canonicalTraderWallet(t.wallet) === canonicalTraderWallet(wallet));
+          if (!trader) throw Error('Publish this trader in traders.json before sending their welcome email.');
+          console.log('Approved profile: @' + trader.twitter.replace(/^@/, ''));
+          NODE
+      - name: Install rank-card renderer
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Send MASSIVE rank card via Resend
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GIGAPROP_FROM: 'MASSIVE <gp@gigaprop.xyz>'
+          GIGAPROP_SEND_KEY: 'massive-welcome-${{ github.run_id }}'
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {spawnSync} from 'node:child_process';
+          const {inputs} = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          const result = spawnSync(process.execPath, [
+            'scripts/send-leaderboard-live.mjs',
+            '--wallet', inputs.wallet.trim().toLowerCase(),
+            '--to', inputs.email.trim()
+          ], {stdio:'inherit', env:process.env});
+          if (result.error) throw result.error;
+          process.exit(result.status ?? 1);
+          NODE

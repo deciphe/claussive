@@ -1,0 +1,42 @@
+name: Refresh MASSIVE flow trackers
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: massive-flow-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Read verified USDC transfers
+        run: node scripts/update-flows.mjs /tmp/flow-snapshots
+      - name: Archive weekly payout editions
+        run: node scripts/archive-weekly.mjs /tmp/flow-snapshots
+      - name: Archive quarterly seasons
+        run: node scripts/archive-seasons.mjs /tmp/flow-snapshots
+      - name: Publish MASSIVE data snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin vestflow-data; then
+            git fetch origin vestflow-data
+            git checkout -B vestflow-data origin/vestflow-data
+          else
+            git checkout --orphan vestflow-data
+            git rm -rf .
+          fi
+          cp /tmp/flow-snapshots/*.json .
+          mkdir -p weekly
+          cp -R /tmp/flow-snapshots/weekly/. weekly/
+          mkdir -p seasons
+          cp -R /tmp/flow-snapshots/seasons/. seasons/
+          git add -- *.json weekly seasons
+          git commit -m 'Refresh MASSIVE flow trackers USDC snapshot' || exit 0
+          git push origin HEAD:vestflow-data

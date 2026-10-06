@@ -1,0 +1,33 @@
+name: Test MASSIVE leaderboard email
+on:
+  workflow_dispatch:
+    inputs:
+      profile_json:
+        description: 'Paste profile JSON from massiveprop.xyz/#massiveprop, or leave blank for defaults'
+        required: false
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: leaderboard-email-test
+  cancel-in-progress: false
+jobs:
+  test-email:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+      - name: Install rank-card renderer
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Send sample profile to MASSIVE inbox
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GIGAPROP_FROM: 'MASSIVE <gp@gigaprop.xyz>'
+          GIGAPROP_TEST_EMAIL: gp@gigaprop.xyz
+          GIGAPROP_TEST_PROFILE: ${{ inputs.profile_json }}
+          GIGAPROP_SEND_KEY: 'massive-test-${{ github.run_id }}'
+        run: node scripts/send-leaderboard-live.mjs --test-profile src/data/email-test-profile.json
