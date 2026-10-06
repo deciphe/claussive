@@ -1,5 +1,5 @@
 // Generated from Payouts.rar. See manifest.json for provenance and exclusions.
-const assetUrl = (path) => `https://raw.githubusercontent.com/deciphe/massiveprop/main/public/${String(path).replace(/^\\/+/, "")}`;
+const assetUrl = (path) => `https://raw.githubusercontent.com/deciphe/massiveprop/main/public/${String(path).replace(/^\/+/, "")}`;
 export const certificates = [
   {
     "id": "breakout-001",
