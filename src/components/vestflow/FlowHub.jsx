@@ -35,7 +35,7 @@ export default function FlowHub(){
   const controller=new AbortController();let running=false;const memory={};
   async function fetchSource(source){
    let fallback=null;
-   for(const url of [`https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/${source.slug}.json`,`/data/${source.slug}.json`]){
+   for(const url of [`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${source.slug}.json`,`/data/${source.slug}.json`]){
     try{const response=await fetch(url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(12000)])});if(!response.ok)continue;const d=await response.json();if(d.complete&&d.wallet?.toLowerCase()===source.wallet.toLowerCase()&&d.token?.toLowerCase()===source.token.toLowerCase()&&d.chain===source.chain&&Array.isArray(d.transfers)&&Number.isFinite(d.balance)&&Number.isFinite(Date.parse(d.updatedAt))){fallback=d;break;}}catch{if(controller.signal.aborted)return null;}
    }
    return fallback;
