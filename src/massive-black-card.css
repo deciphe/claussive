@@ -32,7 +32,7 @@ body:before{
     linear-gradient(180deg,#070708,#09090a 52%,#070708);
 }
 
-:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test){
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.gp-email-test){
   --bg:var(--massive-black)!important;
   --panel:var(--massive-panel)!important;
   --panel2:var(--massive-panel-2)!important;
@@ -46,17 +46,17 @@ body:before{
     linear-gradient(180deg,#080809,#070708)!important;
 }
 
-:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test) a{
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.gp-email-test) a{
   text-underline-offset:3px;
 }
 
-:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.learnperps,.gp-email-test)
+:is(.gp-site,.wk,.vf,.fh,.mm,.tm,.atm,.profile-page,.gp-email-test)
 :is(nav,header){
   border-color:var(--massive-line)!important;
 }
 
 /* Primary wordmarks / high-value type */
-:is(.gp-wordmark,.vf-brand,.fh-brand,.mm-brand,.tm-brand,.atm-gp,.pf-brand,.learn-nav .gp,.gp-email-test>header>a:first-child){
+:is(.gp-wordmark,.vf-brand,.fh-brand,.mm-brand,.tm-brand,.atm-gp,.pf-brand,.gp-email-test>header>a:first-child){
   color:var(--massive-cream)!important;
   letter-spacing:-.055em!important;
 }
@@ -101,7 +101,7 @@ body:before{
 .gp-site .gp-rbar-fill{background:linear-gradient(90deg,#807660,var(--massive-gold))!important}
 
 /* Vest referral remains the signature black-card object */
-:is(.gp-site,.learnperps,.vf) :is(.gp-hero-vest-offer,.lp-vest-ref,.vf-referral){
+:is(.gp-site,.vf) :is(.gp-hero-vest-offer,.lp-vest-ref,.vf-referral){
   border-color:rgba(212,188,125,.28)!important;
   background:linear-gradient(115deg,#333139,#1b1b21 60%,#302a20)!important;
   color:var(--massive-cream)!important;
@@ -145,72 +145,6 @@ body:before{
   color:var(--massive-cream)!important;
   background:rgba(212,188,125,.06)!important;
 }
-
-/* LearnPerps: same playful structure, BLACK CARD materials */
-.learnperps{
-  --cream:var(--massive-panel)!important;
-  --mint:#161914!important;
-  --lilac:#17151d!important;
-  --peach:#1b1512!important;
-  --sky:#12171b!important;
-  --yellow:#1d1910!important;
-  --panel:rgba(17,16,19,.88)!important;
-  color:var(--massive-cream)!important;
-  background:
-    radial-gradient(circle at 88% 5%,rgba(212,188,125,.045),transparent 26%),
-    radial-gradient(circle at 12% 48%,rgba(155,135,245,.018),transparent 22%),
-    linear-gradient(180deg,#080809,#0a090b 48%,#070708)!important;
-}
-.learnperps .lp-hero h1{color:var(--massive-cream)!important}
-.learnperps .lp-hero h1 em{color:var(--massive-soft)!important}
-.learnperps :is(.lp-hero p,.lp-config-head p,.lp-ticket-copy p,.lp-costs-copy p,.lp-session-copy p,.lp-play-head p,.lp-finish p){
-  color:var(--massive-muted)!important;
-}
-.learnperps :is(.lp-config,.lp-ticket-section,.lp-costs,.lp-session,.lp-playground,.lp-finish){
-  border-color:var(--massive-line)!important;
-  background:
-    radial-gradient(ellipse at 85% 0%,rgba(212,188,125,.025),transparent 30%),
-    linear-gradient(145deg,rgba(20,19,22,.92),rgba(9,9,11,.94))!important;
-  box-shadow:0 28px 80px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.025)!important;
-}
-.learnperps :is(.lp-metric,.lp-config-group button,.lp-session-picker button,.lp-stop-choice button,.lp-ticket-note,.lp-book,.lp-book-caption,.lp-fill-want,.lp-mini-ladder,.lp-fill-result,.lp-true-r,.lp-kept,.lp-tuner-controls label,.lp-tuner-footer>div){
-  border-color:var(--massive-line)!important;
-  background:rgba(13,13,16,.76)!important;
-  color:var(--massive-cream)!important;
-  box-shadow:inset 0 1px rgba(255,255,255,.025)!important;
-  backdrop-filter:blur(14px)!important;
-}
-.learnperps :is(.lp-config-group button.active,.lp-session-picker button.active,.lp-stop-choice button.active){
-  background:var(--massive-cream)!important;
-  color:#111114!important;
-  border-color:var(--massive-cream)!important;
-}
-.learnperps :is(.lp-section-tag,.lp-cost-cards span,.lp-metric>span,.lp-ticket-note span,.lp-book-head span,.lp-tuner-controls label>span){
-  color:#8c8379!important;
-}
-.learnperps :is(.lp-cost-cards .fee,.lp-cost-cards .spread,.lp-cost-cards .slip){
-  border-color:var(--massive-line)!important;
-  background:
-    radial-gradient(circle at 84% 14%,rgba(212,188,125,.035),transparent 30%),
-    linear-gradient(145deg,#17161a,#0d0d10)!important;
-}
-.learnperps .lp-cost-cards b{color:var(--massive-cream)!important}
-.learnperps .lp-cost-cards p{color:var(--massive-muted)!important}
-.learnperps .lp-ticket-card{
-  background:
-    radial-gradient(circle at 82% 12%,rgba(212,188,125,.035),transparent 28%),
-    linear-gradient(145deg,#1b1a1e,#0d0d10)!important;
-  border:1px solid var(--massive-line)!important;
-}
-.learnperps .lp-kept-bar{
-  background:#0c0c0f!important;
-  border-color:var(--massive-line)!important;
-}
-.learnperps .lp-kept-bar .keep{background:linear-gradient(90deg,#6e6a61,#9c927e)!important}
-.learnperps .lp-kept-bar .fee{background:#bda66d!important}
-.learnperps .lp-kept-bar .spread{background:#6f677b!important}
-.learnperps .lp-kept-bar .slip{background:#8a6d62!important}
-.learnperps input[type=range]{accent-color:var(--massive-gold)!important}
 
 /* VIP / lifetime record already Black Card; unify remaining chrome */
 .profile-page{background:#070708!important}
