@@ -1,8 +1,9 @@
+import {BRAND_ASSETS} from '../../lib/brand-assets.js';
 export const firmProfiles = {
   "Maven": {
     market: "CFDs",
     url: "https://maventrading.com/",
-    icon: "/brands/maven.png",
+    icon: BRAND_ASSETS.maven,
     pick: {
       name: "100K OMO 2-Step",
       why: "Room to work, no consistency score, and the deepest proof trail in my archive.",
@@ -12,7 +13,7 @@ export const firmProfiles = {
   "Lucid Trading": {
     market: "Futures",
     url: "https://www.lucidtrading.com/",
-    icon: "/brands/lucid.png",
+    icon: BRAND_ASSETS.lucid,
     pick: {
       name: "Flex 50K",
       why: "No funded consistency, no payout buffer, and a clean EOD drawdown structure.",
@@ -22,7 +23,7 @@ export const firmProfiles = {
   "FundedNext": {
     market: "CFDs",
     url: "https://fundednext.com/",
-    icon: "/brands/fundednext-icon-dark.png",
+    icon: BRAND_ASSETS.fundednext,
     pick: {
       name: "Stellar Lite 100K",
       why: "The strongest all-around CFD value: static drawdown, a clean two-step path, and on-demand payouts with the add-ons.",
@@ -39,7 +40,7 @@ export const firmProfiles = {
   "Tradeify": {
     market: "Futures",
     url: "https://tradeify.co/",
-    icon: "/brands/tradeify.png",
+    icon: BRAND_ASSETS.tradeify,
     pick: {
       name: "Select 50K · Flex",
       why: "No DLL, no funded consistency, no payout buffer, and useful five-day payout cadence.",
@@ -49,7 +50,7 @@ export const firmProfiles = {
   "Breakout": {
     market: "Perps",
     url: "https://www.breakoutprop.com/pricing/",
-    icon: "/brands/breakout.ico",
+    icon: BRAND_ASSETS.breakout,
     pick: {
       name: "100K Turbo",
       why: "Cheap fixed-risk shot with static drawdown and on-demand funded payouts.",
@@ -59,17 +60,17 @@ export const firmProfiles = {
   "Topstep": {
     market: "Futures",
     url: "https://www.topstep.com/",
-    icon: "/brands/topstep.png",
+    icon: BRAND_ASSETS.topstep,
   },
   "MyFundedPerps": {
     market: "Perps",
     url: "https://myfundedperpetuals.com/",
-    icon: "/brands/myfundedperps.png",
+    icon: BRAND_ASSETS.myfundedperps,
   },
   "Propr": {
     market: "Perps",
     url: "https://app.propr.xyz/r/7gJmpEjv",
-    icon: "/brands/propr-icon.svg",
+    icon: BRAND_ASSETS.propr,
     referral: true,
     pick: {
       name: "Classic 1-Step · 10/6/3",
@@ -79,7 +80,7 @@ export const firmProfiles = {
   },
   "Hypernova": {
     market: "Perps",
-    icon: "/brands/hypernova.ico",
+    icon: BRAND_ASSETS.hypernova,
     url: "https://hn.xyz/r/4sjg1b",
     referral: true,
     pick: {
