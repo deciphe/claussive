@@ -1,4 +1,4 @@
-// Editorial wallet groups supplied by GIGAPROP. Grouping is not signature verification.
+// Editorial wallet groups supplied by MASSIVE. Grouping is not signature verification.
 // Keep the first address stable: it is the profile/link key. Transfers retain their actual recipient.
 export const TRADER_WALLET_GROUPS=[
  ['0x2f2c91a08aa283359b41850adb9ea3d65b36f3d3','0x35ef3c419ec40173f42a64ac65c26d9dbd405bea'],

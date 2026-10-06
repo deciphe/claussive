@@ -39,7 +39,7 @@ export default function TwoMilli(){
  }
 
  useEffect(()=>{
-  const title=document.title;document.title='Two million · Vest × GIGAPROP';
+  const title=document.title;document.title='Two million · Vest × MASSIVE';
   refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh()},60000);
   return()=>{clearInterval(timer);document.title=title};
  },[]);
@@ -131,7 +131,7 @@ export default function TwoMilli(){
    });
    if(!blob)throw Error('No image');
    const url=URL.createObjectURL(blob),a=document.createElement('a');
-   a.href=url;a.download='vest-2-million-gigaprop.png';
+   a.href=url;a.download='vest-2-million-massiveprop.png';
    document.body.appendChild(a);a.click();a.remove();
    setTimeout(()=>URL.revokeObjectURL(url),60000);
   }catch{setError('Share-card export failed. Please try again.');}
@@ -141,10 +141,10 @@ export default function TwoMilli(){
  return <main className="tm">
   <div className="tm-ambient" aria-hidden="true"/><div className="tm-grid" aria-hidden="true"/>
   <div className="tm-shell">
-   <nav className="tm-nav"><a className="tm-brand" href="#">GP.</a><span>MILESTONES / 002</span><div><a href="#1milli">001</a><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></div></nav>
+   <nav className="tm-nav"><a className="tm-brand" href="#">MASSIVE.</a><span>MILESTONES / 002</span><div><a href="#1milli">001</a><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></div></nav>
 
    <section className="tm-hero" ref={hero}>
-    <div className="tm-hero-top"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>GP.</b></div><small>VESTFLOW / MILESTONE 002</small></div>
+    <div className="tm-hero-top"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>VESTFLOW / MILESTONE 002</small></div>
     <div className="tm-hero-copy"><span className="tm-kicker">THE SECOND MILLION DIDN'T WAIT.</span><h1><span>$</span>2,000,000<i>.</i></h1><p>Tracked 30-day Vest outflow crossed two million USDC.</p></div>
     <div className="tm-split-stamp"><span>1M → 2M</span><strong>{split(elapsed)}</strong><small>HOURS : MINUTES : SECONDS</small></div>
     <div className="tm-race tm-race-hero" aria-label="Milestone velocity comparison">
@@ -153,7 +153,7 @@ export default function TwoMilli(){
       <div className="tm-race-row first"><div className="tm-race-label"><small>FIRST MILLION</small><strong>30D</strong><span>ROLLING WINDOW → OCT 01</span></div><div className="tm-track"><i/><b>1M</b></div></div>
       <div className="tm-race-foot"><span>30 DAYS</span><span>51H 41M 56S</span></div>
     </div>
-    <div className="tm-hero-bottom"><span>OCTOBER 03 · 2026</span><span>BASE · USDC</span><span>GIGAPROP INDEPENDENT TRACKER</span></div>
+    <div className="tm-hero-bottom"><span>OCTOBER 03 · 2026</span><span>BASE · USDC</span><span>MASSIVE INDEPENDENT TRACKER</span></div>
    </section>
 
    <section className="tm-intro">
@@ -195,7 +195,7 @@ export default function TwoMilli(){
     <div><a href="#vestflow">Open live Vestflow <ArrowUpRight size={14}/></a><button onClick={download} disabled={exporting}><Download size={14}/>{exporting?'Rendering…':'Save 2M card'}</button><button className="tm-refresh" onClick={refresh} disabled={busy}><RefreshCw size={14} className={busy?'tm-spin':''}/> Refresh</button></div>
    </section>
 
-   <footer className="tm-footer"><div><b>GP.</b><span>GIGAPROP / VESTFLOW<br/>MILESTONE 002</span></div><p>Rolling 30-day tracked USDC outflow across Vest's three tracked wallets. Known internal wallets, identified bridge routes and dust are excluded. Recipient identity is not independently verified. This is tracked wallet activity—not total company payouts, reserves, revenue or evaluation sales.</p>{error&&<small role="status">{error}</small>}</footer>
+   <footer className="tm-footer"><div><b>MASSIVE.</b><span>MASSIVE / VESTFLOW<br/>MILESTONE 002</span></div><p>Rolling 30-day tracked USDC outflow across Vest's three tracked wallets. Known internal wallets, identified bridge routes and dust are excluded. Recipient identity is not independently verified. This is tracked wallet activity—not total company payouts, reserves, revenue or evaluation sales.</p>{error&&<small role="status">{error}</small>}</footer>
   </div>
  </main>;
 }

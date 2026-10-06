@@ -10,7 +10,7 @@ import { seasonBoard, seasonKey, seasonNumber, seasonStart } from '../src/lib/se
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
 const DATA_ROOT = 'https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/';
-const SITE = 'https://gigaprop.xyz/';
+const SITE = 'https://massiveprop.xyz/';
 
 function parseArgs(argv) {
   const out = {};
@@ -30,7 +30,7 @@ function xAvatarUrl(username) {
 }
 
 async function verifyRemoteImage(url) {
-  const response = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'gigaprop-leaderboard-mailer/1.0' } });
+  const response = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'massiveprop-leaderboard-mailer/1.0' } });
   if (!response.ok) throw new Error(`Could not resolve X profile image (${response.status}). Check the X handle or pass --image with a direct image URL.`);
   const type = response.headers.get('content-type') || '';
   if (!type.startsWith('image/')) throw new Error('X profile image lookup did not return an image.');
@@ -54,7 +54,7 @@ async function loadLocalEnv() {
 }
 
 async function readJson(url) {
-  const response = await fetch(url, { headers: { 'user-agent': 'gigaprop-leaderboard-mailer/1.0' } });
+  const response = await fetch(url, { headers: { 'user-agent': 'massiveprop-leaderboard-mailer/1.0' } });
   if (!response.ok) throw new Error(`Could not read ${url} (${response.status})`);
   return response.json();
 }
@@ -86,10 +86,10 @@ async function main() {
   await loadLocalEnv();
   const args = parseArgs(process.argv.slice(2));
   if(args['test-profile']){
-    const config=JSON.parse(process.env.GIGAPROP_TEST_PROFILE||await fs.readFile(path.resolve(projectRoot,String(args['test-profile'])),'utf8'));
+    const config=JSON.parse(process.env.MASSIVE_TEST_PROFILE||await fs.readFile(path.resolve(projectRoot,String(args['test-profile'])),'utf8'));
     for(const key of ['twitter','name','tag','image','rank','total','payouts'])if(config[key]!==undefined)args[key]=config[key];
     args.test=true;
-    args.to=process.env.GIGAPROP_TEST_EMAIL||'gp@gigaprop.xyz';
+    args.to=process.env.MASSIVE_TEST_EMAIL||'gp@gigaprop.xyz';
   }
 
   if (!args.to) {
@@ -148,7 +148,7 @@ async function main() {
   const apiKey = process.env.RESEND_API_KEY;
   if(!args.preview&&!apiKey)throw Error('RESEND_API_KEY is not set. Add it to GitHub Actions secrets or local .env; never commit it.');
   const rankCard=await renderEmailRankCard({trader,row,season:key,asOf});
-  const rankCardSrc=args.preview?'data:image/jpeg;base64,'+rankCard.toString('base64'):'cid:gigaprop-rank-card';
+  const rankCardSrc=args.preview?'data:image/jpeg;base64,'+rankCard.toString('base64'):'cid:massiveprop-rank-card';
   const html = emailHtml({ trader, row, season: key, seasonNumber: number, test: isTest,rankCardSrc });
   const text = emailText({ trader, row, season: key, test: isTest });
 
@@ -162,14 +162,14 @@ async function main() {
     return;
   }
 
-  const from = process.env.GIGAPROP_FROM || 'Gigaprop <gp@gigaprop.xyz>';
-  const subject = args.subject || `${isTest?'[TEST] ':''}Your GIGAPROP leaderboard profile is live — #${row.rank}`;
+  const from = process.env.MASSIVE_FROM || 'Massive <gp@gigaprop.xyz>';
+  const subject = args.subject || `${isTest?'[TEST] ':''}Your MASSIVE leaderboard profile is live — #${row.rank}`;
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       authorization: `Bearer ${apiKey}`,
       'content-type': 'application/json',
-      ...(process.env.GIGAPROP_SEND_KEY?{'Idempotency-Key':process.env.GIGAPROP_SEND_KEY}:{}),
+      ...(process.env.MASSIVE_SEND_KEY?{'Idempotency-Key':process.env.MASSIVE_SEND_KEY}:{}),
     },
     body: JSON.stringify({
       from,
@@ -178,7 +178,7 @@ async function main() {
       reply_to: ['gp@gigaprop.xyz'],
       html,
       text,
-      attachments:[{content:rankCard.toString('base64'),filename:'gigaprop-rank-card.jpg',content_type:'image/jpeg',content_id:'gigaprop-rank-card'}],
+      attachments:[{content:rankCard.toString('base64'),filename:'massiveprop-rank-card.jpg',content_type:'image/jpeg',content_id:'massiveprop-rank-card'}],
     }),
   });
 

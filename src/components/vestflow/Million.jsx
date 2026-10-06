@@ -14,7 +14,7 @@ export default function Million(){
  const [exporting,setExporting]=useState(false),[exportError,setExportError]=useState('');
  useEffect(()=>{
   const controller=new AbortController();let running=false,previous=[];
-  const title=document.title;document.title='One million · Vest × GIGAPROP';
+  const title=document.title;document.title='One million · Vest × MASSIVE';
   fetch('/data/vest-million.json',{cache:'no-store',signal:controller.signal}).then(r=>r.ok?r.json():null).then(d=>{if(d?.crossing)setSaved(d.crossing)}).catch(()=>{});
   async function run(){
    if(running||controller.signal.aborted)return;running=true;setBusy(true);
@@ -56,16 +56,16 @@ export default function Million(){
   finally{setExporting(false);}
  }
  return <main className="mm"><div className="mm-shell">
- <nav className="mm-nav"><a className="mm-brand" href="#">GP.</a><span>MILESTONES / 001</span><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></nav>
- <div className="mm-intro"><span>VESTMARKETS × GIGAPROP</span><p>The first million deserves its own moment.</p></div>
+ <nav className="mm-nav"><a className="mm-brand" href="#">MASSIVE.</a><span>MILESTONES / 001</span><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></nav>
+ <div className="mm-intro"><span>VESTMARKETS × MASSIVE</span><p>The first million deserves its own moment.</p></div>
  <section className="mm-certificate" ref={certificate}>
- <header><img className="mm-official-logo" src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span className="mm-collab">× <b>GP.</b></span><small>{crossing?'MILESTONE / 001':'MILESTONE PREVIEW'}</small></header>
- <div className="mm-hero"><span className="mm-kicker">{crossing?'A MILLION PAID. A MILESTONE MADE.':'THE MILLION-DOLLAR MILESTONE'}</span><h1>$1,000,000<span>.</span></h1><p>{crossing?'PAID OUT.':'IN PAYOUTS.'}</p><div className="mm-mini-payout"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>GP.</b></div><small>{crossing?'THE CROSSING PAYOUT':'PAYOUT'}</small><strong>${money(crossing?.amount||560)}</strong><span>USDC <i>PAID OUT</i></span></div></div>
+ <header><img className="mm-official-logo" src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span className="mm-collab">× <b>MASSIVE.</b></span><small>{crossing?'MILESTONE / 001':'MILESTONE PREVIEW'}</small></header>
+ <div className="mm-hero"><span className="mm-kicker">{crossing?'A MILLION PAID. A MILESTONE MADE.':'THE MILLION-DOLLAR MILESTONE'}</span><h1>$1,000,000<span>.</span></h1><p>{crossing?'PAID OUT.':'IN PAYOUTS.'}</p><div className="mm-mini-payout"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>{crossing?'THE CROSSING PAYOUT':'PAYOUT'}</small><strong>${money(crossing?.amount||560)}</strong><span>USDC <i>PAID OUT</i></span></div></div>
  <div className="mm-recipient"><span className="mm-kicker">{crossing?'THE WALLET THAT MADE IT A MILLION':'THE WALLET THAT MAKES IT A MILLION'}</span>
  {address?<a className="mm-address" href={crossing.explorer+'/address/'+address} target="_blank" rel="noopener noreferrer">{address}<ArrowUpRight size={16}/></a>:<p className="mm-await">One final payout. One place in the record<span>.</span></p>}
  {crossing?<div className="mm-proof"><strong>+{money(crossing.amount)} USDC</strong><span>{crossing.chain}</span><a href={crossing.explorer+'/tx/'+crossing.hash} target="_blank" rel="noopener noreferrer">View the transaction <ArrowUpRight size={12}/></a></div>:<p className="mm-sub">Recorded here when the tracked total crosses $1 million.</p>}
  </div>
- <footer><b>GP.</b><span>Independently tracked.<br/><strong>GIGAPROP</strong></span><span className="mm-edition">VEST / 001<br/>USDC · 30 DAYS</span></footer>
+ <footer><b>MASSIVE.</b><span>Independently tracked.<br/><strong>MASSIVE</strong></span><span className="mm-edition">VEST / 001<br/>USDC · 30 DAYS</span></footer>
  </section>
  <div className="mm-live"><div><span>{crossing?'TOTAL AT CROSSING':'TRACKED NOW'}</span><strong>{crossing?'$'+money(crossing.after):result?'$'+money(result.total):'—'}</strong></div><div><span>{crossing?'CROSSING PAYOUT':'TO THE MILESTONE'}</span><strong>{crossing?'$'+money(crossing.amount):result?'$'+money(Math.max(0,1000000-result.total)):'—'}</strong></div><button onClick={()=>refresh.current()} disabled={busy} aria-label="Refresh milestone"><RefreshCw size={16}/></button></div>
  <div className="mm-actions"><button className="mm-download" onClick={download} disabled={exporting}><Download size={15}/>{exporting?'Preparing certificate…':crossing?'Download certificate':'Download preview'} <small>HIGH-RES PNG</small></button><a href="#vestflow">Explore Vestflow <ArrowUpRight size={14}/></a></div>

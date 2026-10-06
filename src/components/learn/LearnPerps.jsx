@@ -129,7 +129,7 @@ export default function LearnPerps(){
   }
 
   return <main className="learnperps"><div className="learn-shell">
-    <nav className="learn-nav"><a href="#" className="gp">GP.</a><span>THE BOOK</span><a href="#leaderboard">Leaderboard <ArrowUpRight size={13}/></a></nav>
+    <nav className="learn-nav"><a href="#" className="gp">MASSIVE.</a><span>THE BOOK</span><a href="#leaderboard">Leaderboard <ArrowUpRight size={13}/></a></nav>
 
     <header className="lp-hero">
       <span>VEST · NQ + ES</span>
@@ -139,7 +139,7 @@ export default function LearnPerps(){
     </header>
 
     <div className="lp-vest-ref-wrap">
-      <a className="lp-vest-ref" href="https://next.vestmarkets.com/r/isgigaprop" target="_blank" rel="sponsored noopener noreferrer" aria-label="Open Vest with GIGAPROP referral for 5% off">
+      <a className="lp-vest-ref" href="https://next.vestmarkets.com/r/isgigaprop" target="_blank" rel="sponsored noopener noreferrer" aria-label="Open Vest with MASSIVE referral for 5% off">
         <img src="/brands/vest-symbol.svg" alt=""/>
         <span><strong>Vest</strong><small>GP referral</small></span>
         <b>5% OFF</b>
@@ -274,6 +274,6 @@ export default function LearnPerps(){
       <p>Use the live Vest order book and the ticket’s estimated slippage before you place the order. Those live numbers matter more than any static example on this page.</p>
     </section>
 
-    <footer><b>GP.</b><span>#thebook</span><small>Educational reference. Vest displays a 0.0025% fee per side. Spread and slippage change with the live book.</small></footer>
+    <footer><b>MASSIVE.</b><span>#thebook</span><small>Educational reference. Vest displays a 0.0025% fee per side. Spread and slippage change with the live book.</small></footer>
   </div></main>
 }

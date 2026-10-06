@@ -15,8 +15,8 @@ export default function FreeDrops(){
       const response=await fetch('https://formsubmit.co/ajax/gp@gigaprop.xyz',{
         method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},signal:controller.signal,
         body:JSON.stringify({email:fields.get('email').trim(),telegram:fields.get('telegram').trim(),
-          consent:'Send me GIGAPROP free drops and occasional updates by email, or Telegram if provided. I can opt out anytime.',
-          source:'gigaprop.xyz / free drops',_subject:'GIGAPROP — free drops signup',_honey:''})
+          consent:'Send me MASSIVE free drops and occasional updates by email, or Telegram if provided. I can opt out anytime.',
+          source:'massiveprop.xyz / free drops',_subject:'MASSIVE — free drops signup',_honey:''})
       });
       const data=await response.json();
       if(!response.ok||!(data.success===true||data.success==='true'))throw new Error('Not accepted');
@@ -26,7 +26,7 @@ export default function FreeDrops(){
   return <section className="gp-drops" id="drops" aria-labelledby="drops-title">
     <div className="gp-drops-copy"><span className="gp-eyebrow">FREE DROPS / BY COULDBELUCK</span>
       <h2 id="drops-title">See props<br/><em>differently.</em></h2>
-      <p>Free lessons and proprietary gigaprop knowledge built to open your eyes and make you see prop trading differently.</p>
+      <p>Free lessons and proprietary massiveprop knowledge built to open your eyes and make you see prop trading differently.</p>
       <span className="gp-drops-signoff">Only what actually matters.</span>
     </div>
     <div className="gp-drops-entry">
@@ -39,7 +39,7 @@ export default function FreeDrops(){
         <p className="gp-drops-consent">By joining, you agree to receive free drops and occasional updates by email, or Telegram if provided. Opt out anytime.</p>
         {status==='error'&&<p className="gp-drops-error" role="alert">Couldn’t send that. Please retry, or email <a href="mailto:gp@gigaprop.xyz">gp@gigaprop.xyz</a>.</p>}
       </form>}
-      <details className="gp-drops-privacy"><summary>Your details stay off the site.</summary><p>Your signup is sent through FormSubmit to gp@gigaprop.xyz. We use your details for GIGAPROP updates. To stop messages or request deletion, email <a href="mailto:gp@gigaprop.xyz?subject=Unsubscribe">gp@gigaprop.xyz</a>.</p></details>
+      <details className="gp-drops-privacy"><summary>Your details stay off the site.</summary><p>Your signup is sent through FormSubmit to gp@gigaprop.xyz. We use your details for MASSIVE updates. To stop messages or request deletion, email <a href="mailto:gp@gigaprop.xyz?subject=Unsubscribe">gp@gigaprop.xyz</a>.</p></details>
     </div>
   </section>;
 }

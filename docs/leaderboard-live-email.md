@@ -1,19 +1,19 @@
 # Leaderboard “You’re live” email
 
-This repo includes a private local sender for the GIGAPROP leaderboard confirmation email.
+This repo includes a private local sender for the MASSIVE leaderboard confirmation email.
 
 It does **not** store claimant email addresses in the public repository. You pass the email only when you send.
 
 ## One-time setup
 
 1. Create a Resend account.
-2. Add and verify `gigaprop.xyz` as a sending domain. Keep the existing IONOS mail records intact; only add the DNS records Resend specifically asks for.
+2. Add and verify `massiveprop.xyz` as a sending domain. Keep the existing IONOS mail records intact; only add the DNS records Resend specifically asks for.
 3. Create a Resend API key.
 4. Copy `.env.example` to `.env` and paste the key there. `.env` is already gitignored.
 
 ```
 RESEND_API_KEY=re_...
-GIGAPROP_FROM="GIGAPROP <gp@gigaprop.xyz>"
+MASSIVE_FROM="MASSIVE <gp@gigaprop.xyz>"
 ```
 
 ## Preview before sending
@@ -64,12 +64,12 @@ npm run leaderboard:email -- --test --to YOUR_EMAIL --twitter YOUR_X_HANDLE --ra
 Optional fake values:
 
 ```bash
-npm run leaderboard:email -- --test --to YOUR_EMAIL --twitter YOUR_X_HANDLE --name "Your Name" --rank 20 --total 12480 --payouts 12 --tag "#GIGAPROP"
+npm run leaderboard:email -- --test --to YOUR_EMAIL --twitter YOUR_X_HANDLE --name "Your Name" --rank 20 --total 12480 --payouts 12 --tag "#MASSIVE"
 ```
 
 Add `--preview` to render the email locally instead of sending it.
 
-Test mode never writes to the leaderboard and the button simply opens `gigaprop.xyz/#leaderboard`.
+Test mode never writes to the leaderboard and the button simply opens `massiveprop.xyz/#leaderboard`.
 
 
 ### X profile photo in test mode
@@ -81,7 +81,7 @@ For a real send, the portrait is baked into the rank-card JPG, which is embedded
 
 ## Browser test studio
 
-Open `https://gigaprop.xyz/#gigaprop`. Edit the sample profile and copy its JSON.
+Open `https://massiveprop.xyz/#massiveprop`. Edit the sample profile and copy its JSON.
 The draft stays on that browser; it is never added to the real leaderboard.
 The preview uses the exact same HTML renderer as the Resend sender.
 
@@ -92,7 +92,7 @@ The preview uses the exact same HTML renderer as the Resend sender.
 
 The result log reports Resend acceptance and the email ID, not guaranteed inbox delivery.
 Each workflow run uses a Resend idempotency key. For a fresh intentional test, start a new run.
-The test email links back to its sample profile on `#gigaprop`.
+The test email links back to its sample profile on `#massiveprop`.
 
 ## Next: automatic welcome emails
 

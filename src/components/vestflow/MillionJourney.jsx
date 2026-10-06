@@ -35,7 +35,7 @@ export default function MillionJourney({data,crossing}){
  </defs>
  <rect width="1200" height={height} fill="url(#mj-bg)"/><ellipse cx="1030" cy="290" rx="460" ry="360" fill="url(#mj-halo)"/>
  <rect x="24" y="24" width="1152" height={height-48} rx="3" fill="none" stroke="#b997513b"/>
- <g fill="#beaa7d" fontFamily="DM Mono,monospace" fontSize="12" letterSpacing="2"><text x="76" y="56">VEST MARKETS <tspan fill="#6c5e44"> × </tspan> GIGAPROP</text><text x="1124" y="56" textAnchor="end">MILLION / 001</text></g>
+ <g fill="#beaa7d" fontFamily="DM Mono,monospace" fontSize="12" letterSpacing="2"><text x="76" y="56">VEST MARKETS <tspan fill="#6c5e44"> × </tspan> MASSIVE</text><text x="1124" y="56" textAnchor="end">MILLION / 001</text></g>
  <line x1="76" x2="1124" y1="80" y2="80" stroke="#bca06c30"/>
  <text x="74" y="148" fill="#eee7d7" fontSize="58" fontWeight="600" letterSpacing="-3">The road to <tspan fill="url(#mj-gold)" fontWeight="800">$1,000,000.</tspan></text>
  <g fontFamily="DM Mono,monospace" fontSize="11" letterSpacing="1.6" fill="#b9a47b"><text x="78" y="181">30 DAYS. {points.length.toLocaleString()} PAYOUTS. EVERY SINGLE ONE.</text><text x="1124" y="181" textAnchor="end">{crossing?'MILESTONE REACHED':'THE APPROACH'}</text></g>
@@ -53,8 +53,8 @@ export default function MillionJourney({data,crossing}){
  <line x1="76" x2="1124" y1="600" y2="600" stroke="#bca06c35"/>
  {[{value:usd(total),label:crossing?'AT THE CROSSING':'TRACKED OUTFLOW'},{value:points.length.toLocaleString(),label:'INDIVIDUAL PAYOUTS'},{value:map.wallets.toLocaleString(),label:'RECIPIENT WALLETS'},{value:usd(largest?.amount||0),label:'LARGEST PAYOUT'}].map((s,i)=><g key={s.label}><text x={76+i*275} y="631" fill="#e9d3a3" fontSize={27} letterSpacing="-1.8">{s.value}</text><text x={76+i*275} y="649" fill="#9e8e70" fontFamily="DM Mono,monospace" fontSize="10" letterSpacing="1.1">{s.label}</text></g>)}
  <line x1="76" x2="1124" y1={bottom} y2={bottom} stroke="#bca06c35"/>
- <text x="76" y={bottom+49} fill="#d9bd81" fontSize="37" fontWeight="800" letterSpacing="-4">GP.</text>
- <g fontFamily="DM Mono,monospace" fontSize="10" fill="#a18f6b"><text x="178" y={bottom+30} letterSpacing="2">INDEPENDENTLY TRACKED.</text><text x="178" y={bottom+49}>{map.complete?'Complete 30-day window':'Incomplete available history'} · internal wallets, bridges and dust excluded.</text><text x="1124" y={bottom+30} textAnchor="end">gigaprop.xyz/#1milli</text><text x="1124" y={bottom+49} textAnchor="end">{new Date(end).toISOString().replace('T',' ').slice(0,16)} UTC</text></g>
+ <text x="76" y={bottom+49} fill="#d9bd81" fontSize="37" fontWeight="800" letterSpacing="-4">MASSIVE.</text>
+ <g fontFamily="DM Mono,monospace" fontSize="10" fill="#a18f6b"><text x="178" y={bottom+30} letterSpacing="2">INDEPENDENTLY TRACKED.</text><text x="178" y={bottom+49}>{map.complete?'Complete 30-day window':'Incomplete available history'} · internal wallets, bridges and dust excluded.</text><text x="1124" y={bottom+30} textAnchor="end">massiveprop.xyz/#1milli</text><text x="1124" y={bottom+49} textAnchor="end">{new Date(end).toISOString().replace('T',' ').slice(0,16)} UTC</text></g>
  </svg>
  </div>
  <div className="mm-actions"><button className="mm-download" onClick={download} disabled={busy||!points.length}><Download size={15}/>{busy?'Preparing master image…':'Download master image'}<small>6000 PX PNG</small></button><span className="mj-export-note">The complete picture. Every payout.</span></div>

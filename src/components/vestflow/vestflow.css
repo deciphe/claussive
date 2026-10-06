@@ -36,10 +36,10 @@
 .vf-transfer-value,.out .vf-transfer-value{color:#dce0d7}.vf-transfer-value>span{opacity:.6}.vf-transfer-badge svg{background:rgba(var(--card-rgb),.035)}.vf-route-wire{opacity:.55}.vf-route-wire i{box-shadow:none}.vf-wallet-mark{background:transparent}.vf-glyph{background:transparent}.vf-glyph i.on{opacity:.5}
 .vf-transfer-details{background:#070908}.vf-transfer-details>div>a,.out .vf-transfer-details>div>a{color:#b3bbae}.vf-transfer-explorer{background:transparent}.vf-transfer-scale i{opacity:.25}
 .vf-feed input{background:#080a09}.vf-filter-chip{background:#0c100b;border-color:#ffffff18;color:#b9c3b2}.vf-filter-chip button{background:#171d13}.vf-status>span{color:#96a987}
-/* Shared GIGAPROP palette, lifted slightly for legibility. */
+/* Shared MASSIVE palette, lifted slightly for legibility. */
 .vf{--green:#a8c38a;--purple:#a99ac0;background:#080a09;color:#e4e8e0}.vf-network{background:radial-gradient(ellipse at 50% 48%,#18201844,transparent 50%),#0b0e0c}.vf-stats article,.vf-stats article.vf-out,.vf-stats article.vf-net,.vf-chart-panel,.vf-strip,.vf-strip-label,.vf-gallery-summary{background:#0b0e0c}.vf-transfer-card{background:#0c100d;--card-color:#a8c38a;--card-rgb:168,195,138}.vf-transfer-card.out{background:#0e0c11;--card-color:#a99ac0;--card-rgb:169,154,192}.vf-node{background:#0d110e!important}.out .vf-node{background:#100e13!important}.vf-core-copy strong{color:#edf0e8}.vf-network-bottom p,.vf-chart-axis{color:#82937d}.vf-transfer-bottom,.out .vf-transfer-bottom{color:#8c9a85}
 
-/* One type system across the portal and the main GIGAPROP site. */
+/* One type system across the portal and the main MASSIVE site. */
 .vf{font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-synthesis:none}
 .vf button,.vf input{font-family:inherit;font-weight:500;letter-spacing:0}
 .vf h1{font-weight:700;letter-spacing:-.065em}.vf h1 span{font-weight:400}

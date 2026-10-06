@@ -46,7 +46,7 @@ async function fetchTransfers() {
     url.searchParams.set('filter', 'to');
     url.searchParams.set('token', USDC);
     if (next) Object.entries(next).forEach(([k, v]) => v != null && url.searchParams.set(k, String(v)));
-    const response = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'gigaprop-local-audit/1.0' } });
+    const response = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'massiveprop-local-audit/1.0' } });
     if (!response.ok) throw new Error(`Blockscout ${response.status}`);
     const data = await response.json();
     const items = Array.isArray(data.items) ? data.items : [];

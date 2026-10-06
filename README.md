@@ -1,4 +1,4 @@
-# gigaprop — GitHub Pages edition
+# massiveprop — GitHub Pages edition
 
 A clean React/Vite site built around personal prop-firm payout proof, True R rankings, and a dedicated Maven proof edition.
 
@@ -19,7 +19,7 @@ The deployable static site is generated in `dist/`.
 
 ## GitHub Pages
 
-The included GitHub Actions workflow builds the main gigaprop site and the Maven edition on every push to `main`, then deploys the combined artifact to GitHub Pages.
+The included GitHub Actions workflow builds the main massiveprop site and the Maven edition on every push to `main`, then deploys the combined artifact to GitHub Pages.
 
 ## Content updates
 

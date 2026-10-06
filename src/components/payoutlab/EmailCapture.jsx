@@ -21,8 +21,8 @@ export default function EmailCapture() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           email,
-          _subject: "gigaprop. — free lessons waitlist",
-          source: "gigaprop.xyz",
+          _subject: "massiveprop. — free lessons waitlist",
+          source: "massiveprop.xyz",
           interest: "free lessons",
           _honey: "",
         }),
@@ -50,10 +50,10 @@ export default function EmailCapture() {
               <Sparkles className="h-3.5 w-3.5" /> free lessons waitlist
             </div>
             <h2 className="mt-3 font-display text-4xl font-semibold leading-[.95] tracking-[-0.055em] text-spectral md:text-5xl">
-              GET A TASTE OF<br /><span className="text-lucid">GIGAPROP.</span>
+              GET A TASTE OF<br /><span className="text-lucid">MASSIVE.</span>
             </h2>
             <p className="mt-4 max-w-xl font-display text-base leading-6 text-white/52 md:text-lg">
-              Free lessons and proprietary gigaprop knowledge built to open your eyes and make you see prop trading differently.
+              Free lessons and proprietary massiveprop knowledge built to open your eyes and make you see prop trading differently.
             </p>
             <div className="mt-3 font-mono-lab text-[8px] font-semibold uppercase tracking-[0.16em] text-violetglow">Only what actually matters.</div>
           </div>

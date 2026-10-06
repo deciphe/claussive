@@ -1,5 +1,5 @@
 .mv-stats{grid-template-columns:repeat(4,1fr)}
 .mv-paradox-foot a{color:#a8c38a}
 @media(max-width:750px){.mv-stats{grid-template-columns:repeat(2,1fr);row-gap:24px}}
-/* GIGAPROP's shared near-black palette. */
+/* MASSIVE's shared near-black palette. */
 .maven-edition{background:#080a09;color:#e4e8e0}.mv-hero,.mv-close{background:none}.mv-hero h1 span,.mv-trust h2 span,.mv-close h2 span{color:#c6cfbe}.mv-actions button,.mv-vault>button{background:#151e11;border:1px solid #a8c38a44;color:#c4d6b4}.mv-dialog{background:#0d110e;color:#dce3d5;border-color:#ffffff20}.mv-grid img{background:#090c0a}.mv-grid span{color:#a6bc95}.mv-paradox{background:#0d110e;border-color:#a8c38a25}

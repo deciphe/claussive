@@ -1,4 +1,4 @@
-const ATTRIBUTION_KEY = "gigaprop_attribution";
+const ATTRIBUTION_KEY = "massiveprop_attribution";
 
 export function captureAttribution() {
   if (typeof window === "undefined") return;
@@ -29,5 +29,5 @@ export function track(event, props = {}) {
   if (typeof window.gtag === "function") window.gtag("event", event, payload);
   if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event, ...payload });
 
-  window.dispatchEvent(new CustomEvent("gigaprop:track", { detail: { event, props: payload } }));
+  window.dispatchEvent(new CustomEvent("massiveprop:track", { detail: { event, props: payload } }));
 }

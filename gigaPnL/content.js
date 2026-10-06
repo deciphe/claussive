@@ -90,7 +90,7 @@
 
   const sendCopierControl = () => {
     window.postMessage({
-      __gigaPnLControl: true,
+      __MassivePnLControl: true,
       type: "SET_COPIER",
       config: copierConfig,
       links: copierLinks
@@ -538,8 +538,8 @@
     return `
       <div class="gp-hud ${compact && !isPip ? "compact" : ""} ${isPip ? "gp-pip" : ""}">
         <div class="gp-head">
-          <div class="gp-mark">GP.</div>
-          <div class="gp-brand">gigaPnL</div>
+          <div class="gp-mark">MASSIVE.</div>
+          <div class="gp-brand">MassivePnL</div>
           <div class="gp-status" title="${sessionCaptured ? "Vest live" : "Waiting for Vest"}"><span class="gp-dot ${sessionCaptured ? "live" : ""}"></span></div>
           <button class="gp-panic ${esc(panicState.mode)}" title="${esc(panicState.detail || "Emergency close all demo positions")}">${esc(panicLabel())}</button>
           ${isPip ? "" : `<button class="gp-copy-toggle ${copierOpen ? "open" : ""} ${copierConfig.armed ? "armed" : ""}" title="${esc(copyHealth.detail || "Vest multi-account copier")}">${esc(copyButtonLabel())}</button>
@@ -556,7 +556,7 @@
           ${accountStripMarkup()}
           ${isPip ? "" : copierPanelMarkup()}
           <div class="gp-rows">${rowsMarkup()}</div>
-          <div class="gp-foot"><span>VEST</span><span class="gold">GP.</span></div>
+          <div class="gp-foot"><span>VEST</span><span class="gold">MASSIVE.</span></div>
         </div>
       </div>`;
   };
@@ -649,7 +649,7 @@
         chrome.storage.local.set({ gigapnlCopierConfig: copierConfig }).catch(() => {});
         sendCopierControl();
       }
-      window.postMessage({ __gigaPnLControl: true, type: "CLOSE_ALL_DEMO" }, "*");
+      window.postMessage({ __MassivePnLControl: true, type: "CLOSE_ALL_DEMO" }, "*");
       render();
       return;
     }
@@ -822,7 +822,7 @@
         width: Math.max(220, Math.min(520, Number(pipSize.width) || 290)),
         height: Math.max(150, Math.min(420, Number(pipSize.height) || 220))
       });
-      pipWindow.document.title = "gigaPnL";
+      pipWindow.document.title = "MassivePnL";
       ensureManrope(pipWindow.document);
       pipWindow.document.documentElement.style.background = "#09090b";
       pipWindow.document.body.style.cssText = "margin:0;background:#09090b;overflow:hidden";
@@ -851,7 +851,7 @@
 
   const setCollector = (enabled) => {
     collectorEnabled = Boolean(enabled);
-    window.postMessage({ __gigaPnLControl: true, type: "SET_COLLECTOR", enabled: collectorEnabled }, "*");
+    window.postMessage({ __MassivePnLControl: true, type: "SET_COLLECTOR", enabled: collectorEnabled }, "*");
     render();
   };
 
@@ -897,7 +897,7 @@
     }
     if (saved.gigapnlDemoCloseTemplate) {
       window.postMessage({
-        __gigaPnLControl: true,
+        __MassivePnLControl: true,
         type: "SET_DEMO_CLOSE_TEMPLATE",
         template: saved.gigapnlDemoCloseTemplate
       }, "*");
@@ -928,7 +928,7 @@
       }
       if (changes.gigapnlCopierLinks) {
         copierLinks = Array.isArray(changes.gigapnlCopierLinks.newValue) ? changes.gigapnlCopierLinks.newValue : [];
-        window.postMessage({ __gigaPnLControl: true, type: "SET_COPIER_LINKS", links: copierLinks }, "*");
+        window.postMessage({ __MassivePnLControl: true, type: "SET_COPIER_LINKS", links: copierLinks }, "*");
       }
       if (changes.gigapnlAccountUniverse) {
         copierAccounts = Array.isArray(changes.gigapnlAccountUniverse.newValue) ? changes.gigapnlAccountUniverse.newValue : [];
@@ -942,14 +942,14 @@
   };
 
   window.addEventListener("message", (event) => {
-    if (event.source !== window || !event.data?.__gigaPnL) return;
+    if (event.source !== window || !event.data?.__MassivePnL) return;
 
     if (event.data.type === "VEST_HOOK_READY") {
       sendCopierControl();
       chrome.storage.local.get(["gigapnlDemoCloseTemplate"]).then((saved) => {
         if (saved.gigapnlDemoCloseTemplate) {
           window.postMessage({
-            __gigaPnLControl: true,
+            __MassivePnLControl: true,
             type: "SET_DEMO_CLOSE_TEMPLATE",
             template: saved.gigapnlDemoCloseTemplate
           }, "*");

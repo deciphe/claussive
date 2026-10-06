@@ -98,7 +98,7 @@ function AboutPopover(){
   const close=()=>setOpen(false);
   const proof=['Maven','Topstep','Tradeify','Lucid Trading','FundedNext','Breakout'].map(firm=>({firm,records:certificates.filter(c=>c.firm===firm&&!['fundednext-004','fundednext-005'].includes(c.id)).sort((a,b)=>b.amountNum-a.amountNum)})).filter(g=>g.records.length);
 
-  return <><button ref={trigger} className="gp-about-trigger gp-wisp-trigger" onClick={()=>setOpen(true)} aria-haspopup="dialog"><span className="gp-wisp-avatar"><img src="/wisp.webp" alt="Wisp"/></span><span className="gp-wisp-copy">Oh, me?<small>A little background</small></span><span className="gp-wisp-plus" aria-hidden="true">+</span></button>{open&&<dialog className="gp-about-dialog" ref={dialog} aria-labelledby="gp-about-title" onCancel={close} onClose={close} onClick={e=>{if(e.target===e.currentTarget)close();}}><div className="gp-about-content"><header><span>A LITTLE BACKGROUND</span><button onClick={close} aria-label="Close about"><X size={18}/></button></header><h2 id="gp-about-title">I'm couldbeluck.</h2><p>A trader behind GIGAPROP. These comparisons come from spending time with the firms, their rules, and their costs.</p><section className="gp-proof-volume" aria-label="Personal payout record stacks"><div className="gp-volume-heading"><span>PERSONAL PAYOUT RECORDS</span><small>Across six firms</small></div><div className="gp-ripple-grid">{proof.map(({firm,records})=><article key={firm} className="gp-ripple-firm"><div className="gp-ripple-heading"><h3>{firm}</h3><span><b>{records.length}</b> records</span></div><details className="gp-ripple-details"><summary aria-label={`Browse ${records.length} ${firm} payout records`}><div className="gp-ripple-stack" aria-hidden="true">{records.slice(0,Math.min(12,records.length)).map((c,i)=><img key={c.id} src={c.image} alt="" loading="lazy" style={{'--i':i,zIndex:15-i}}/>)}</div><span className="gp-ripple-browse">Explore the stack <span>+</span></span></summary><div className="gp-ripple-archive">{records.map(c=><a key={c.id} href={c.image} target="_blank" rel="noopener noreferrer" aria-label={`Inspect ${firm} payout record ${c.amount}, ${c.date}`}><img src={c.image} alt={firm+' payout record, '+c.amount} loading="lazy"/><span>{c.amount}<small>{c.date}</small></span></a>)}</div></details></article>)}</div><p>Personal records. Payouts are not net profit. Topstep records are restyled by GIGAPROP with their source information preserved.</p></section></div></dialog>}</>;
+  return <><button ref={trigger} className="gp-about-trigger gp-wisp-trigger" onClick={()=>setOpen(true)} aria-haspopup="dialog"><span className="gp-wisp-avatar"><img src="/wisp.webp" alt="Wisp"/></span><span className="gp-wisp-copy">Oh, me?<small>A little background</small></span><span className="gp-wisp-plus" aria-hidden="true">+</span></button>{open&&<dialog className="gp-about-dialog" ref={dialog} aria-labelledby="gp-about-title" onCancel={close} onClose={close} onClick={e=>{if(e.target===e.currentTarget)close();}}><div className="gp-about-content"><header><span>A LITTLE BACKGROUND</span><button onClick={close} aria-label="Close about"><X size={18}/></button></header><h2 id="gp-about-title">I'm couldbeluck.</h2><p>A trader behind MASSIVE. These comparisons come from spending time with the firms, their rules, and their costs.</p><section className="gp-proof-volume" aria-label="Personal payout record stacks"><div className="gp-volume-heading"><span>PERSONAL PAYOUT RECORDS</span><small>Across six firms</small></div><div className="gp-ripple-grid">{proof.map(({firm,records})=><article key={firm} className="gp-ripple-firm"><div className="gp-ripple-heading"><h3>{firm}</h3><span><b>{records.length}</b> records</span></div><details className="gp-ripple-details"><summary aria-label={`Browse ${records.length} ${firm} payout records`}><div className="gp-ripple-stack" aria-hidden="true">{records.slice(0,Math.min(12,records.length)).map((c,i)=><img key={c.id} src={c.image} alt="" loading="lazy" style={{'--i':i,zIndex:15-i}}/>)}</div><span className="gp-ripple-browse">Explore the stack <span>+</span></span></summary><div className="gp-ripple-archive">{records.map(c=><a key={c.id} href={c.image} target="_blank" rel="noopener noreferrer" aria-label={`Inspect ${firm} payout record ${c.amount}, ${c.date}`}><img src={c.image} alt={firm+' payout record, '+c.amount} loading="lazy"/><span>{c.amount}<small>{c.date}</small></span></a>)}</div></details></article>)}</div><p>Personal records. Payouts are not net profit. Topstep records are restyled by MASSIVE with their source information preserved.</p></section></div></dialog>}</>;
 }
 
 function FirmDrawer({firm,onClose}){
@@ -213,17 +213,17 @@ function CompactMatrix(){
 
 function LeaderboardLanding(){
   return <section className="gp-leaderboard-landing" aria-labelledby="gp-leaderboard-title">
-    <a className="gp-leaderboard-stage" href="#leaderboard" aria-label="Open the GIGAPROP trader leaderboard">
+    <a className="gp-leaderboard-stage" href="#leaderboard" aria-label="Open the MASSIVE trader leaderboard">
       <div className="gp-leaderboard-glow" aria-hidden="true"/>
       <div className="gp-leaderboard-copy">
-        <span className="gp-leaderboard-kicker">GIGAPROP / TRADER LEAGUE</span>
+        <span className="gp-leaderboard-kicker">MASSIVE / TRADER LEAGUE</span>
         <h2 id="gp-leaderboard-title">Names worth <strong>knowing.</strong></h2>
         <p>Public onchain payouts, ranked across Vest, Breakout, Hypernova and Propr. Quarterly seasons plus a live Weekly Top 20.</p>
         <span className="gp-leaderboard-cta">Enter the leaderboard <ArrowUpRight size={17}/></span>
       </div>
       <div className="gp-leaderboard-podium" aria-hidden="true">
         <div className="gp-home-rank gp-home-rank-2"><span>02</span><small>SECOND</small></div>
-        <div className="gp-home-rank gp-home-rank-1"><span>01</span><small>THE BOARD</small><b>GP.</b></div>
+        <div className="gp-home-rank gp-home-rank-1"><span>01</span><small>THE BOARD</small><b>MASSIVE.</b></div>
         <div className="gp-home-rank gp-home-rank-3"><span>03</span><small>THIRD</small></div>
       </div>
       <div className="gp-leaderboard-meta">
@@ -243,7 +243,7 @@ function TheBookLanding(){
     <a className="gp-book-card" href="#thebook" aria-label="Open The Book execution guide">
       <div className="gp-book-smoke" aria-hidden="true"/>
       <div className="gp-book-copy">
-        <span className="gp-book-kicker">GIGAPROP / EXECUTION</span>
+        <span className="gp-book-kicker">MASSIVE / EXECUTION</span>
         <h2 id="gp-book-title">THE BOOK</h2>
         <p>Execution is part of the trade.</p>
         <small>Order size, spread, slippage, fees, fills and true R — built around the numbers that actually hit your P&amp;L.</small>
@@ -297,7 +297,7 @@ export default function Web3Hub(){
 
   return <main className="gp-site" id="top">
     <header className="gp-nav">
-      <a className="gp-wordmark" href="#top">GIGAPROP<span>.</span></a>
+      <a className="gp-wordmark" href="#top">MASSIVE<span>.</span></a>
       <nav className="gp-nav-links">
         <a href="#leaderboard">Leaderboard</a><a href="#field">Reviews</a><a href="#degen" aria-label="NQ comparison">NQ costs</a><a href="#drops">Free drops</a>
       </nav>
@@ -323,7 +323,7 @@ export default function Web3Hub(){
       </div>
 
       <FundedNextBonus />
-      <p className="review-disclosure">Some links and codes are referrals. Gigaprop may earn a commission if you sign up. Prices shown are for the default 25K program; offers and terms can change.</p>
+      <p className="review-disclosure">Some links and codes are referrals. Massive may earn a commission if you sign up. Prices shown are for the default 25K program; offers and terms can change.</p>
       <CompactMatrix />
     </section>
 
@@ -366,7 +366,7 @@ export default function Web3Hub(){
     </section>
 
     <FreeDrops />
-    <footer className="gp-footer"><a className="gp-wordmark" href="#top">GIGAPROP<span>.</span></a><p>Trader-led comparisons. September 2026 data snapshot.</p><a href="#top">Back to top ↑</a></footer>
+    <footer className="gp-footer"><a className="gp-wordmark" href="#top">MASSIVE<span>.</span></a><p>Trader-led comparisons. September 2026 data snapshot.</p><a href="#top">Back to top ↑</a></footer>
 
     {detailFirm && <FirmDrawer key={detailFirm.id} firm={detailFirm} onClose={()=>setDetailId(null)}/>}
   </main>;

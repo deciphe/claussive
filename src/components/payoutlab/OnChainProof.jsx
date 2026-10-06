@@ -147,7 +147,7 @@ export default function OnChainProof() {
           <div className="min-h-[560px] p-4 md:p-6">{selected && <ProofCard row={selected} total={rows.length} />}</div>
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 font-display text-[9px] uppercase tracking-[0.13em] text-white/24"><span>gigaprop.xyz</span><span>real payouts · real proof</span></div>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 font-display text-[9px] uppercase tracking-[0.13em] text-white/24"><span>massiveprop.xyz</span><span>real payouts · real proof</span></div>
       </div>
     </section>
   );

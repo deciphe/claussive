@@ -26,7 +26,7 @@ for source in sorted(Path('public/payouts/topstep-studio').glob('*.svg')):
 <text x="858" y="748" fill="#8e809b" font-family="DejaVu Sans,sans-serif" font-size="18" letter-spacing="3">TRADER</text>
 <text x="858" y="798" fill="#cec4da" font-family="DejaVu Sans,sans-serif" font-size="30">{trader}</text>
 <path d="M80 877H1520" stroke="#222a21"/>
-<text x="84" y="929" fill="#70816a" font-family="DejaVu Sans,sans-serif" font-size="17" letter-spacing="2">GIGAPROP RESTYLED RECORD</text>
+<text x="84" y="929" fill="#70816a" font-family="DejaVu Sans,sans-serif" font-size="17" letter-spacing="2">MASSIVE RESTYLED RECORD</text>
 <text x="1516" y="929" text-anchor="end" fill="#67735f" font-family="DejaVu Sans,sans-serif" font-size="16">Source information preserved</text>
 </svg>'''
     (out/source.name).write_text(svg)

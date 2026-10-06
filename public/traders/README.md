@@ -1,4 +1,4 @@
-# Add a trader to GIGAPROP
+# Add a trader to MASSIVE
 
 1. Upload their image into **public/traders/**. PNG, JPG or WebP; square images at least 400×400 work best. Use a simple filename such as `newtrader.png` (no spaces).
 2. Edit **src/data/traders.json** and add a new object inside the existing array. Separate objects with commas; no comma after the last object.

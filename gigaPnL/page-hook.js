@@ -40,7 +40,7 @@
   let socketBackoff = 1000;
 
   const post = (type, data = {}) => {
-    window.postMessage({ __gigaPnL: true, type, ...data }, "*");
+    window.postMessage({ __MassivePnL: true, type, ...data }, "*");
   };
 
   const copyEvent = (status, data = {}) => {
@@ -203,7 +203,7 @@
   };
 
   XMLHttpRequest.prototype.open = function(method, url) {
-    this.__gigaPnLMeta = { method: String(method || "GET").toUpperCase(), url: String(url || ""), accountId: null };
+    this.__MassivePnLMeta = { method: String(method || "GET").toUpperCase(), url: String(url || ""), accountId: null };
     return nativeXhrOpen.apply(this, arguments);
   };
 
@@ -211,8 +211,8 @@
     if (/^authorization$/i.test(String(key))) {
       try {
         const captured = captureAuth(value);
-        if (this.__gigaPnLMeta && captured && captured.accountId) {
-          this.__gigaPnLMeta.accountId = captured.accountId;
+        if (this.__MassivePnLMeta && captured && captured.accountId) {
+          this.__MassivePnLMeta.accountId = captured.accountId;
         }
       } catch (_) {}
     }
@@ -220,7 +220,7 @@
   };
 
   XMLHttpRequest.prototype.send = function(body) {
-    const meta = this.__gigaPnLMeta;
+    const meta = this.__MassivePnLMeta;
     if (meta && isCopyableOrder(meta.method, meta.url)) {
       meta.body = typeof body === "string" ? body : (body == null ? null : String(body));
       this.addEventListener("loadend", () => {
@@ -1039,7 +1039,7 @@
   };
 
   window.addEventListener("message", (event) => {
-    if (event.source !== window || !event.data || !event.data.__gigaPnLControl) return;
+    if (event.source !== window || !event.data || !event.data.__MassivePnLControl) return;
 
     if (event.data.type === "CLOSE_ALL_DEMO") {
       closeAllDemoPositions();

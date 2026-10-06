@@ -8,10 +8,10 @@ import "./true-r-guide.css";
 
 export default function TrueRGuide() {
   return <main className="tr-guide">
-    <header className="tr-nav"><a href="./#rankings"><ArrowLeft size={15} />Back to gigaprop</a><span><WispMark size={16} /> gigaprop.</span></header>
+    <header className="tr-nav"><a href="./#rankings"><ArrowLeft size={15} />Back to massiveprop</a><span><WispMark size={16} /> massiveprop.</span></header>
     <article>
       <div className="tr-intro"><Wisp className="wisp-intro" />
-        <div className="tr-eyebrow">GIGAPROP / TRUE R</div>
+        <div className="tr-eyebrow">MASSIVE / TRUE R</div>
         <h1>The trade is only<br /> <span>half the equation.</span></h1>
         <p>A winning trade starts the story. True R asks what you actually keep after execution, fees, rules, and the wait to get paid.</p>
         <div className="tr-intro-foot"><span>01 / WHAT YOU KEEP</span><span>02 / WHAT IT COSTS</span><span>03 / HOW LONG IT TAKES</span><a href="#handbook">THE HANDBOOK ↗</a></div>
@@ -38,7 +38,7 @@ export default function TrueRGuide() {
 
       <Handbook />
       <section className="tr-verdict"><div><div className="tr-eyebrow">BEFORE YOU BUY</div><h2>Would I buy it again?</h2><Wisp className="wisp-finish" note="Follow the money all the way home." /><p>Judge the full journey. Then look for receipts.</p></div><div>{["What did I spend across every attempt?","What can I actually withdraw—and when?","Do the rules fit how I trade?","What reached my wallet, and how long did it take?"].map(t => <p key={t}><Check size={15} />{t}</p>)}</div></section>
-      <footer className="tr-end"><p>True R is gigaprop’s evaluation framework.<br /><span>A score is a judgment; the payout is evidence.</span></p><a href="./#rankings">See the True R index <ArrowUpRight size={17} /></a></footer>
+      <footer className="tr-end"><p>True R is massiveprop’s evaluation framework.<br /><span>A score is a judgment; the payout is evidence.</span></p><a href="./#rankings">See the True R index <ArrowUpRight size={17} /></a></footer>
     </article>
   </main>;
 }

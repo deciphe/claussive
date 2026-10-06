@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "gigaPnL",
+  "name": "MassivePnL",
   "version": "0.5.0",
   "description": "Hyper-compact Vest live PnL HUD, multi-account copier, verified demo panic flatten, and always-on-top popout.",
   "permissions": ["storage"],
@@ -31,6 +31,6 @@
     }
   ],
   "action": {
-    "default_title": "gigaPnL"
+    "default_title": "MassivePnL"
   }
 }

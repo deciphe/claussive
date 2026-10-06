@@ -160,9 +160,9 @@ export default function Profile(){
   function go(e){e?.preventDefault();const w=input.trim().toLowerCase();if(!/^0x[a-f0-9]{40}$/.test(w)){setError('Enter a complete 0x payout wallet.');return}setWallet(w);history.replaceState(null,'','#vip?wallet='+w)}
   async function shareProfile(){
     const url=location.origin+location.pathname+'#vip?wallet='+canonicalTraderWallet(wallet);
-    const text='My VIP lifetime payout record on GIGAPROP';
+    const text='My VIP lifetime payout record on MASSIVE';
     try{
-      if(navigator.share){await navigator.share({title:'VIP · GIGAPROP',text,url});return}
+      if(navigator.share){await navigator.share({title:'VIP · MASSIVE',text,url});return}
       await navigator.clipboard.writeText(url);setCopied(true);setTimeout(()=>setCopied(false),1800);
     }catch{}
   }
@@ -170,7 +170,7 @@ export default function Profile(){
   return <main className="profile-page"><div className="pf-shell">
     {!wallet?
     <section className="pf-entry pf-entry-club">
-      <div className="pf-club-sigil"><b>GP.</b><i/></div>
+      <div className="pf-club-sigil"><b>MASSIVE.</b><i/></div>
       <div className="pf-club-code">PRIVATE / 01</div>
       <div className="pf-club-ghost">MEMBERS</div>
       <div className="pf-club-copy">
@@ -186,7 +186,7 @@ export default function Profile(){
       {error&&<div className="pf-error pf-club-error">{error}</div>}
     </section>:
     <>
-      <nav className="pf-nav"><a href="#" className="pf-brand">GP.</a><span>VIP</span><a href="#leaderboard">Leaderboard <ArrowUpRight size={13}/></a></nav>
+      <nav className="pf-nav"><a href="#" className="pf-brand">MASSIVE.</a><span>VIP</span><a href="#leaderboard">Leaderboard <ArrowUpRight size={13}/></a></nav>
 
       {!identityChecked?
         <section className="pf-vip-check"><RefreshCw size={18}/> Checking member record…</section>
@@ -292,6 +292,6 @@ export default function Profile(){
 
       {loading&&approved?<div className="pf-loading pf-inline-state"><RefreshCw size={18}/> Reading lifetime record…</div>:error&&approved?<div className="pf-error pf-inline-state">{error}</div>:null}
     </>}
-    <footer className="pf-signature"><b>GP.</b><span>VIP / PERSONAL LIFETIME PAYOUT RECORD</span></footer>
+    <footer className="pf-signature"><b>MASSIVE.</b><span>VIP / PERSONAL LIFETIME PAYOUT RECORD</span></footer>
   </div></main>
 }

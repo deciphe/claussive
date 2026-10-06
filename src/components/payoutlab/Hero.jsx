@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen w-full overflow-hidden bg-[#050505]">
       <header className="relative z-20 mx-auto flex max-w-[1500px] items-center justify-between border-b border-border px-6 py-6 md:px-12">
-        <a href="#hero" className="font-display text-lg font-semibold tracking-tight text-spectral">gigaprop<span className="text-lucid">.</span></a>
+        <a href="#hero" className="font-display text-lg font-semibold tracking-tight text-spectral">massiveprop<span className="text-lucid">.</span></a>
         <nav aria-label="Main navigation" className="flex gap-5 font-mono-lab text-[10px] uppercase tracking-widest text-muted-foreground">
           <a href="#vault" className="hover:text-lucid">Payouts</a>
           <a href="#drops" className="hover:text-lucid">Free lessons</a>
@@ -25,7 +25,7 @@ export default function Hero() {
             prop trading<br />
             too difficult.
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.14 }} className="mt-4 font-mono-lab text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Only <span className="text-violetglow">5%</span> of prop traders reach a payout? <span className="text-lucid">Not with gigaprop.</span></motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.14 }} className="mt-4 font-mono-lab text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Only <span className="text-violetglow">5%</span> of prop traders reach a payout? <span className="text-lucid">Not with massiveprop.</span></motion.p>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.18 }} className="mt-5 space-y-1.5 font-mono-lab text-[9px] font-semibold uppercase tracking-[0.16em]">
             <div className="text-violetglow">Not another repackaged PO3 course.</div>

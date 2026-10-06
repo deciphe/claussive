@@ -33,9 +33,9 @@ export default function DirectAccess() {
           discord,
           stage,
           why: focus,
-          source: "gigaprop.xyz",
+          source: "massiveprop.xyz",
           application: "intuition speedrun / 1:1",
-          _subject: `GIGAPROP APPLICATION — ${stage} — ${handle}`,
+          _subject: `MASSIVE APPLICATION — ${stage} — ${handle}`,
           _honey: "",
         }),
       });

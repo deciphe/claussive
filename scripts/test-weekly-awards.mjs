@@ -21,22 +21,22 @@ try{
   assert(!html.includes('undefined'));
  }
  const {default:EmailCard}=await server.ssrLoadModule('/src/components/email/EmailRankCard.jsx');
- const trader={twitter:'gigaprop',name:'<script>bad</script>',tag:'Test',avatar:'https://example.com/avatar.jpg',avatarSource:'https://example.com/avatar.jpg'};
+ const trader={twitter:'massiveprop',name:'<script>bad</script>',tag:'Test',avatar:'https://example.com/avatar.jpg',avatarSource:'https://example.com/avatar.jpg'};
  const row={rank:20,total:12480,count:12};
  const card=renderToStaticMarkup(React.createElement(EmailCard,{trader,row,season:'2026-09-01',asOf:'2026-10-04T18:00:00Z'}));
- assert(card.includes('GIGAPROP season payout rank card'));
+ assert(card.includes('MASSIVE season payout rank card'));
  assert(card.includes('A PLACE ON THE RECORD.'));
  assert(card.includes('SEASON RANK'));
  assert(card.includes('long_handle_123')===false);
  const html=emailHtml({trader,row,season:'2026-09-01',seasonNumber:1,test:true});
- assert(html.includes('cid:gigaprop-rank-card'));
+ assert(html.includes('cid:massiveprop-rank-card'));
  assert(!html.includes('border-radius:18px'));
  const preview=emailHtml({trader,row,season:'2026-09-01',seasonNumber:1,test:true,rankCardHtml:card});
- assert(preview.includes('GIGAPROP season payout rank card'));
+ assert(preview.includes('MASSIVE season payout rank card'));
  assert(!html.includes('<script>bad</script>'));
  assert(html.includes('&lt;script&gt;bad&lt;/script&gt;'));
- assert(html.includes('#gigaprop?profile='));
- assert(emailText({trader,row,season:'2026-09-01',test:true}).includes('#gigaprop?profile='));
- assert(!emailText({trader:{...trader,wallet:'0x123'},row,season:'2026-09-01'}).includes('#gigaprop?profile='));
+ assert(html.includes('#massiveprop?profile='));
+ assert(emailText({trader,row,season:'2026-09-01',test:true}).includes('#massiveprop?profile='));
+ assert(!emailText({trader:{...trader,wallet:'0x123'},row,season:'2026-09-01'}).includes('#massiveprop?profile='));
  console.log('All four weekly cards render with correct dates, podium labels and portraits; email escaping and test links passed.');
 }finally{await server.close()}
