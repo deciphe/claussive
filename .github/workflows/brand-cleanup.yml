@@ -1,4 +1,5 @@
 name: Final MASSIVE brand cleanup
+# execute cleanup
 
 on:
   push:
