@@ -17,10 +17,10 @@ const compact=n=>new Intl.NumberFormat('en-US',{notation:'compact',maximumFracti
 let snapshotRevision=null,snapshotRevisionAt=0;
 async function snapshotRoot(signal){
  if(Date.now()-snapshotRevisionAt>300000)try{
-  const r=await fetch('https://api.github.com/repos/deciphe/massiveprop/git/ref/heads/vestflow-data',{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(8000)])});
+  const r=await fetch('https://api.github.com/repos/deciphe/thepayoutlab/git/ref/heads/vestflow-data',{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(8000)])});
   if(r.ok){const d=await r.json();if(/^[a-f0-9]{40}$/.test(d.object?.sha)){snapshotRevision=d.object.sha;snapshotRevisionAt=Date.now();}}
  }catch{}
- return 'https://raw.githubusercontent.com/deciphe/massiveprop/'+(snapshotRevision||'vestflow-data')+'/';
+ return 'https://raw.githubusercontent.com/deciphe/thepayoutlab/'+(snapshotRevision||'vestflow-data')+'/';
 }
 const short=a=>a.slice(0,6)+'…'+a.slice(-4);
 function FlowScene({data,summary,onSelect,selected,paused,config,days}) {
@@ -87,7 +87,7 @@ export default function Vestflow({firm="vest"}){
 }
 function WalletFlow({firm,config,onChain}){
  const {wallet:WALLET,explorer:EXPLORER}=config;
- const SOURCE=`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${config.slug}.json`;
+ const SOURCE=`https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/${config.slug}.json`;
  const [data,setData]=useState(null),[busy,setBusy]=useState(true),[error,setError]=useState(''),[days,setDays]=useState(7),[direction,setDirection]=useState('all'),[query,setQuery]=useState(''),[limit,setLimit]=useState(12),[copied,setCopied]=useState(false),[clock,setClock]=useState(Date.now()),[paused,setPaused]=useState(false),[inspected,setInspected]=useState(null),[bucket,setBucket]=useState(null),[excluded,setExcluded]=useState([]);
  const [sort,setSort]=useState('newest');
  const refreshLock=useRef(false),controller=useRef(null),sourceSnapshots=useRef(null);
