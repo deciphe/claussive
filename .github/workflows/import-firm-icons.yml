@@ -1,0 +1,91 @@
+name: Import MASSIVE firm icons
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-firm-icons.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Fetch missing firm favicons as local PNG assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/brands
+
+          fetch_icon () {
+            local domain="$1"
+            local out="$2"
+            echo "Fetching $domain -> $out"
+            curl -fL --retry 3 --retry-delay 2 \
+              -A "Mozilla/5.0" \
+              "https://www.google.com/s2/favicons?domain=\${domain}&sz=128" \
+              -o "public/brands/\${out}"
+            test -s "public/brands/\${out}"
+          }
+
+          fetch_icon "maventrading.com" "maven.png"
+          fetch_icon "lucidtrading.com" "lucid.png"
+          fetch_icon "tradeify.co" "tradeify.png"
+          fetch_icon "topstep.com" "topstep.png"
+          fetch_icon "myfundedperpetuals.com" "myfundedperps.png"
+          fetch_icon "dojifunded.com" "dojifunded.png"
+          fetch_icon "hyperpnl.com" "hyperpnl.png"
+
+      - name: Point all firm UI to local brand assets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          profiles = Path("src/components/payoutlab/firmProfiles.js")
+          s = profiles.read_text(encoding="utf-8")
+          replacements = {
+              '"https://maventrading.com/favicon.ico"': '"/brands/maven.png"',
+              '"https://www.lucidtrading.com/favicon.ico"': '"/brands/lucid.png"',
+              '"https://fundednext.com/favicon.ico"': '"/brands/fundednext-icon-dark.png"',
+              '"https://tradeify.co/favicon.ico"': '"/brands/tradeify.png"',
+              '"https://www.breakoutprop.com/favicon.ico"': '"/brands/breakout.ico"',
+              '"https://www.topstep.com/favicon.ico"': '"/brands/topstep.png"',
+              '"https://myfundedperpetuals.com/favicon.ico"': '"/brands/myfundedperps.png"',
+              '"https://www.propr.xyz/favicon.ico"': '"/brands/propr-icon.svg"',
+          }
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+          needle = '  "Hypernova": {\n    market: "Perps",'
+          if needle in s and '  "Hypernova": {\n    market: "Perps",\n    icon:' not in s:
+              s = s.replace(needle, '  "Hypernova": {\n    market: "Perps",\n    icon: "/brands/hypernova.ico",')
+          profiles.write_text(s, encoding="utf-8")
+
+          catalog = Path("src/components/web3/firmCatalog.js")
+          s = catalog.read_text(encoding="utf-8")
+          s = s.replace('logo:"https://www.dojifunded.com/favicon.ico"', 'logo:"/brands/dojifunded.png"')
+          s = s.replace('logo:"https://hyperpnl.com/favicon.ico"', 'logo:"/brands/hyperpnl.png"')
+          catalog.write_text(s, encoding="utf-8")
+          PY
+
+      - name: Verify no remote favicon dependencies remain
+        shell: bash
+        run: |
+          if grep -R -nE 'https?://[^"'"'"']+/favicon\.ico' src; then
+            echo "Remote favicon reference remains in src."
+            exit 1
+          fi
+
+      - name: Commit imported firm icons
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/brands src/components/payoutlab/firmProfiles.js src/components/web3/firmCatalog.js
+          git commit -m "Localize all firm icons for MASSIVE" || exit 0
+          git push origin HEAD:main
