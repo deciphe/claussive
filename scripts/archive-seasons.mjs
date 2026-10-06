@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {FLOW_SOURCES} from '../src/lib/flow-config.js';
 import {seasonStart,seasonKey,seasonBoard,seasonEnd,validSeasonKey,seedSeason,SEASON_ONE} from '../src/lib/season-leaderboard.js';
-const dest=process.argv[2]||'public/data',root='https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/';
+const dest=process.argv[2]||'public/data',root='https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/';
 async function remote(path){const r=await fetch(root+path,{signal:AbortSignal.timeout(20000)});if(r.status===404)return null;if(!r.ok)throw Error(`Cannot preserve ${path}: ${r.status}`);return r.json();}
 await mkdir(dest+'/seasons',{recursive:true});const snapshots={};
 for(const source of FLOW_SOURCES){try{snapshots[source.slug]=JSON.parse(await readFile(`${dest}/${source.slug}.json`,'utf8'));}catch{snapshots[source.slug]=await remote(source.slug+'.json');}}
