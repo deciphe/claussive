@@ -41,8 +41,7 @@ for(const t of traders){
 const payoutSource=fs.readFileSync('src/components/payoutlab/data.js','utf8');
 for(const m of payoutSource.matchAll(/"image":\s*"([^"]+)"/g)){
   const original=m[1];
-  const idMatch=payoutSource.slice(0,m.index).match(/"id":\s*"([^"]+)"[^]*$/);
-  const id=idMatch?.[1]||'';
+  const id=path.basename(original).replace(/\.[^.]+$/,'');
   let rel=original;
   if(original.startsWith('payouts/maven/')&&!['maven-001','maven-002','maven-003','maven-004','maven-005'].includes(id)){
     rel=`payouts/maven-dark/${id}-dark.png`;
