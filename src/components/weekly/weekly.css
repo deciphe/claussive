@@ -159,37 +159,3 @@
  .wk-place-2 .wk-podium-amount{font-size:24px}
  .wk-place-3 .wk-podium-amount{font-size:22px}
 }
-
-
-/* KAI / apex treatment — intentionally unexplained. */
-.wk-kai-apex{position:relative;isolation:isolate;border-color:#d8cbff55!important;background:
- radial-gradient(ellipse at 18% 50%,#8d7dff20,transparent 42%),
- radial-gradient(ellipse at 82% 0,#e6d7ff16,transparent 38%),
- linear-gradient(105deg,#151522,#0b0d11 58%,#171421)!important;
- box-shadow:inset 0 1px 0 #ffffff12,inset 0 -1px 0 #8f7cff20,0 0 0 1px #8d7cff10,0 12px 45px #00000038}
-.wk-kai-apex::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:
- linear-gradient(115deg,transparent 0 22%,#b9a9ff0b 38%,transparent 51%),
- repeating-linear-gradient(135deg,transparent 0 28px,#bcaeff08 29px,#bcaeff08 30px,transparent 31px 58px);
- mix-blend-mode:screen;opacity:.9}
-.wk-kai-apex::after{content:"◆";position:absolute;right:18px;top:50%;transform:translateY(-50%) rotate(45deg);z-index:2;
- width:28px;height:28px;display:grid;place-items:center;color:#e7dcff;font:9px 'DM Mono',monospace;
- border:1px solid #c8baff70;background:linear-gradient(145deg,#e7ddff18,#6758a622);
- box-shadow:0 0 0 4px #8d7cff0b,0 0 34px #a794ff2c;text-shadow:0 0 12px #e7dcff}
-.wk-row.wk-kai-apex{border-top-color:#b8a8ff3c;padding-top:22px;padding-bottom:22px}
-.wk-row.wk-kai-apex:hover{background:
- radial-gradient(ellipse at 18% 50%,#9c8aff2d,transparent 44%),
- linear-gradient(105deg,#19182a,#0c0e13 58%,#1b1726)!important}
-.wk-row.wk-kai-apex .wk-rank{color:#dcd3ff;text-shadow:0 0 18px #9f8dff66;font-weight:500}
-.wk-row.wk-kai-apex .wk-row-identity strong{color:#f2edff;font-weight:650;letter-spacing:.1px;text-shadow:0 0 18px #8b79ff40}
-.wk-row.wk-kai-apex .wk-row-amount{color:#eee7ff;text-shadow:0 0 20px #9d8cff40}
-.wk-row.wk-kai-apex .wk-row-portrait{opacity:.48;filter:grayscale(.25) contrast(1.15) saturate(.75)}
-.wk-podium-card.wk-kai-apex{border-color:#cabdff70!important;box-shadow:inset 0 0 0 1px #ffffff08,0 20px 70px #0a071850,0 0 45px #8f7cff18}
-.wk-podium-card.wk-kai-apex .wk-wallet-name,.wk-podium-card.wk-kai-apex .wk-podium-amount{color:#f0eaff;text-shadow:0 0 24px #9f8dff44}
-.wk-podium-card.wk-kai-apex .wk-monument-rank{color:#d9d0ff!important;text-shadow:0 0 35px #9b88ff66}
-.wk-kai-profile{border-color:#bcaeff70!important;background:
- radial-gradient(ellipse at 82% 6%,#8f7cff26,transparent 43%),
- radial-gradient(ellipse at 10% 95%,#d8ceff10,transparent 45%),#0d0e14!important;
- box-shadow:0 30px 140px #0009,0 0 80px #8f7cff18!important}
-.wk-kai-profile .wk-profile-rank{color:#e5ddff;text-shadow:0 0 36px #9d8cff78}
-.wk-kai-profile h2,.wk-kai-profile .wk-profile-total{color:#f2edff;text-shadow:0 0 24px #9b89ff44}
-@media(max-width:600px){.wk-kai-apex::after{right:9px;width:22px;height:22px}.wk-row.wk-kai-apex{padding-right:38px}}
