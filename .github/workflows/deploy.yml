@@ -30,8 +30,6 @@ jobs:
       - name: Install MASSIVE dependencies
         run: npm install
 
-      - name: Install Maven Edition dependencies
-        run: npm install --prefix maven-site
 
       - name: Build MASSIVE
         run: npm run build
@@ -42,13 +40,7 @@ jobs:
           node scripts/test-flows.mjs
           node scripts/test-weekly.mjs
 
-      - name: Build Maven Edition
-        run: npm run build --prefix maven-site
 
-      - name: Add Maven Edition to Pages artifact
-        run: |
-          mkdir -p dist/maven
-          cp -R maven-site/dist/. dist/maven/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
