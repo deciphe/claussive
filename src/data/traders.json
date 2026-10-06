@@ -89,5 +89,13 @@
     "name": "3xDGN",
     "image": "dgn.jpg",
     "tag": "DGN"
+  },
+  {
+    "wallet": "0x4f7a7d8e72bfef904d7417de3d7a617e69f75d56",
+    "twitter": "DamnGoodTrading",
+    "name": "Damn Good Trading",
+    "image": "dgt.jpg",
+    "tag": "DamnPropFirms.com"
   }
+
 ]
