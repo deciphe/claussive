@@ -40,7 +40,16 @@ jobs:
           fetch_icon "topstep.com" "topstep.png"
           fetch_icon "myfundedperpetuals.com" "myfundedperps.png"
           fetch_icon "dojifunded.com" "dojifunded.png"
-          fetch_icon "hyperpnl.com" "hyperpnl.png"
+
+      - name: Add local HyperPNL mark
+        shell: bash
+        run: |
+          cat > public/brands/hyperpnl.svg <<'SVG'
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="14" fill="#07100b"/>
+            <path d="M35 7 14 34h15l-2 23 23-31H35V7Z" fill="#35f58a"/>
+          </svg>
+          SVG
 
       - name: Point all firm UI to local brand assets
         run: |
@@ -69,7 +78,7 @@ jobs:
           catalog = Path("src/components/web3/firmCatalog.js")
           s = catalog.read_text(encoding="utf-8")
           s = s.replace('logo:"https://www.dojifunded.com/favicon.ico"', 'logo:"/brands/dojifunded.png"')
-          s = s.replace('logo:"https://hyperpnl.com/favicon.ico"', 'logo:"/brands/hyperpnl.png"')
+          s = s.replace('logo:"/brands/hyperpnl.svg"', 'logo:"/brands/hyperpnl.svg"')
           catalog.write_text(s, encoding="utf-8")
           PY
 
