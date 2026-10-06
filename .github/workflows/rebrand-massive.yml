@@ -1,4 +1,5 @@
 name: Rebrand site to MASSIVE
+# execute rebrand
 
 on:
   push:
