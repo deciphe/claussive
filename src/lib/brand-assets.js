@@ -1,0 +1,17 @@
+export const BRAND_ASSETS = Object.freeze({
+  vest: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/vest-emblem.svg',
+  vestSymbol: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/vest-symbol.svg',
+  vestOfficial: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/vest-markets-official.svg',
+  breakout: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/breakout.ico',
+  hypernova: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/hypernova.svg',
+  propr: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/propr-icon.svg',
+  vanta: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/vanta.png',
+  fundednext: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/fundednext-icon-dark.png',
+  maven: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/maven.png',
+  lucid: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/lucid.png',
+  tradeify: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/tradeify.png',
+  topstep: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/topstep.png',
+  myfundedperps: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/myfundedperps.png',
+  doji: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/dojifunded.png',
+  hyperpnl: 'https://raw.githubusercontent.com/deciphe/massiveprop/main/public/brands/hyperpnl.svg',
+});
