@@ -17,7 +17,7 @@ import './daily-changes.css';
 import {rankSeasonChanges} from '../../lib/season-changes.js';
 import {BRAND_ASSETS} from '../../lib/brand-assets.js';
 
-const ROOT='https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/';
+const ROOT='https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/';
 const API='https://gigaprop-profiles.johnhuska1260335.chatgpt.site/api';
 const usd=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
 const short=a=>a.slice(0,6)+'…'+a.slice(-4);
