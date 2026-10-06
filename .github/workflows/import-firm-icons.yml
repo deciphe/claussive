@@ -29,9 +29,9 @@ jobs:
             echo "Fetching $domain -> $out"
             curl -fL --retry 3 --retry-delay 2 \
               -A "Mozilla/5.0" \
-              "https://www.google.com/s2/favicons?domain=\${domain}&sz=128" \
-              -o "public/brands/\${out}"
-            test -s "public/brands/\${out}"
+              "https://www.google.com/s2/favicons?domain=${domain}&sz=128" \
+              -o "public/brands/${out}"
+            test -s "public/brands/${out}"
           }
 
           fetch_icon "maventrading.com" "maven.png"
