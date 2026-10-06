@@ -1,4 +1,5 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
+import {BRAND_ASSETS} from '../../lib/brand-assets.js';
 import {ArrowLeft,ArrowUpRight,Download,RefreshCw} from 'lucide-react';
 import {VEST_CHAINS} from '../../lib/flow-config.js';
 import {combineFlows} from '../../lib/flow-metrics.js';
@@ -144,7 +145,7 @@ export default function TwoMilli(){
    <nav className="tm-nav"><a className="tm-brand" href="#">MASSIVE.</a><span>MILESTONES / 002</span><div><a href="#1milli">001</a><a href="#vestflow"><ArrowLeft size={13}/> Vestflow</a></div></nav>
 
    <section className="tm-hero" ref={hero}>
-    <div className="tm-hero-top"><div><img src="/brands/vest-markets-official.svg" alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>VESTFLOW / MILESTONE 002</small></div>
+    <div className="tm-hero-top"><div><img src={BRAND_ASSETS.vestOfficial} alt="Vest Markets"/><span>×</span><b>MASSIVE.</b></div><small>VESTFLOW / MILESTONE 002</small></div>
     <div className="tm-hero-copy"><span className="tm-kicker">THE SECOND MILLION DIDN'T WAIT.</span><h1><span>$</span>2,000,000<i>.</i></h1><p>Tracked 30-day Vest outflow crossed two million USDC.</p></div>
     <div className="tm-split-stamp"><span>1M → 2M</span><strong>{split(elapsed)}</strong><small>HOURS : MINUTES : SECONDS</small></div>
     <div className="tm-race tm-race-hero" aria-label="Milestone velocity comparison">
