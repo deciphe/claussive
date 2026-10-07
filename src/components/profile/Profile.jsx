@@ -4,7 +4,6 @@ import {canonicalTraderWallet,traderWallets} from '../../lib/trader-wallets.js';
 import {FEATURED_TRADERS} from '../../lib/trader-profiles.js';
 import {VEST_CHAINS,FLOW_SOURCES,FLOW_CONFIGS} from '../../lib/flow-config.js';
 import {combineFlows} from '../../lib/flow-metrics.js';
-import {fetchFlow} from '../../lib/flow-data.js';
 import {isPayoutRecipientTransfer} from '../../lib/flow-classification.js';
 import './profile.css';
 
@@ -21,6 +20,30 @@ const fmtGap=ms=>{
   return (h/24).toFixed(h<48?1:0)+'d';
 };
 async function read(path,signal){for(const root of [ROOT,'/data/']){try{const r=await fetch(root+path+'?t='+Math.floor(Date.now()/60000),{signal,cache:'no-store'});if(r.ok)return await r.json();}catch{if(signal?.aborted)throw Error('Cancelled')}}throw Error('Snapshot unavailable')}
+
+async function fetchWalletPayoutDelta(address,source,since,signal){
+  const transfers=new Map(),cutoff=Math.max(0,Date.parse(since||0)-3600000);
+  let params={type:'ERC-20',token:source.token};
+  for(let page=0;page<12;page++){
+    const url=source.api+'/addresses/'+address+'/token-transfers?'+new URLSearchParams(params);
+    const r=await fetch(url,{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(12000)])});
+    if(!r.ok)throw Error('Wallet refresh HTTP '+r.status);
+    const d=await r.json();if(!Array.isArray(d.items))throw Error('Invalid wallet refresh');
+    let reached=false;
+    for(const t of d.items){
+      const timestamp=Date.parse(t.timestamp);if(Number.isFinite(timestamp)&&timestamp<cutoff){reached=true;continue}
+      const from=t.from?.hash?.toLowerCase(),to=t.to?.hash?.toLowerCase();
+      if(from!==source.wallet.toLowerCase()||to!==address||t.token?.address_hash?.toLowerCase()!==source.token.toLowerCase())continue;
+      if(!/^\d+$/.test(t.total?.value)||Number(t.total.decimals)!==6)continue;
+      const raw=t.total.value;if(BigInt(raw)<10000n)continue;
+      const row={id:`${t.transaction_hash}:${t.log_index}`,hash:t.transaction_hash,logIndex:t.log_index,block:t.block_number,timestamp:t.timestamp,from,to,raw,amount:Number(raw)/1e6,direction:'out',chain:source.chain,explorer:source.explorer};
+      transfers.set(row.id,row);
+    }
+    if(reached||!d.next_page_params)break;
+    params={type:'ERC-20',token:source.token,...d.next_page_params};
+  }
+  return [...transfers.values()];
+}
 
 function RecordTile({label,value,sub,icon:Icon,accent=''}) {
   return <div className={'pf-record-tile '+accent}>
@@ -64,13 +87,15 @@ export default function Profile(){
       let vestData=combineFlows(vestSnaps,VEST_CHAINS);
       let breakoutSnap=null;
       try{breakoutSnap=await read(FLOW_CONFIGS.breakout.slug+'.json',c.signal)}catch{}
-      // Show the published record immediately, then refresh each source independently.
-      // One throttled chain must not prevent the other chains from updating the profile.
+      // Refresh only this trader's linked wallets. The published snapshots remain the history baseline;
+      // wallet-level queries add only recent receipts from known payout wallets.
       if(!c.signal.aborted){
-        const vestFresh=await Promise.allSettled(VEST_CHAINS.map((s,i)=>fetchFlow(s,{previous:vestSnaps[i],signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})));
-        const refreshed=vestFresh.map((result,i)=>result.status==='fulfilled'?result.value:vestSnaps[i]);
-        vestData=combineFlows(refreshed,VEST_CHAINS);
-        try{breakoutSnap=await fetchFlow(FLOW_CONFIGS.breakout,{previous:breakoutSnap,signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})}catch{}
+        const vestDelta=(await Promise.allSettled(VEST_CHAINS.flatMap((source,i)=>linkedWallets.map(address=>fetchWalletPayoutDelta(address,source,vestSnaps[i]?.updatedAt||vestSnaps[i]?.windowEnd,c.signal))))).flatMap(r=>r.status==='fulfilled'?r.value:[]);
+        if(vestDelta.length)vestData={...vestData,updatedAt:new Date().toISOString(),windowEnd:new Date().toISOString(),transfers:[...new Map([...(vestData.transfers||[]),...vestDelta].map(t=>[`${t.chain}:${t.hash}:${t.logIndex}`,t])).values()]};
+        if(breakoutSnap){
+          const breakoutDelta=(await Promise.allSettled(linkedWallets.map(address=>fetchWalletPayoutDelta(address,FLOW_CONFIGS.breakout,breakoutSnap.updatedAt||breakoutSnap.windowEnd,c.signal)))).flatMap(r=>r.status==='fulfilled'?r.value:[]);
+          if(breakoutDelta.length)breakoutSnap={...breakoutSnap,updatedAt:new Date().toISOString(),windowEnd:new Date().toISOString(),transfers:[...new Map([...(breakoutSnap.transfers||[]),...breakoutDelta].map(t=>[`${t.chain||FLOW_CONFIGS.breakout.chain}:${t.hash}:${t.logIndex}`,t])).values()]};
+        }
       }
       const linked=new Set(linkedWallets);
       const seen=new Set(),rows=[];
