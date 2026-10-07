@@ -24,7 +24,7 @@ export default function TwoMilli(){
   setBusy(true);setError('');
   try{
    const snapshots=await Promise.all(VEST_CHAINS.map(async source=>{
-    for(const root of ['https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/','/data/']){
+    for(const root of ['https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/','/data/']){
      try{
       const r=await fetch(root+source.slug+'.json?t='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(12000)});
       if(!r.ok)continue;
