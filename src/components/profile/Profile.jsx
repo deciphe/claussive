@@ -7,7 +7,7 @@ import {combineFlows} from '../../lib/flow-metrics.js';
 import {isPayoutRecipientTransfer} from '../../lib/flow-classification.js';
 import './profile.css';
 
-const ROOT='https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/';
+const ROOT='https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/';
 const PROFILE_API='https://gigaprop-profiles.johnhuska1260335.chatgpt.site/api';
 const usd=n=>'$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
 const money=n=>'$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
