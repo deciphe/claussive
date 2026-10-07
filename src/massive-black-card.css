@@ -171,3 +171,62 @@ body:before{
 /* Selection / focus */
 ::selection{background:rgba(212,188,125,.24);color:var(--massive-cream)}
 :focus-visible{outline-color:var(--massive-gold)!important}
+
+/* Vest edition — etched numeral, suspended platinum mark and smoked glass. */
+.wk .wk-vest-edition{isolation:isolate;position:relative;min-height:290px;overflow:hidden;border-radius:18px;background:radial-gradient(ellipse at 60% 45%,#bcb5a911,transparent 65%)}
+.wk .wk-vest-smoke{position:absolute;inset:15% 2% 10%;z-index:-1;background:radial-gradient(ellipse at 60% 50%,#c2beb638,transparent 58%),radial-gradient(ellipse at 30% 70%,#a28c6020,transparent 60%);filter:blur(28px);transform:rotate(-18deg)}
+.wk .wk-vest-hero-mark{position:absolute;width:48%;height:58%;object-fit:contain;top:12%;left:26%;opacity:.62;filter:grayscale(1) drop-shadow(0 12px 24px #d9d2c125);transform:rotate(-8deg);mask-image:linear-gradient(#000 45%,#0008 75%,transparent)}
+.wk .wk-vest-edition .wk-issue-number{top:0;right:22px;z-index:-1;color:#c9c4b80a;-webkit-text-stroke:1px #ded8c933;opacity:1}
+.wk .wk-vest-edition .wk-league-seal{width:100%;padding:18px 22px;margin:0;background:linear-gradient(transparent,#080809dc);backdrop-filter:none;border-top:1px solid #ede7da0c}
+.wk .wk-vest-edition .wk-firm-marks{display:none}
+.wk .wk-vest-edition .wk-league-seal>span{display:block;font:italic 800 12px 'Manrope',sans-serif;letter-spacing:1.4px;color:#ded9cf;margin-bottom:10px}
+.wk .wk-vest-edition .wk-league-seal>b{color:#aaa49b;letter-spacing:1px}
+
+/* Flow pulse: champagne funding above, brushed platinum outflow below. */
+.vf.vf-vest{--green:#c7b88f;--purple:#b9bac2}
+.vf .vf-chart-panel{padding:26px;border-radius:16px}
+.vf .vf-chart{background:linear-gradient(transparent 56.8%,#e5dfd51c 56.8%,#e5dfd51c 57.3%,transparent 57.3%)}
+.vf .vf-bar-up span{background:linear-gradient(0deg,#776d54,#d2c39d);border:1px solid #ecddaf40;border-radius:4px 4px 0 0;box-shadow:0 -7px 24px #c9b7850c;opacity:.85;width:38%;max-width:38px}
+.vf .vf-bar-down span{background:linear-gradient(#b7b6bf,#535259);border:1px solid #e3e0eb26;border-radius:0 0 4px 4px;opacity:.8;width:38%;max-width:38px}
+.vf .vf-tooltip{background:#141315;border-color:#d0c6ad38;color:#ece8df;font-weight:600}
+.vf .vf-panel-head h2{font-size:19px;font-weight:800;letter-spacing:-.6px;color:#ece8df}
+.vf .vf-legend,.vf .vf-chart-axis{font-size:12px;font-weight:600;color:#b9b4ad}
+.vf .vf-top-transfers{margin:32px 0}
+.vf .vf-top-caption{font-size:10px;font-weight:700;letter-spacing:1.4px;color:#aaa297}
+.vf .vf-top-transfers .vf-panel-head{margin-bottom:18px;gap:16px}
+.vf .vf-top-transfers .vf-gallery-summary{display:none}
+.vf .vf-transfer-gallery{--flow:#c7b88f;--tint:199,184,143}
+.vf .vf-transfer-gallery.out{--flow:#b9bac2;--tint:185,186,194}
+.vf .vf-transfer-card{--card-color:#c7b88f;--card-rgb:199,184,143;border-radius:12px}
+.vf .vf-transfer-card.out{--card-color:#b9bac2;--card-rgb:185,186,194}
+.vf .vf-transfer-value{font-weight:800;font-size:30px;letter-spacing:-1px}
+.vf .vf-transfer-top time,.vf .vf-transfer-bottom,.vf .vf-transfer-route .vf-route-end>span:last-child{color:#b8b2aa;font-weight:600}
+.vf .vf-transfer-badge{font-weight:800}
+.vf .vf-transfer-details>div>a{color:#d4cec2}
+.vf .vf-chart-panel small,.vf .vf-wallet>span,.vf .vf-wallet>a,.vf .vf-footer p,.vf .vf-footer small{color:#aaa49b!important;font-weight:600}
+.vf .vf-footer p{font-size:12px;line-height:1.8}
+.vf .vf-stats article>span,.vf .vf-stats article p{font-weight:600}
+
+/* Profile details: substantial type and neutral black-card surfaces. */
+.wk .wk-modal{background:radial-gradient(ellipse at 90% 0%,#bda87b10,transparent 50%),linear-gradient(145deg,#171618,#09090b);border:1px solid #c7b99a30;border-radius:16px;scrollbar-width:thin;scrollbar-color:#625b50 #101012;color:#ece8df}
+.wk .wk-modal h2{font-weight:800}
+.wk .wk-profile-actions button{font:700 12px 'Manrope',sans-serif;padding:12px 16px;border-radius:8px;border-color:#d4cbb429;background:linear-gradient(130deg,#252327,#101012);color:#e6e0d6}
+.wk .wk-history h3,.wk .wk-evidence-title{font-size:16px;font-weight:800;letter-spacing:-.35px}
+.wk .wk-history p,.wk .wk-evidence small{color:#b5afa7!important;font-size:12px;font-weight:600;line-height:1.65}
+.wk .wk-evidence-title span{font-size:12px;font-weight:600;color:#aca497}
+.wk .wk-evidence{scrollbar-width:thin;scrollbar-color:#625b50 #101012}
+.wk .wk-evidence>a{font-size:14px;font-weight:700;padding:18px 0;gap:16px;border-color:#ded7ca12}
+.wk .wk-evidence b{font-size:16px;font-weight:800;letter-spacing:-.3px;color:#e8e0cf;white-space:nowrap}
+.wk .wk-evidence svg{color:#c4b58f;flex-shrink:0}
+.wk .wk-profile-address,.wk .wk-verification{font-weight:600}
+@media(max-width:700px){
+ .wk .wk-vest-edition{min-height:155px;width:100%;margin-top:18px}
+ .wk .wk-vest-hero-mark{height:145px;width:145px;left:auto;right:28px;top:-2px}
+ .wk .wk-vest-edition .wk-issue-number{font-size:155px!important;top:-12px;right:20px}
+ .wk .wk-vest-edition .wk-league-seal{align-self:end;text-align:left;padding:16px;display:block}
+ .wk .wk-vest-edition .wk-league-seal>span{max-width:none;font-size:10px;margin-bottom:0}
+ .vf .vf-top-caption{font-size:8px;letter-spacing:.8px}
+ .vf .vf-chart-panel{padding:18px}
+ .vf .vf-legend,.vf .vf-chart-axis{font-size:10px}
+ .wk .wk-evidence>a{gap:10px}.wk .wk-evidence small{font-size:10px}.wk .wk-evidence b{font-size:14px}
+}
