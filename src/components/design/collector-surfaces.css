@@ -137,3 +137,14 @@
 .vf .vf-funding-steps>div:last-child b{color:#b6a2cc}.vf .vf-funding-steps>div:last-child strong{color:#d8cbe3}.vf .vf-funding-steps>div:last-child span{color:#a196aa}
 .vf .vf-core-copy>small{font-size:9px;letter-spacing:.2px;max-width:180px}
 @media(max-width:760px){.vf .vf-funding-title{grid-template-columns:1fr;padding:20px;gap:9px}.vf .vf-funding-title>strong{font-size:20px}.vf .vf-funding-title>p{grid-column:1;grid-row:auto;font-size:11px}.vf .vf-funding-steps{grid-template-columns:1fr;gap:15px;padding:20px}.vf .vf-funding-steps>i{display:none}.vf .vf-funding-steps>div{display:grid;grid-template-columns:70px 1fr;gap:5px 14px;padding-bottom:15px;border-bottom:1px solid #ffffff0b}.vf .vf-funding-steps>div:last-child{border:0;padding:0}.vf .vf-funding-steps b{grid-column:1;grid-row:1/3;padding-top:3px;font-size:7px}.vf .vf-funding-steps strong,.vf .vf-funding-steps span{grid-column:2}.vf .vf-funding-steps span{max-width:none}.vf .vf-funding-steps strong{font-size:14px}.vf .vf-core-copy>small{font-size:7px;max-width:130px}}
+
+/* Hero payout vault directory — evidence first, distinct from firm program drawers. */
+.gp-site .gp-vault-directory .gp-editions-heading a{display:inline-flex;align-items:center;gap:7px;color:#bfb6a5;text-decoration:none;font-weight:500}
+.gp-site .gp-vault-directory .gp-editions-heading a:hover{color:#ece8df}
+.gp-site .gp-vault-directory .gp-editions-grid{grid-template-columns:1fr 1fr}
+.gp-site .gp-vault-directory .gp-edition{min-height:151px;text-decoration:none}
+.gp-site .gp-vault-directory .gp-edition:last-child{grid-column:auto;min-height:151px;display:flex;grid-template-columns:none;align-items:flex-start;gap:0}
+.gp-site .gp-vault-directory .gp-edition:last-child>.firm-atmosphere{width:145px;height:140px;right:-30px;top:5px;opacity:.13}
+.gp-site .gp-vault-directory .gp-edition:last-child .gp-edition-label{width:100%;gap:0}
+.gp-site .gp-vault-directory .gp-edition-label{font-size:7px;color:#a79d8a}
+@media(max-width:760px){.gp-site .gp-vault-directory .gp-edition,.gp-site .gp-vault-directory .gp-edition:last-child{min-height:132px}}
