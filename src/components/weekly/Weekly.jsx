@@ -54,7 +54,7 @@ export default function Weekly(){
  const posterRef=useRef(null),dialog=useRef(null),refresh=useRef(()=>{});
  const seasonStart=Date.parse(week+'T00:00:00Z'),currentWeekStart=calendarWeekStart(clock),selectedWeekStart=weeklyChoice?Date.parse(weeklyChoice+'T00:00:00Z'):currentWeekStart,selectedWeekKey=new Date(selectedWeekStart).toISOString().slice(0,10),isPastWeek=selectedWeekStart<currentWeekStart,start=view==='weekly'?selectedWeekStart:seasonStart,live=view==='weekly'?!isPastWeek:week===weekKey(weekStart());
  useEffect(()=>{const timer=setInterval(()=>setClock(Date.now()),30000);return()=>clearInterval(timer)},[]);
- useEffect(()=>{const timer=setTimeout(()=>setRankIntro(false),2500);return()=>clearTimeout(timer)},[]);
+ 
  useEffect(()=>{if(view!=='weekly')return;const c=new AbortController();read('weekly-index.json',c.signal).then(d=>{if(!c.signal.aborted)setWeeklyEditions((d.weeks||[]).filter(w=>validWeeklyKey(w.week)&&w.closed))}).catch(()=>{});return()=>c.abort()},[view,currentWeekStart,snapshots]);
  useEffect(()=>{setWeeklyArchive(null);setArchiveError('');if(view!=='weekly'||!isPastWeek)return;const c=new AbortController();read('weekly/'+selectedWeekKey+'.json',c.signal).then(d=>{if(!validWeeklyEdition(d,selectedWeekKey))throw Error();if(!c.signal.aborted)setWeeklyArchive(d)}).catch(()=>{if(!c.signal.aborted)setArchiveError('This weekly edition is not available yet. Try again after the next payout refresh.')});return()=>c.abort()},[view,selectedWeekKey,isPastWeek,snapshots]);
  useEffect(()=>{const title=document.title;document.title=(view==='weekly'?'Weekly Top 20':firm==='vest'?'Vest Top 100':'The Fifteen')+' · MASSIVE Trader Rankings';return()=>{document.title=title}},[firm,view]);
@@ -67,7 +67,7 @@ export default function Weekly(){
   previous=Object.fromEntries(sources.map((s,i)=>[s.slug,cached[i]]));
   if(cached.every(Boolean))setSnapshots(previous);
   const fresh=await Promise.all(sources.map((source,i)=>fetchFlow(source,{previous:cached[i],signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})));
-  if(!c.signal.aborted){previous=Object.fromEntries(sources.map((s,i)=>[s.slug,fresh[i]]));setSnapshots(previous);setError('');}
+  if(!c.signal.aborted){previous=Object.fromEntries(sources.map((s,i)=>[s.slug,fresh[i]]));setSnapshots(previous);setError('');setRankIntro(false);}
  }catch{if(!c.signal.aborted)setError('Live refresh unavailable. Showing the last complete payout record.');}
  finally{running=false;if(!c.signal.aborted)setBusy(false);}}
  read('season-index.json',c.signal).then(index=>{if(!c.signal.aborted)setWeeks((index.weeks||[]).filter(w=>validSeasonKey(w.week)))}).catch(()=>{});
