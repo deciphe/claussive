@@ -2,7 +2,7 @@ name: Refresh MASSIVE flow trackers
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */4 * * *'
+    - cron: '*/5 * * * *'
   push:
     branches: ["main"]
     paths: [".flow-migration-trigger"]
@@ -20,12 +20,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Load saved history
+        run: |
+          git fetch --depth=1 origin vestflow-data
+          mkdir -p /tmp/flow-snapshots
+          git archive FETCH_HEAD | tar -x -C /tmp/flow-snapshots
       - name: Read verified USDC transfers
         run: node scripts/update-flows.mjs /tmp/flow-snapshots
       - name: Archive weekly payout editions
         run: node scripts/archive-weekly.mjs /tmp/flow-snapshots
       - name: Archive quarterly seasons
         run: node scripts/archive-seasons.mjs /tmp/flow-snapshots
+      - name: Preserve Vest transfer ledger
+        run: node scripts/archive-vest-ledger.mjs /tmp/flow-snapshots
       - name: Publish MASSIVE data snapshot
         run: |
           git config user.name 'github-actions[bot]'
@@ -42,6 +49,8 @@ jobs:
           cp -R /tmp/flow-snapshots/weekly/. weekly/
           mkdir -p seasons
           cp -R /tmp/flow-snapshots/seasons/. seasons/
-          git add -- *.json weekly seasons
+          mkdir -p ledger
+          cp -R /tmp/flow-snapshots/ledger/. ledger/
+          git add -- *.json weekly seasons ledger
           git commit -m 'Refresh MASSIVE flow trackers USDC snapshot' || exit 0
           git push origin HEAD:vestflow-data

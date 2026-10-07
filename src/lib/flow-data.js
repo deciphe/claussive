@@ -1,3 +1,14 @@
+import {fetchRpcTransfers} from './flow-rpc.js';
+export async function fetchFlow(config,options={}){
+ try{return await fetchExplorerFlow(config,options);}
+ catch(error){
+  if(options.signal?.aborted||!(config.transferRpcs||config.balanceRpcs)?.length)throw error;
+  const snapshot=await fetchRpcTransfers(config,options);
+  if(options.includeBalance===false)return snapshot;
+  try{return {...snapshot,...await fetchContractBalance(config,options),balanceRefreshFailed:false};}
+  catch{return {...snapshot,balanceAsOf:snapshot.balanceAsOf||options.previous?.updatedAt,balanceRefreshFailed:true};}
+ }
+}
 export async function fetchContractBalance(config,{signal}={}){
  for(const endpoint of config.balanceRpcs||[]){
   try{
@@ -13,19 +24,19 @@ export async function fetchContractBalance(config,{signal}={}){
  }
  throw Error('Current onchain USDC balance unavailable');
 }
-export async function fetchFlow(config,{signal,previous,onProgress}={}){
+async function fetchExplorerFlow(config,{signal,previous,onProgress,includeBalance=true,historyDays=32}={}){
 const {wallet:WALLET,token:TOKEN,api:API}=config;
 const minIncomingRaw=BigInt(Math.round((config.minIncomingAmount||0)*1e6));
 async function get(path){
   for(let attempt=0;attempt<4;attempt++){
-    try { const r=await fetch(API+path,{cache:'no-store',headers:{'accept':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(20000)].filter(Boolean))}); if(!r.ok)throw Error(`HTTP ${r.status}`);return await r.json(); }
-    catch(e){if(signal?.aborted||attempt===3)throw e;await new Promise(r=>setTimeout(r,1500*(attempt+1)));}
+    try { const r=await fetch(API+path,{cache:'no-store',headers:{'accept':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(20000)].filter(Boolean))}); if(!r.ok)throw Object.assign(Error(`HTTP ${r.status}`),{status:r.status});return await r.json(); }
+    catch(e){if(signal?.aborted||attempt===3||e.status===403)throw e;await new Promise(r=>setTimeout(r,1500*(attempt+1)));}
   }
 }
-const startedAt=Date.now(),cutoff=startedAt-32*86400000, transfers=new Map();
+const startedAt=Date.now(),cutoff=startedAt-historyDays*86400000, transfers=new Map();
 const reusable=previous?.complete&&previous.wallet===WALLET&&previous.token===TOKEN&&previous.chain===config.chain&&Array.isArray(previous.transfers)&&Date.parse(previous.periodStart)<=cutoff&&Date.parse(previous.updatedAt)>cutoff&&Date.parse(previous.updatedAt)<=Date.now();
 // Re-read a recent overlap, then merge the already complete older history.
-const overlap=reusable?Math.max(cutoff,Date.parse(previous.updatedAt)-3600000):cutoff;
+const overlap=reusable?Math.max(cutoff,Date.parse(previous.windowEnd||previous.updatedAt)-3600000):cutoff;
 if(reusable)for(const t of previous.transfers)if(BigInt(t.raw)>=10000n&&(t.direction!=='in'||BigInt(t.raw)>=minIncomingRaw)&&Date.parse(t.timestamp)>=cutoff&&Date.parse(t.timestamp)<overlap)transfers.set(t.id,t);
 let params={type:'ERC-20',token:TOKEN}, complete=false;
 for(let page=0;page<300;page++){
@@ -50,13 +61,21 @@ for(let page=0;page<300;page++){
 }
 if(!complete)throw Error('32-day history exceeded page limit; preserving prior snapshot');
 let balanceData;
-if(config.balanceRpcs)balanceData=await fetchContractBalance(config,{signal});
+try{
+// Rankings need transfers, not the treasury's current balance. A balance RPC
+// outage must never discard a complete payout refresh.
+if(!includeBalance)balanceData={};
+else if(config.balanceRpcs)balanceData=await fetchContractBalance(config,{signal});
 else {
 const balances=await get(`/addresses/${WALLET}/token-balances`);
 if(!Array.isArray(balances))throw Error('Invalid balances');
 const balance=balances.find(b=>b.token.address_hash.toLowerCase()===TOKEN);
 if(balance&&(!/^\d+$/.test(balance.value)||Number(balance.token.decimals)!==6))throw Error('Invalid USDC balance');
 balanceData={balance:Number(balance?.value||0)/1e6,balanceSource:'blockscout'};
+}
+}catch(error){
+ if(!reusable||!Number.isFinite(previous.balance))throw error;
+ balanceData={balance:previous.balance,balanceSource:previous.balanceSource,balanceAsOf:previous.balanceAsOf||previous.updatedAt,balanceBlock:previous.balanceBlock,balanceRefreshFailed:true};
 }
 return {schema:1,wallet:WALLET,token:TOKEN,chain:config.chain,updatedAt:new Date().toISOString(),windowEnd:new Date(startedAt).toISOString(),periodStart:new Date(cutoff).toISOString(),complete,...balanceData,transfers:[...transfers.values()].sort((a,b)=>b.block-a.block||b.logIndex-a.logIndex)};
 

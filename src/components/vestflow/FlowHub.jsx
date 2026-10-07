@@ -1,4 +1,4 @@
-import {fetchFlow} from '../../lib/flow-data.js';
+import DataFreshness from '../shared/DataFreshness';
 import FlowHeatmap from './FlowHeatmap';
 import {useEffect,useState,useRef} from 'react';
 import {ArrowUpRight,Copy,Check,ArrowLeft,RefreshCw} from 'lucide-react';
@@ -30,12 +30,13 @@ export default function FlowHub(){
  const [days,setDays]=useState(7),[snapshots,setSnapshots]=useState({});
  const [busy,setBusy]=useState(false),[errors,setErrors]=useState({}),[clock,setClock]=useState(Date.now()),[flowIntro,setFlowIntro]=useState(true);
  const refreshRef=useRef(()=>{});
+ useEffect(()=>{const timer=setTimeout(()=>setFlowIntro(false),2500);return()=>clearTimeout(timer)},[]);
  useEffect(()=>{
   const controller=new AbortController();let running=false;const memory={};
   async function fetchSource(source){
    let fallback=null;
    for(const url of [`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${source.slug}.json`,`/data/${source.slug}.json`]){
-    try{const response=await fetch(url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(12000)])});if(!response.ok)continue;const d=await response.json();if(d.complete&&d.wallet?.toLowerCase()===source.wallet.toLowerCase()&&d.token?.toLowerCase()===source.token.toLowerCase()&&d.chain===source.chain&&Array.isArray(d.transfers)&&Number.isFinite(d.balance)&&Number.isFinite(Date.parse(d.updatedAt))){fallback=d;break;}}catch{if(controller.signal.aborted)return null;}
+    try{const response=await fetch(url+'?t='+Math.floor(Date.now()/300000),{cache:'default',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(12000)])});if(!response.ok)continue;const d=await response.json();if(d.complete&&d.wallet?.toLowerCase()===source.wallet.toLowerCase()&&d.token?.toLowerCase()===source.token.toLowerCase()&&d.chain===source.chain&&Array.isArray(d.transfers)&&(source.id!=='vest'||Number.isFinite(d.balance))&&Number.isFinite(Date.parse(d.updatedAt))){fallback=d;break;}}catch{if(controller.signal.aborted)return null;}
    }
    return fallback;
   }
@@ -43,20 +44,18 @@ export default function FlowHub(){
    if(running||controller.signal.aborted)return;running=true;setBusy(true);
    try{const liveResults=await Promise.all(firms.map(async firm=>{
     const sources=sourcesFor(firm.id);
-    const ds=memory[firm.id]||await Promise.all(sources.map(fetchSource));
+    const loaded=await Promise.all(sources.map(fetchSource));
+    const ds=loaded.map((d,i)=>{const old=memory[firm.id]?.[i];return d&&(!old||Date.parse(d.updatedAt)>=Date.parse(old.updatedAt))?d:old||null;});
     if(controller.signal.aborted)return;
     const complete=ds.every(Boolean);
     if(complete){memory[firm.id]=ds;setSnapshots(old=>({...old,[firm.id]:ds}));}
-    try{
-     const fresh=await Promise.all(sources.map((source,i)=>fetchFlow(source,{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(55000)]),previous:ds[i]})));
-     if(controller.signal.aborted)return;
-     memory[firm.id]=fresh;setSnapshots(old=>({...old,[firm.id]:fresh}));setErrors(old=>({...old,[firm.id]:false}));return true;
-    }catch{if(!controller.signal.aborted){setErrors(old=>({...old,[firm.id]:true}));if(!complete)setSnapshots(old=>({...old,[firm.id]:old[firm.id]||null}));}return false;}
+    setErrors(old=>({...old,[firm.id]:!complete}));
+    return complete;
 
-   }));if(liveResults.every(Boolean)&&!controller.signal.aborted)setFlowIntro(false);}finally{running=false;if(!controller.signal.aborted){setBusy(false);setClock(Date.now());}}
+   }));}finally{running=false;if(!controller.signal.aborted){setBusy(false);setClock(Date.now());}}
   }
   refreshRef.current=refresh;refresh();
-  const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000);
+  const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},300000);
   const ticker=setInterval(()=>setClock(Date.now()),60000);
   const visible=()=>{if(document.visibilityState==='visible')refresh();};
   document.addEventListener('visibilitychange',visible);
@@ -65,10 +64,10 @@ export default function FlowHub(){
  const [copied,setCopied]=useState(false),[copyError,setCopyError]=useState(false);
  useEffect(()=>{const old=document.title;document.title='Flow · MASSIVE';return()=>{document.title=old;};},[]);
  async function copy(){try{await navigator.clipboard.writeText('https://massiveprop.xyz/#flow');setCopied(true);setCopyError(false);}catch{setCopyError(true);}}
- return <main className="fh">{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>THE WALLETS ARE OPEN</span><strong>Following the flow.</strong><p>Wisp is tracing the latest public wallet activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}<div className="fh-shell"><header className="fh-nav"><a href="#" className="fh-brand">MASSIVE<span>.</span></a><span>THE FLOW DIRECTORY</span><a href="#leaderboard">Season Top 15 <ArrowUpRight size={12}/></a></header>
- <section className="fh-intro"><span className="fh-ghost-type" aria-hidden="true">04</span><span className="fh-eyebrow">FOUR FIRMS / ONE PLACE</span><h1>Follow the <em>flow.</em></h1><p>Explore the wallets. Follow the transfers.<br/>Go deeper into the numbers behind each firm.</p><div className="fh-share"><button onClick={copy}>{copied?<Check size={13}/>:<Copy size={13}/>} {copied?'Link copied':'massiveprop.xyz/#flow'}</button><span aria-live="polite">{copyError?'Copy this link from your address bar.':'The payout-wallet view. Not total firm reserves.'}</span></div></section>
- <div className="fh-glance-controls"><em>at a glance</em><span>USDC · filtered outflow</span><button className="fh-refresh" onClick={()=>refreshRef.current()} disabled={busy} title="Refresh snapshots · automatically every 60 seconds and when returning to this tab" aria-label="Refresh all firm snapshots"><RefreshCw size={12} className={busy?'fh-spin':''}/>{busy?'Refreshing…':'Refresh'}</button><div role="group" aria-label="Outflow period">{[7,30].map(n=><button key={n} aria-pressed={days===n} onClick={()=>setDays(n)}>{n}D</button>)}</div></div>
- <p className="fh-refresh-note" role="status">{busy?'Checking chain data…':'Auto-refresh every 60 seconds · refreshes when you return to this tab'}</p>
- <section className="fh-grid" aria-label="Choose a firm tracker">{firms.map((f,i)=>{const sources=sourcesFor(f.id),ds=snapshots[f.id],heatData=ds?(sources.length>1?combineFlows(ds,sources):ds[0]):null;const stats=glance(ds,sources,days),daily=glance(ds,sources,1);return <a key={f.id} className="fh-card" href={f.route} style={{'--firm-color':f.color}}><FirmAtmosphere firm={f.id}/><span className="fh-card-serial" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><div className="fh-card-top"><span className="fh-logo"><img src={f.logo} alt=""/></span><span>{f.name}</span><small>{String(i+1).padStart(2,'0')}</small><ArrowUpRight size={20}/></div><div className="fh-card-main"><span className="fh-tag">{f.tag}</span><h2>{f.title}<span>flow</span><i>.</i></h2><p>{f.description}</p></div><div className={'fh-daily'+(daily?.outgoing===0?' fh-daily-zero':'')} title="Filtered USDC outflow during the last 24 hours of this snapshot"><div><span>24H PAYOUT FLOW</span><strong>{daily?.outgoing!=null?'+'+dailyCash(daily.outgoing):'—'}<small>USDC</small></strong></div><ArrowUpRight size={25} aria-hidden="true"/></div><div className="fh-glance"><div><em>tracked balance</em><strong>{stats?cash(stats.balance):'—'}</strong></div><div><em>{days}d outflow</em><strong>{stats?.outgoing!=null?cash(stats.outgoing):'—'}</strong></div><small>{errors[f.id]?'Live refresh unavailable · ':stats&&clock-Date.parse(stats.updatedAt)>2*60*1000?'Delayed snapshot · ':''}{stats?`As of ${new Date(stats.updatedAt).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}`:snapshots[f.id]===null?'Snapshot unavailable':'Loading snapshot…'}</small></div><FlowHeatmap compact data={heatData} config={{...FLOW_CONFIGS[f.id],sources}}/><div className="fh-card-foot"><span>{f.detail}</span><b>Explore <ArrowUpRight size={12}/></b></div></a>;})}</section>
+ return <main className="fh">{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>THE WALLETS ARE OPEN</span><strong>Following the flow.</strong><p>Wisp is tracing the latest public wallet activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}<div className="fh-shell"><header className="fh-nav"><a href="#" className="fh-brand">MASSIVE<span>.</span></a><span>THE FLOW DIRECTORY</span><a href="#leaderboard">Vest Top 20 <ArrowUpRight size={12}/></a></header>
+ <section className="fh-intro"><span className="fh-ghost-type" aria-hidden="true">04</span><span className="fh-eyebrow">FOUR FIRMS / ONE PLACE</span><h1>Follow the <em>flow.</em></h1><p>Vest in detail.<br/>24-hour payout checks across four firms.</p><div className="fh-share"><button onClick={copy}>{copied?<Check size={13}/>:<Copy size={13}/>} {copied?'Link copied':'massiveprop.xyz/#flow'}</button><span aria-live="polite">{copyError?'Copy this link from your address bar.':'The payout-wallet view. Not total firm reserves.'}</span></div></section>
+ <div className="fh-glance-controls"><em>at a glance</em><span>Vest history · USDC</span><button className="fh-refresh" onClick={()=>refreshRef.current()} disabled={busy} title="Read the shared five-minute snapshots" aria-label="Refresh all firm snapshots"><RefreshCw size={12} className={busy?'fh-spin':''}/>{busy?'Loading…':'Read latest'}</button><div role="group" aria-label="Outflow period">{[7,30].map(n=><button key={n} aria-pressed={days===n} onClick={()=>setDays(n)}>{n}D</button>)}</div></div>
+ <p className="fh-refresh-note" role="status">Shared snapshots · chain data collected once every 5 minutes</p>
+ <section className="fh-grid" aria-label="Choose a firm tracker">{firms.map((f,i)=>{const sources=sourcesFor(f.id),ds=snapshots[f.id],heatData=ds?(sources.length>1?combineFlows(ds,sources):ds[0]):null;const stats=glance(ds,sources,days),daily=glance(ds,sources,1);return <a key={f.id} className="fh-card" href={f.id==='vest'?'#vestflow':undefined} style={{'--firm-color':f.color}}><FirmAtmosphere firm={f.id}/><span className="fh-card-serial" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><div className="fh-card-top"><span className="fh-logo"><img src={f.logo} alt=""/></span><span>{f.name}</span><small>{String(i+1).padStart(2,'0')}</small><ArrowUpRight size={20}/></div><div className="fh-card-main"><span className="fh-tag">{f.tag}</span><h2>{f.title}<span>flow</span><i>.</i></h2><p>{f.id==='vest'?f.description:'24-hour payout check'}</p></div><div className={'fh-daily'+(daily?.outgoing===0?' fh-daily-zero':'')} title="Filtered USDC outflow during the last 24 hours of this snapshot"><div><span>24H PAYOUT FLOW</span><strong>{daily?.outgoing!=null?'+'+dailyCash(daily.outgoing):'—'}<small>USDC</small></strong></div><ArrowUpRight size={25} aria-hidden="true"/></div><div className="fh-glance">{f.id==='vest'&&<><div><em>tracked balance</em><strong>{stats?cash(stats.balance):'—'}</strong></div><div><em>{days}d outflow</em><strong>{stats?.outgoing!=null?cash(stats.outgoing):'—'}</strong></div></>}<DataFreshness compact asOf={daily?.updatedAt}/>{errors[f.id]&&<small>Saved snapshot unavailable</small>}</div>{f.id==='vest'&&<FlowHeatmap compact data={heatData} config={{...FLOW_CONFIGS[f.id],sources}}/>}<div className="fh-card-foot"><span>{f.id==='vest'?f.detail:'USDC · last 24 hours'}</span>{f.id==='vest'&&<b>Explore <ArrowUpRight size={12}/></b>}</div></a>;})}</section>
  <footer className="fh-footer"><span>ONCHAIN ACTIVITY. IN CONTEXT.</span><p>Outflow excludes known internal wallets and identified bridges; it is not verified trader payouts. Tracked USDC wallet activity, not a firm’s complete financial position. Program metrics are dated, firm-reported snapshots.</p><a href="#">Independent tracking by MASSIVE ↗</a></footer></div></main>;
 }

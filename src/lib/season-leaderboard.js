@@ -22,7 +22,7 @@ export function seedSeason(archives,start){
  }
  return latest?{...latest,version:3,start,end:cursor,week:weekKey(start),season:seasonNumber(start),duration:seasonDuration(start),closed:cursor===seasonEnd(start),transfers:[...new Map(transfers.map(t=>[t.id,t])).values()]}:null;
 }
-export function seasonBoard(snapshots,start,now=Date.now(),prior=null,firmId='all'){
+export function seasonBoard(snapshots,start,now=Date.now(),prior=null,firmId='all',options={}){
  if(!validSeasonKey(weekKey(start)))return {available:false,missing:['Valid season boundary']};
  const sources=firmId==='all'?FLOW_SOURCES:weeklySources(firmId);
  if(sources.some(s=>!validSnapshot(snapshots[s.slug],s)))return {available:false,missing:['Complete source snapshots']};
@@ -31,9 +31,9 @@ export function seasonBoard(snapshots,start,now=Date.now(),prior=null,firmId='al
  if(prior?.closed&&prior.start===start&&prior.duration===duration)return prior;
  if(coverageStart>start&&(!prior?.available||prior.start!==start||prior.duration!==duration||prior.end<Math.min(coverageStart,end)))return {available:false,missing:['Complete season history; archive coverage has a gap']};
  if(coverageStart>=end){if(prior?.end>=end)return {...prior,closed:true};return {available:false,missing:['Season closing snapshot']};}
- const fresh=weeklyBoard(snapshots,coverageStart,now,end-coverageStart,firmId);
+ const fresh=weeklyBoard(snapshots,coverageStart,now,end-coverageStart,firmId,options);
  if(!fresh.available)return fresh;
  const transfers=[...(coverageStart>start?prior.transfers.filter(t=>(firmId==='all'||t.firm===firmId)&&Date.parse(t.timestamp)<coverageStart):[]),...fresh.transfers];
  const unique=[...new Map(transfers.map(t=>[t.id,t])).values()];
- return {...fresh,version:3,start,end:fresh.end,week:weekKey(start),season:seasonNumber(start),duration,closed:fresh.end>=end,transfers:unique};
+ return {...fresh,version:3,start,end:fresh.end,week:weekKey(start),season:seasonNumber(start),duration,closed:fresh.closed,transfers:unique};
 }

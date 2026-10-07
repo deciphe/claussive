@@ -14,6 +14,7 @@ export const FLOW_CONFIGS = {
  nova: {
   id:'nova',slug:'novaflow',title:'Novaflow',firm:'Hypernova',eyebrow:'HYPERNOVA · ARBITRUM',mark:'N',
   wallet:'0x920973eebffd3bf7da14dd9fb52bd3bea1664c67',token:'0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+  chainId:42161,transferRpcs:['https://arb1.arbitrum.io/rpc','https://arbitrum-one-rpc.publicnode.com'],
   chain:'Arbitrum One',api:'https://arbitrum.blockscout.com/api/v2',explorer:'https://arbiscan.io',explorerName:'Arbiscan',
   referral:'https://hn.xyz/r/4sjg1b',cta:'Explore Hypernova'
  },
@@ -27,7 +28,7 @@ export const FLOW_CONFIGS = {
 
 export const VEST_CHAINS = [
  {...FLOW_CONFIGS.vest,chainKey:'arbitrum'},
- {...FLOW_CONFIGS.vest,chainId:8453,balanceRpcs:['https://mainnet.base.org','https://base-rpc.publicnode.com'],chainKey:'base',slug:'vestflow-base',chain:'Base',
+ {...FLOW_CONFIGS.vest,chainId:8453,balanceRpcs:['https://mainnet.base.org','https://base-rpc.publicnode.com'],transferRpcs:['https://base-rpc.publicnode.com','https://mainnet.base.org'],chainKey:'base',slug:'vestflow-base',chain:'Base',
  wallet:'0x55133c825603e6a5b9e911abab23e75dc3bb07af',token:'0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
  api:'https://base.blockscout.com/api/v2',explorer:'https://basescan.org',explorerName:'Basescan'},
  {...FLOW_CONFIGS.vest,chainId:1,balanceRpcs:['https://ethereum-rpc.publicnode.com','https://eth.drpc.org'],chainKey:'ethereum',slug:'vestflow-ethereum',chain:'Ethereum',

@@ -4,7 +4,7 @@ import {transferInfrastructure,bridgeRoutes,isPayoutRecipientTransfer} from '../
 import ProprPulse from '../web3/ProprPulse';
 import {isListedProprPayout} from '../../lib/propr-payouts.js';
 import NovaPass from '../web3/NovaPass';
-import {fetchFlow,fetchContractBalance} from '../../lib/flow-data.js';
+import DataFreshness from '../shared/DataFreshness';
 import {FLOW_CONFIGS,VEST_CHAINS,NOVA_WALLETS} from '../../lib/flow-config.js';
 import {sortTransfers,combineFlows} from '../../lib/flow-metrics.js';
 import {Fragment,useEffect,useMemo,useState,useRef} from 'react';
@@ -14,14 +14,6 @@ import FirmAtmosphere,{firmMark} from '../design/FirmAtmosphere';
 import '../design/collector-surfaces.css';
 const money=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2,minimumFractionDigits:2}).format(n);
 const compact=n=>new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(n);
-let snapshotRevision=null,snapshotRevisionAt=0;
-async function snapshotRoot(signal){
- if(Date.now()-snapshotRevisionAt>300000)try{
-  const r=await fetch('https://api.github.com/repos/deciphe/massiveprop/git/ref/heads/vestflow-data',{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(8000)])});
-  if(r.ok){const d=await r.json();if(/^[a-f0-9]{40}$/.test(d.object?.sha)){snapshotRevision=d.object.sha;snapshotRevisionAt=Date.now();}}
- }catch{}
- return 'https://raw.githubusercontent.com/deciphe/massiveprop/'+(snapshotRevision||'vestflow-data')+'/';
-}
 const short=a=>a.slice(0,6)+'…'+a.slice(-4);
 function FlowScene({data,summary,onSelect,selected,paused,config,days}) {
  const {wallet:WALLET,explorer:EXPLORER}=config;
@@ -91,6 +83,7 @@ function WalletFlow({firm,config,onChain}){
  const [data,setData]=useState(null),[busy,setBusy]=useState(true),[error,setError]=useState(''),[days,setDays]=useState(7),[direction,setDirection]=useState('all'),[query,setQuery]=useState(''),[limit,setLimit]=useState(12),[copied,setCopied]=useState(false),[clock,setClock]=useState(Date.now()),[paused,setPaused]=useState(false),[inspected,setInspected]=useState(null),[bucket,setBucket]=useState(null),[excluded,setExcluded]=useState([]);
  const [sort,setSort]=useState('newest');
  const [flowIntro,setFlowIntro]=useState(true);
+ useEffect(()=>{const timer=setTimeout(()=>setFlowIntro(false),2500);return()=>clearTimeout(timer)},[]);
  const refreshLock=useRef(false),controller=useRef(null),sourceSnapshots=useRef(null);
  async function refresh(){
   if(refreshLock.current)return;
@@ -101,12 +94,12 @@ function WalletFlow({firm,config,onChain}){
   const sources=config.sources||[config];
   const combine=snapshots=>config.sources?combineFlows(snapshots,sources):snapshots[0];
   try{
-   const root=await snapshotRoot(signal);
+   const root='https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/';
    const previous=await Promise.all(sources.map(async(source,i)=>{
     let best=sourceSnapshots.current?.[i]||null;
     for(const url of [root+source.slug+'.json','/data/'+source.slug+'.json']){
      try{
-      const r=await fetch(url,{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(12000)])});
+      const r=await fetch(url+'?t='+Math.floor(Date.now()/300000),{cache:'default',signal:AbortSignal.any([signal,AbortSignal.timeout(12000)])});
       if(!r.ok)continue;const d=await r.json();
       if(d.wallet!==source.wallet||d.token!==source.token||d.chain!==source.chain||!d.complete||!Array.isArray(d.transfers))continue;
       if(!best||Date.parse(d.updatedAt)>Date.parse(best.updatedAt)||Date.parse(d.balanceAsOf)>Date.parse(best.balanceAsOf||0))best=d;
@@ -116,26 +109,11 @@ function WalletFlow({firm,config,onChain}){
     return best;
    }));
    if(previous.every(Boolean)&&!signal.aborted){sourceSnapshots.current=previous;adopt(combine(previous));}
-   const results=await Promise.allSettled(sources.map((source,i)=>fetchFlow(source,{signal:AbortSignal.any([signal,AbortSignal.timeout(55000)]),previous:previous[i]})));
-   if(signal.aborted)return;
-   const failed=[];
-   const fresh=await Promise.all(results.map(async(result,i)=>{
-    if(result.status==='fulfilled')return result.value;
-    failed.push(sources[i].chain);
-    let fallback=previous[i];
-    if(fallback&&sources[i].balanceRpcs)try{fallback={...fallback,...await fetchContractBalance(sources[i],{signal})};}catch{}
-    return fallback;
-   }));
-   if(!signal.aborted){
-    sourceSnapshots.current=fresh;
-    if(fresh.every(Boolean))adopt(combine(fresh));
-    if(!failed.length&&fresh.every(Boolean))setFlowIntro(false);
-    if(failed.length)setError(failed.join(', ')+': live transfer refresh unavailable; keeping the last transfer snapshot for those chains. Other chains still update.');
-   }
+   if(!previous.every(Boolean)&&!signal.aborted)setError('Shared snapshot unavailable. Retaining the last available data.');
   }catch{if(!signal.aborted)setError('Snapshot refresh unavailable. Retaining the last available data.');}
   finally{if(!signal.aborted){setBusy(false);setClock(Date.now());}if(controller.current?.signal===signal)refreshLock.current=false;}
  }
- useEffect(()=>{refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
+ useEffect(()=>{refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},300000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
  useEffect(()=>{setLimit(12);setInspected(null);},[days,direction,query,excluded,sort]);
  useEffect(()=>{setBucket(null);setExcluded([]);},[days]);
  const summary=useMemo(()=>{
@@ -154,13 +132,13 @@ function WalletFlow({firm,config,onChain}){
   const filtered=summary?.rows.filter(t=>(direction==='all'||t.direction===direction)&&!excluded.includes(t.direction==='in'?t.from:t.to)&&[t.from,t.to,t.hash].some(v=>v.includes(query.trim().toLowerCase())))||[];
   return sortTransfers(filtered,sort);
  },[summary,direction,query,excluded,sort]);
- const age=data?Math.max(0,Math.floor((clock-Date.parse(data.updatedAt))/60000)):0,stale=age>2;
+ const age=data?Math.max(0,Math.floor((clock-Date.parse(data.updatedAt))/60000)):0,stale=age>10;
  const max=Math.max(1,...(summary?.buckets.flatMap(b=>[b.in,b.out])||[]));
  async function copy(){try{await navigator.clipboard.writeText(WALLET);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch{setError('Copy unavailable. The full wallet address is shown below.');}}
  return <main className={"vf vf-"+firm}>{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>{config.firm.toUpperCase()} / LIVE WALLET DATA</span><strong>Following the flow.</strong><p>Wisp is gathering the latest public onchain activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}
   <header className="vf-top"><a href="#" className="vf-brand">MASSIVE.</a><span>MASSIVE <i>/</i> ONCHAIN</span><a className="vf-back" href="#flow">All flow trackers <ArrowUpRight size={16}/></a></header>
-  <nav className="vf-flow-nav" aria-label="Flow trackers"><a href="#leaderboard">Season Top 15<small>All four firms</small></a>{Object.values(FLOW_CONFIGS).map(c=><a key={c.id} href={"#"+c.slug} aria-current={firm===c.id?"page":undefined}>{c.title}<small>{c.id==='vest'?'3 chains':c.chain}</small></a>)}</nav>
-  <section className="vf-heading"><FirmAtmosphere firm={firm}/><span className="vf-ghost-type" aria-hidden="true">FLOW</span><div><div className="vf-eyebrow"><img src={firmMark(firm)} alt=""/>{config.eyebrow}</div><h1>{config.id}<span>flow</span><i>.</i></h1></div><div className="vf-status"><span className={stale||error?'vf-warning':''}>{busy?'Syncing…':data?(stale?'Delayed · ':age===0?'Updated just now':'Updated ')+(age===0&&!stale?'':age+'m ago'):'Connecting…'}</span><button onClick={refresh} disabled={busy} aria-label="Refresh transfers" title="Refresh transfers · Auto-refresh every 60 seconds while open"><RefreshCw size={15} className={busy?'vf-spin':''}/></button></div></section>
+  <nav className="vf-flow-nav" aria-label="Flow trackers"><a href="#leaderboard">Vest Top 20<small>Three chains</small></a>{[FLOW_CONFIGS.vest].map(c=><a key={c.id} href={"#"+c.slug} aria-current={firm===c.id?"page":undefined}>{c.title}<small>{c.id==='vest'?'3 chains':c.chain}</small></a>)}</nav>
+  <section className="vf-heading"><FirmAtmosphere firm={firm}/><span className="vf-ghost-type" aria-hidden="true">FLOW</span><div><div className="vf-eyebrow"><img src={firmMark(firm)} alt=""/>{config.eyebrow}</div><h1>{config.id}<span>flow</span><i>.</i></h1></div><div className="vf-status"><span className={stale||error?'vf-warning':''}>{busy?'Syncing…':data?(stale?'Delayed · ':age===0?'Updated just now':'Updated ')+(age===0&&!stale?'':age+'m ago'):'Connecting…'}</span><button onClick={refresh} disabled={busy} aria-label="Refresh transfers" title="Read shared snapshot · collected every 5 minutes"><RefreshCw size={15} className={busy?'vf-spin':''}/></button></div></section>
   <p className="vf-scope" style={{margin:'-12px 0 22px',maxWidth:720,fontSize:13,lineHeight:1.7,color:'#929d8b'}}><strong style={{color:'#b9c3b2',fontWeight:500}}>{firm==='nova'?'Reserve & payout settlement flow.':firm==='vest'?'Tracked wallet flow.':'Payout hot wallet flow.'}</strong> Known internal and bridge outflows are hidden; remaining recipients are not individually verified. USDC activity for {config.sources?'these tracked wallets':'this address'} only—not eval sales, total reserves, or the firm’s overall financial standing.</p>
   {firm==='nova'&&<NovaPass/>}
   {firm==='propr'&&<ProprPulse/>}
@@ -178,7 +156,8 @@ function WalletFlow({firm,config,onChain}){
   <div className="vf-period"><div className="vf-view-label"><span className="vf-status-dot"/> TRANSFER FLOW <button className="vf-pause" onClick={()=>setPaused(v=>!v)} aria-label={paused?"Play flow animation":"Pause flow animation"}>{paused?<Play size={12}/>:<Pause size={12}/>}</button></div><div role="group" aria-label="Time range">{[1,7,30].map(n=><button key={n} onClick={()=>setDays(n)} aria-pressed={days===n}>{n===1?'24H':n+'D'}</button>)}</div></div>
   <FlowScene days={days} config={config} data={data} summary={summary} paused={paused} selected={query} onSelect={g=>{setQuery(g.address||'');setExcluded(g.excluded||[]);setDirection(g.direction);}}/>
   <section className="vf-funding-story" aria-label="How payout wallet funding works"><div className="vf-funding-title"><span>HOW THE MONEY MOVES</span><strong>Payout capital. Ready to deploy.</strong><p>Firms top up payout wallets to keep funds ready for withdrawals. Funding in is wallet replenishment activity — not a measure of all the money a firm has.</p></div><div className="vf-funding-steps"><div><b>01 / FUND</b><strong>Replenish the wallet.</strong><span>USDC arrives through funding transfers, including top-ups and rebalancing.</span></div><i aria-hidden="true">→</i><div><b>02 / HOLD</b><strong>Ready to pay.</strong><span>The balance is what sits in the tracked wallet{config.sources?'s':''} now. Not total firm reserves.</span></div><i aria-hidden="true">→</i><div><b>03 / SEND</b><strong>Funds go out.</strong><span>Transfers leave for recipients, including traders. Individual purposes are not verified.</span></div></div></section>
-  <section className="vf-stats"><article className="vf-in"><span><ArrowDownLeft size={16}/> Wallet funding</span><strong>{summary?'+'+money(summary.incoming):'—'}<small> USDC</small></strong><div className="vf-mini-bars" aria-hidden="true">{summary?.buckets.map((b,i)=><i key={i} style={{height:Math.max(2,b.in/max*27)+'px'}}/>)}</div><p>{summary?.inCount??'—'} funding transfers · top-ups & rebalancing</p></article><article className="vf-out"><span><ArrowUpRight size={16}/> Filtered outgoing</span><strong>{summary?'−'+money(summary.outgoing):'—'}<small> USDC</small></strong><div className="vf-mini-bars" aria-hidden="true">{summary?.buckets.map((b,i)=><i key={i} style={{height:Math.max(2,b.out/max*27)+'px'}}/>)}</div><p>{summary?.outCount??'—'} transfers · {summary?.recipients??'—'} recipients</p></article><article className="vf-net"><span>Filtered net flow</span><strong>{summary?(summary.incoming>=summary.outgoing?'+':'−')+money(Math.abs(summary.incoming-summary.outgoing)):'—'}<small> USDC</small></strong><div className="vf-ratio"><i style={{width:(summary?(summary.incoming/(summary.incoming+summary.outgoing||1)*100):0)+'%'}}/></div><p>Funding in minus filtered outflow · {days===1?'24 hours':days+' days'}</p></article></section>
+  <DataFreshness asOf={data?.updatedAt} busy={busy} onRefresh={refresh}/>
+ <section className="vf-stats"><article className="vf-in"><span><ArrowDownLeft size={16}/> Wallet funding</span><strong>{summary?'+'+money(summary.incoming):'—'}<small> USDC</small></strong><div className="vf-mini-bars" aria-hidden="true">{summary?.buckets.map((b,i)=><i key={i} style={{height:Math.max(2,b.in/max*27)+'px'}}/>)}</div><p>{summary?.inCount??'—'} funding transfers · top-ups & rebalancing</p></article><article className="vf-out"><span><ArrowUpRight size={16}/> Filtered outgoing</span><strong>{summary?'−'+money(summary.outgoing):'—'}<small> USDC</small></strong><div className="vf-mini-bars" aria-hidden="true">{summary?.buckets.map((b,i)=><i key={i} style={{height:Math.max(2,b.out/max*27)+'px'}}/>)}</div><p>{summary?.outCount??'—'} transfers · {summary?.recipients??'—'} recipients</p></article><article className="vf-net"><span>Filtered net flow</span><strong>{summary?(summary.incoming>=summary.outgoing?'+':'−')+money(Math.abs(summary.incoming-summary.outgoing)):'—'}<small> USDC</small></strong><div className="vf-ratio"><i style={{width:(summary?(summary.incoming/(summary.incoming+summary.outgoing||1)*100):0)+'%'}}/></div><p>Funding in minus filtered outflow · {days===1?'24 hours':days+' days'}</p></article></section>
   <section className="vf-chart-panel"><div className="vf-panel-head"><h2>Flow pulse <small>{days===1?"HOURLY":"DAILY"}</small></h2><div className="vf-legend"><span>Wallet funding</span><span>Outflow</span></div></div><div className="vf-chart" aria-label="USDC inflows and outflows by time bucket">{summary?summary.buckets.map((b,i)=><button type="button" className={"vf-bar-group"+(bucket===i?" is-selected":"")} key={i} onClick={()=>setBucket(bucket===i?null:i)} aria-label={`${new Date(b.start).toLocaleString(undefined,days===1?{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}:{month:'short',day:'numeric'})}: incoming ${money(b.in)}, outgoing ${money(b.out)} USDC`}><div className="vf-bar-up"><span style={{height:(b.in/max*100)+'%'}}/></div><div className="vf-bar-down"><span style={{height:(b.out/max*100)+'%'}}/></div><div className="vf-tooltip">{new Date(b.start).toLocaleString(undefined,days===1?{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}:{month:'short',day:'numeric'})}<br/>In +{compact(b.in)}<br/>Out −{compact(b.out)}</div></button>):<p className="vf-empty">{busy?'Loading onchain activity…':'Data currently unavailable. Try refresh.'}</p>}</div><div className="vf-chart-axis"><span>{summary?new Date(summary.buckets[0].start).toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—'}</span><span>{bucket!==null&&summary?.buckets[bucket]?`In +${money(summary.buckets[bucket].in)} / Out −${money(summary.buckets[bucket].out)}`:days===1?'24 hourly buckets · USDC':'Tap a bar to inspect · USDC'}</span><span>{data?new Date(data.updatedAt).toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—'}</span></div></section>
   {(config.sources||[config]).map(source=><div className="vf-wallet" key={source.slug} style={{marginBottom:8}}><span>{(source.walletRole||source.chain).toUpperCase()} WALLET</span><a href={`${source.explorer}/address/${source.wallet}#tokentxns`} target="_blank" rel="noreferrer">{source.wallet}</a>{!config.sources&&<button onClick={copy} aria-label="Copy wallet address">{copied?<Check size={15}/>:<Copy size={15}/>}</button>}</div>)}<footer className="vf-footer"><span>MASSIVE <b> / </b> {config.title.toUpperCase()}</span><p>USDC transfers on {config.chain} · Rolling 30-day history · Sources: {(config.sources||[config]).map((source,i)=><span key={source.slug}>{i>0?' · ':''}<a href={`${source.api.replace('/api/v2','')}/address/${source.wallet}`} target="_blank" rel="noreferrer">{source.chain} / Blockscout</a></span>)}.<br/>{firm==='nova'?'Reserve and payout settlement wallets':firm==='vest'?'Vest wallets and routing contracts':config.sources?'Tracked wallets':'One payout hot wallet'} selected by MASSIVE. Incoming transfers may fund or rebalance it; outgoing transfers may include payouts and other movements. Card payments and other wallets are outside this view. This balance is not the firm’s total reserves, and net flow is not profit or a measure of financial health. Independent tracker by MASSIVE. Referral links may earn a commission.</p>{data&&<small>Snapshot: {new Date(data.updatedAt).toLocaleString()}</small>}</footer>
  </main>;

@@ -38,12 +38,16 @@ for(const config of Object.values(FLOW_CONFIGS)){
  assert.ok(html.includes(config.explorer+'/address/'+config.wallet));
  assert.ok(html.includes(config.eyebrow));
  assert.ok(!html.includes('Top recipients'));
- assert.ok(html.includes('Sort transfers'));
- for(const label of ['Newest first','Oldest first','Largest amount','Smallest amount'])assert.ok(html.includes(label));
- for(const tracker of Object.values(FLOW_CONFIGS))assert.ok(html.includes('#'+tracker.slug));
+ assert.ok(!html.includes('Sort transfers'));
+ assert.ok(!html.includes('vf-table'));
+ assert.ok(html.includes('24H'));
+ assert.ok(html.includes('#vestflow'));
+ assert.ok(!html.includes('href="#breakoutflow"'));
+ assert.ok(!html.includes('href="#novaflow"'));
+ assert.ok(!html.includes('href="#proprflow"'));
 
 }
-console.log('All tracker views render with sorting controls and the correct referral and explorer links.');
+console.log('All aggregate tracker views render without the removed transfer table and with correct referral and explorer links.');
 const {combineFlows}=await import('../src/lib/flow-metrics.js');
 const {VEST_CHAINS}=await import('../src/lib/flow-config.js');
 const snapshots=VEST_CHAINS.map((c,i)=>({wallet:c.wallet,chain:c.chain,complete:true,balance:i+0.1,updatedAt:at(1000),periodStart:at(30*86400000),transfers:[{id:'same-log',raw:'1000000',block:100-i,logIndex:0,timestamp:at((3-i)*10000)}]}));

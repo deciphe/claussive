@@ -31,6 +31,14 @@ jobs:
         run: npm install
 
 
+      - name: Bundle complete payout archive fallback
+        run: |
+          git fetch --depth=1 origin vestflow-data
+          mkdir -p /tmp/massive-data
+          git archive FETCH_HEAD | tar -x -C /tmp/massive-data
+          cp /tmp/massive-data/*.json public/data/
+          cp -R /tmp/massive-data/weekly /tmp/massive-data/seasons public/data/
+
       - name: Build MASSIVE
         run: npm run build
 
@@ -39,6 +47,9 @@ jobs:
           node scripts/test-web3.mjs
           node scripts/test-flows.mjs
           node scripts/test-weekly.mjs
+          node scripts/test-seasons.mjs
+          node scripts/test-trader-wallets.mjs
+          node scripts/test-refresh.mjs
           node scripts/test-assets.mjs
 
 
