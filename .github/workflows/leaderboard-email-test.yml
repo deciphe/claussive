@@ -26,8 +26,8 @@ jobs:
       - name: Send sample profile to MASSIVE inbox
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          GIGAPROP_FROM: 'MASSIVE <gp@gigaprop.xyz>'
-          GIGAPROP_TEST_EMAIL: thegigaprop@gmail.com
-          GIGAPROP_TEST_PROFILE: ${{ inputs.profile_json }}
-          GIGAPROP_SEND_KEY: 'massive-test-${{ github.run_id }}'
+          MASSIVE_FROM: 'MASSIVE <gp@gigaprop.xyz>'
+          MASSIVE_TEST_EMAIL: thegigaprop@gmail.com
+          MASSIVE_TEST_PROFILE: ${{ inputs.profile_json }}
+          MASSIVE_SEND_KEY: 'massive-test-${{ github.run_id }}'
         run: node scripts/send-leaderboard-live.mjs --test-profile src/data/email-test-profile.json
