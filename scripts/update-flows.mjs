@@ -4,6 +4,7 @@ import {FLOW_SOURCES} from '../src/lib/flow-config.js';
 const dest=process.argv[2]||'public/data';
 await mkdir(dest,{recursive:true});
 const results=[];
+const requiredFresh=new Set(['vestflow','vestflow-base','vestflow-ethereum']);
 for(const [i,config] of FLOW_SOURCES.entries()){
  let previous;
  try{
@@ -17,11 +18,12 @@ for(const [i,config] of FLOW_SOURCES.entries()){
   catch(error){
    if(!config.balanceRpcs||!previous?.complete)throw error;
    // Keep transfer timestamps unchanged when only the contract balance can refresh.
-   snapshot={...previous,...await fetchContractBalance(config)};
+   snapshot={...previous,...await fetchContractBalance(config),transferRefreshFailed:true};
    console.warn(`${config.title} / ${config.chain}: transfer refresh unavailable; refreshed onchain balance only.`);
   }
   await writeFile(`${dest}/${config.slug}.json`,JSON.stringify(snapshot));
   console.log(`${config.title} / ${config.chain}: ${snapshot.transfers.length} transfers; balance ${snapshot.balance} USDC`);
+  if(requiredFresh.has(config.slug)&&snapshot.transferRefreshFailed) throw Error(`${config.title} / ${config.chain}: transfer snapshot is stale; refusing to publish`);
   results.push({status:'fulfilled'});
  }catch(error){
   console.error(`${config.title} / ${config.chain}:`,error);
@@ -30,4 +32,4 @@ for(const [i,config] of FLOW_SOURCES.entries()){
  // Blockscout public endpoints are shared by several tracked wallets. Avoid burst-rate limiting.
  if(i<FLOW_SOURCES.length-1)await new Promise(resolve=>setTimeout(resolve,1200));
 }
-if(results.every(result=>result.status==='rejected'))process.exitCode=1;
+if(results.some(result=>result.status==='rejected'))process.exitCode=1;
