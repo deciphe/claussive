@@ -29,13 +29,13 @@ function glance(snapshots,sources,days){
 }
 export default function FlowHub(){
  const [days,setDays]=useState(7),[snapshots,setSnapshots]=useState({});
- const [busy,setBusy]=useState(false),[errors,setErrors]=useState({}),[clock,setClock]=useState(Date.now());
+ const [busy,setBusy]=useState(false),[errors,setErrors]=useState({}),[clock,setClock]=useState(Date.now()),[flowIntro,setFlowIntro]=useState(true);
  const refreshRef=useRef(()=>{});
  useEffect(()=>{
   const controller=new AbortController();let running=false;const memory={};
   async function fetchSource(source){
    let fallback=null;
-   for(const url of [`https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/${source.slug}.json`,`/data/${source.slug}.json`]){
+   for(const url of [`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${source.slug}.json`,`/data/${source.slug}.json`]){
     try{const response=await fetch(url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(12000)])});if(!response.ok)continue;const d=await response.json();if(d.complete&&d.wallet?.toLowerCase()===source.wallet.toLowerCase()&&d.token?.toLowerCase()===source.token.toLowerCase()&&d.chain===source.chain&&Array.isArray(d.transfers)&&Number.isFinite(d.balance)&&Number.isFinite(Date.parse(d.updatedAt))){fallback=d;break;}}catch{if(controller.signal.aborted)return null;}
    }
    return fallback;
@@ -64,9 +64,9 @@ export default function FlowHub(){
   return()=>{controller.abort();clearInterval(timer);clearInterval(ticker);document.removeEventListener('visibilitychange',visible);refreshRef.current=()=>{};};
  },[]);
  const [copied,setCopied]=useState(false),[copyError,setCopyError]=useState(false);
- useEffect(()=>{const old=document.title;document.title='Flow · MASSIVE';return()=>{document.title=old;};},[]);
+ useEffect(()=>{const old=document.title;document.title='Flow · MASSIVE';const timer=setTimeout(()=>setFlowIntro(false),2500);return()=>{clearTimeout(timer);document.title=old;};},[]);
  async function copy(){try{await navigator.clipboard.writeText('https://massiveprop.xyz/#flow');setCopied(true);setCopyError(false);}catch{setCopyError(true);}}
- return <main className="fh"><div className="fh-shell"><header className="fh-nav"><a href="#" className="fh-brand">MASSIVE<span>.</span></a><span>THE FLOW DIRECTORY</span><a href="#leaderboard">Season Top 15 <ArrowUpRight size={12}/></a></header>
+ return <main className="fh">{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>THE WALLETS ARE OPEN</span><strong>Following the flow.</strong><p>Wisp is tracing the latest public wallet activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}<div className="fh-shell"><header className="fh-nav"><a href="#" className="fh-brand">MASSIVE<span>.</span></a><span>THE FLOW DIRECTORY</span><a href="#leaderboard">Season Top 15 <ArrowUpRight size={12}/></a></header>
  <section className="fh-intro"><span className="fh-ghost-type" aria-hidden="true">04</span><span className="fh-eyebrow">FOUR FIRMS / ONE PLACE</span><h1>Follow the <em>flow.</em></h1><p>Explore the wallets. Follow the transfers.<br/>Go deeper into the numbers behind each firm.</p><div className="fh-share"><button onClick={copy}>{copied?<Check size={13}/>:<Copy size={13}/>} {copied?'Link copied':'massiveprop.xyz/#flow'}</button><span aria-live="polite">{copyError?'Copy this link from your address bar.':'The payout-wallet view. Not total firm reserves.'}</span></div></section>
  <div className="fh-glance-controls"><em>at a glance</em><span>USDC · filtered outflow</span><button className="fh-refresh" onClick={()=>refreshRef.current()} disabled={busy} title="Refresh snapshots · automatically every 60 seconds and when returning to this tab" aria-label="Refresh all firm snapshots"><RefreshCw size={12} className={busy?'fh-spin':''}/>{busy?'Refreshing…':'Refresh'}</button><div role="group" aria-label="Outflow period">{[7,30].map(n=><button key={n} aria-pressed={days===n} onClick={()=>setDays(n)}>{n}D</button>)}</div></div>
  <p className="fh-refresh-note" role="status">{busy?'Checking chain data…':'Auto-refresh every 60 seconds · refreshes when you return to this tab'}</p>
