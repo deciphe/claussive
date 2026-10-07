@@ -186,3 +186,15 @@
 @keyframes wk-rank-sheen{0%,64%{transform:translateX(-120%)}88%,100%{transform:translateX(130%)}}
 @media(max-width:520px){.wk-rank-wisp{gap:14px;padding:21px 18px;min-height:164px}.wk-rank-wisp-art{flex-basis:92px;height:112px}.wk-rank-wisp-art img{width:88px;height:88px}.wk-rank-wisp-copy strong{font-size:20px}.wk-rank-wisp:after{display:none}}
 @media(prefers-reduced-motion:reduce){.wk-rank-wisp,.wk-rank-wisp:before,.wk-rank-wisp-aura,.wk-rank-wisp-art,.wk-rank-wisp-art:after,.wk-rank-wisp-crown,.wk-rank-wisp-progress i{animation:none!important}}
+
+
+/* Claim profile: restrained black-card gold signal */
+.wk-nav>button{position:relative;isolation:isolate;overflow:visible;border-color:#d4b86b66;color:#e7d39b;background:linear-gradient(110deg,#c7a84d12,#ffffff03);box-shadow:0 0 0 1px #c6a6500a,0 0 18px #caa94a12;animation:wk-claim-breathe 4.8s ease-in-out infinite}
+.wk-nav>button:before{content:'';position:absolute;z-index:-1;inset:-13px -18px;border-radius:50%;background:radial-gradient(ellipse at center,#d8b85b25 0%,#b9943520 28%,#8d6b1610 48%,transparent 72%);filter:blur(9px);opacity:.38;transform:scale(.88);animation:wk-claim-haze 4.8s ease-in-out infinite}
+.wk-nav>button:after{content:'';position:absolute;pointer-events:none;inset:-1px;border-radius:2px;background:linear-gradient(105deg,transparent 22%,#f0d78c20 45%,#f6df9f42 50%,#f0d78c18 55%,transparent 78%);background-size:240% 100%;mix-blend-mode:screen;opacity:.5;animation:wk-claim-sweep 7.5s ease-in-out infinite}
+.wk-nav>button svg{color:#e0c36f;filter:drop-shadow(0 0 5px #d5b65355)}
+.wk-nav>button:hover{border-color:#e2c67599;color:#f3dfa6;box-shadow:0 0 24px #d0ae4a24}
+@keyframes wk-claim-breathe{0%,100%{box-shadow:0 0 0 1px #c6a65008,0 0 13px #caa94a0c}50%{box-shadow:0 0 0 1px #d5b65a1c,0 0 25px #d2ae4928}}
+@keyframes wk-claim-haze{0%,100%{opacity:.25;transform:scale(.86) rotate(-2deg)}50%{opacity:.62;transform:scale(1.06) rotate(2deg)}}
+@keyframes wk-claim-sweep{0%,35%{background-position:150% 0;opacity:.18}55%{background-position:35% 0;opacity:.55}75%,100%{background-position:-70% 0;opacity:.18}}
+@media(prefers-reduced-motion:reduce){.wk-nav>button,.wk-nav>button:before,.wk-nav>button:after{animation:none}}
