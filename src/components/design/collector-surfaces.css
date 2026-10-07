@@ -165,17 +165,27 @@
 }
 .gp-site .gp-vault-ghost{
   position:absolute;
-  left:22px;
-  top:54px;
+  left:28px;
+  top:64px;
   z-index:-1;
-  max-width:95%;
-  font-size:clamp(58px,6.7vw,96px);
-  line-height:.82;
-  letter-spacing:-.08em;
+  max-width:88%;
+  font-size:clamp(44px,5.15vw,74px);
+  line-height:.86;
+  letter-spacing:-.075em;
   font-weight:800;
-  color:rgba(236,232,223,.065);
   white-space:nowrap;
   user-select:none;
+  background:
+    linear-gradient(90deg,
+      rgba(238,232,224,.11) 0%,
+      rgba(216,205,197,.10) 48%,
+      rgba(147,116,190,.13) 74%,
+      rgba(212,188,125,.12) 100%);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 18px rgba(126,92,167,.045));
 }
 .gp-site .gp-vault-head{
   position:relative;
@@ -301,7 +311,7 @@
 }
 @media(max-width:760px){
   .gp-site .gp-vault-shell{padding:20px;border-radius:18px}
-  .gp-site .gp-vault-ghost{font-size:58px;top:45px;left:17px}
+  .gp-site .gp-vault-ghost{font-size:48px;top:47px;left:17px;max-width:90%}
   .gp-site .gp-vault-head{min-height:58px}
   .gp-site .gp-vault-head>a{font-size:7px}
   .gp-site .gp-vault-directory .gp-edition,
@@ -314,5 +324,5 @@
   .gp-site .gp-vault-directory .gp-edition:last-child{grid-column:auto}
   .gp-site .gp-vault-directory .gp-edition,
   .gp-site .gp-vault-directory .gp-edition:last-child{min-height:104px}
-  .gp-site .gp-vault-ghost{font-size:48px}
+  .gp-site .gp-vault-ghost{font-size:42px}
 }
