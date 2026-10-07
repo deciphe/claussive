@@ -166,12 +166,13 @@
 .gp-site .gp-vault-ghost{
   position:absolute;
   left:28px;
+  right:28px;
   top:64px;
   z-index:-1;
-  max-width:88%;
-  font-size:clamp(44px,5.15vw,74px);
+  max-width:none;
+  font-size:clamp(40px,4.05vw,58px);
   line-height:.86;
-  letter-spacing:-.075em;
+  letter-spacing:-.06em;
   font-weight:800;
   white-space:nowrap;
   user-select:none;
