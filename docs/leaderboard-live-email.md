@@ -88,7 +88,7 @@ The preview uses the exact same HTML renderer as the Resend sender.
 1. Add the repository Actions secret `RESEND_API_KEY` in GitHub Settings → Secrets and variables → Actions.
 2. Click **Run email test in GitHub** on the studio page.
 3. Choose **Run workflow** on the main branch, paste the copied JSON in **Profile JSON**, and run.
-4. The test goes only to `gp@gigaprop.xyz`, with `[TEST]` in the subject. An empty JSON input uses `src/data/email-test-profile.json`.
+4. The test goes only to `thegigaprop@gmail.com`, with `[TEST]` in the subject. An empty JSON input uses `src/data/email-test-profile.json`.
 
 The result log reports Resend acceptance and the email ID, not guaranteed inbox delivery.
 Each workflow run uses a Resend idempotency key. For a fresh intentional test, start a new run.
