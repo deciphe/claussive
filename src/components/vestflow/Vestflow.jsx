@@ -90,6 +90,7 @@ function WalletFlow({firm,config,onChain}){
  const SOURCE=`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${config.slug}.json`;
  const [data,setData]=useState(null),[busy,setBusy]=useState(true),[error,setError]=useState(''),[days,setDays]=useState(7),[direction,setDirection]=useState('all'),[query,setQuery]=useState(''),[limit,setLimit]=useState(12),[copied,setCopied]=useState(false),[clock,setClock]=useState(Date.now()),[paused,setPaused]=useState(false),[inspected,setInspected]=useState(null),[bucket,setBucket]=useState(null),[excluded,setExcluded]=useState([]);
  const [sort,setSort]=useState('newest');
+ const [flowIntro,setFlowIntro]=useState(true);
  const refreshLock=useRef(false),controller=useRef(null),sourceSnapshots=useRef(null);
  async function refresh(){
   if(refreshLock.current)return;
@@ -133,7 +134,7 @@ function WalletFlow({firm,config,onChain}){
   }catch{if(!signal.aborted)setError('Snapshot refresh unavailable. Retaining the last available data.');}
   finally{if(!signal.aborted){setBusy(false);setClock(Date.now());}if(controller.current?.signal===signal)refreshLock.current=false;}
  }
- useEffect(()=>{refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
+ useEffect(()=>{const introTimer=setTimeout(()=>setFlowIntro(false),2500);refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{clearTimeout(introTimer);controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
  useEffect(()=>{setLimit(12);setInspected(null);},[days,direction,query,excluded,sort]);
  useEffect(()=>{setBucket(null);setExcluded([]);},[days]);
  const summary=useMemo(()=>{
@@ -155,7 +156,7 @@ function WalletFlow({firm,config,onChain}){
  const age=data?Math.max(0,Math.floor((clock-Date.parse(data.updatedAt))/60000)):0,stale=age>2;
  const max=Math.max(1,...(summary?.buckets.flatMap(b=>[b.in,b.out])||[]));
  async function copy(){try{await navigator.clipboard.writeText(WALLET);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch{setError('Copy unavailable. The full wallet address is shown below.');}}
- return <main className={"vf vf-"+firm}>
+ return <main className={"vf vf-"+firm}>{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>{config.firm.toUpperCase()} / LIVE WALLET DATA</span><strong>Following the flow.</strong><p>Wisp is gathering the latest public onchain activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}
   <header className="vf-top"><a href="#" className="vf-brand">MASSIVE.</a><span>MASSIVE <i>/</i> ONCHAIN</span><a className="vf-back" href="#flow">All flow trackers <ArrowUpRight size={16}/></a></header>
   <nav className="vf-flow-nav" aria-label="Flow trackers"><a href="#leaderboard">Season Top 15<small>All four firms</small></a>{Object.values(FLOW_CONFIGS).map(c=><a key={c.id} href={"#"+c.slug} aria-current={firm===c.id?"page":undefined}>{c.title}<small>{c.id==='vest'?'3 chains':c.chain}</small></a>)}</nav>
   <section className="vf-heading"><FirmAtmosphere firm={firm}/><span className="vf-ghost-type" aria-hidden="true">FLOW</span><div><div className="vf-eyebrow"><img src={firmMark(firm)} alt=""/>{config.eyebrow}</div><h1>{config.id}<span>flow</span><i>.</i></h1></div><div className="vf-status"><span className={stale||error?'vf-warning':''}>{busy?'Syncing…':data?(stale?'Delayed · ':age===0?'Updated just now':'Updated ')+(age===0&&!stale?'':age+'m ago'):'Connecting…'}</span><button onClick={refresh} disabled={busy} aria-label="Refresh transfers" title="Refresh transfers · Auto-refresh every 60 seconds while open"><RefreshCw size={15} className={busy?'vf-spin':''}/></button></div></section>
