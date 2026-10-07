@@ -129,12 +129,13 @@ function WalletFlow({firm,config,onChain}){
    if(!signal.aborted){
     sourceSnapshots.current=fresh;
     if(fresh.every(Boolean))adopt(combine(fresh));
+    if(!failed.length&&fresh.every(Boolean))setFlowIntro(false);
     if(failed.length)setError(failed.join(', ')+': live transfer refresh unavailable; keeping the last transfer snapshot for those chains. Other chains still update.');
    }
   }catch{if(!signal.aborted)setError('Snapshot refresh unavailable. Retaining the last available data.');}
   finally{if(!signal.aborted){setBusy(false);setClock(Date.now());}if(controller.current?.signal===signal)refreshLock.current=false;}
  }
- useEffect(()=>{const introTimer=setTimeout(()=>setFlowIntro(false),2500);refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{clearTimeout(introTimer);controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
+ useEffect(()=>{refresh();const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000),tick=setInterval(()=>setClock(Date.now()),30000);const visible=()=>{if(document.visibilityState==='visible')refresh();};document.addEventListener('visibilitychange',visible);const title=document.title;document.title=config.title+' · MASSIVE';return()=>{controller.current?.abort();refreshLock.current=false;clearInterval(timer);clearInterval(tick);document.removeEventListener('visibilitychange',visible);document.title=title;};},[]);
  useEffect(()=>{setLimit(12);setInspected(null);},[days,direction,query,excluded,sort]);
  useEffect(()=>{setBucket(null);setExcluded([]);},[days]);
  const summary=useMemo(()=>{
