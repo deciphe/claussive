@@ -42,7 +42,7 @@ export default function FlowHub(){
   }
   async function refresh(){
    if(running||controller.signal.aborted)return;running=true;setBusy(true);
-   try{await Promise.all(firms.map(async firm=>{
+   try{const liveResults=await Promise.all(firms.map(async firm=>{
     const sources=sourcesFor(firm.id);
     const ds=memory[firm.id]||await Promise.all(sources.map(fetchSource));
     if(controller.signal.aborted)return;
@@ -51,10 +51,10 @@ export default function FlowHub(){
     try{
      const fresh=await Promise.all(sources.map((source,i)=>fetchFlow(source,{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(55000)]),previous:ds[i]})));
      if(controller.signal.aborted)return;
-     memory[firm.id]=fresh;setSnapshots(old=>({...old,[firm.id]:fresh}));setErrors(old=>({...old,[firm.id]:false}));
-    }catch{if(!controller.signal.aborted){setErrors(old=>({...old,[firm.id]:true}));if(!complete)setSnapshots(old=>({...old,[firm.id]:old[firm.id]||null}));}}
+     memory[firm.id]=fresh;setSnapshots(old=>({...old,[firm.id]:fresh}));setErrors(old=>({...old,[firm.id]:false}));return true;
+    }catch{if(!controller.signal.aborted){setErrors(old=>({...old,[firm.id]:true}));if(!complete)setSnapshots(old=>({...old,[firm.id]:old[firm.id]||null}));}return false;}
 
-   }));}finally{running=false;if(!controller.signal.aborted){setBusy(false);setClock(Date.now());}}
+   }));if(liveResults.every(Boolean)&&!controller.signal.aborted)setFlowIntro(false);}finally{running=false;if(!controller.signal.aborted){setBusy(false);setClock(Date.now());}}
   }
   refreshRef.current=refresh;refresh();
   const timer=setInterval(()=>{if(document.visibilityState==='visible')refresh();},60*1000);
@@ -64,7 +64,7 @@ export default function FlowHub(){
   return()=>{controller.abort();clearInterval(timer);clearInterval(ticker);document.removeEventListener('visibilitychange',visible);refreshRef.current=()=>{};};
  },[]);
  const [copied,setCopied]=useState(false),[copyError,setCopyError]=useState(false);
- useEffect(()=>{const old=document.title;document.title='Flow · MASSIVE';const timer=setTimeout(()=>setFlowIntro(false),2500);return()=>{clearTimeout(timer);document.title=old;};},[]);
+ useEffect(()=>{const old=document.title;document.title='Flow · MASSIVE';return()=>{document.title=old;};},[]);
  async function copy(){try{await navigator.clipboard.writeText('https://massiveprop.xyz/#flow');setCopied(true);setCopyError(false);}catch{setCopyError(true);}}
  return <main className="fh">{flowIntro&&<div className="flow-wisp" role="status" aria-live="polite"><div className="flow-wisp-aura" aria-hidden="true"/><div className="flow-wisp-art" aria-hidden="true"><span>◆</span><img src="/mascot/wisp.png" alt=""/></div><div className="flow-wisp-copy"><span>THE WALLETS ARE OPEN</span><strong>Following the flow.</strong><p>Wisp is tracing the latest public wallet activity.</p><div className="flow-wisp-progress" aria-hidden="true"><i/><i/><i/><i/><i/></div></div></div>}<div className="fh-shell"><header className="fh-nav"><a href="#" className="fh-brand">MASSIVE<span>.</span></a><span>THE FLOW DIRECTORY</span><a href="#leaderboard">Season Top 15 <ArrowUpRight size={12}/></a></header>
  <section className="fh-intro"><span className="fh-ghost-type" aria-hidden="true">04</span><span className="fh-eyebrow">FOUR FIRMS / ONE PLACE</span><h1>Follow the <em>flow.</em></h1><p>Explore the wallets. Follow the transfers.<br/>Go deeper into the numbers behind each firm.</p><div className="fh-share"><button onClick={copy}>{copied?<Check size={13}/>:<Copy size={13}/>} {copied?'Link copied':'massiveprop.xyz/#flow'}</button><span aria-live="polite">{copyError?'Copy this link from your address bar.':'The payout-wallet view. Not total firm reserves.'}</span></div></section>
