@@ -105,3 +105,18 @@
  .vf-vest .vf-node-info{flex:1}
  .vf-vest .vf-core-copy>small{letter-spacing:.06em;text-align:center;max-width:90%}
 }
+
+/* Wisp live-data intro */
+.flow-wisp{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;gap:28px;padding:28px;background:radial-gradient(circle at 50% 44%,#171c18 0,#090b0a 48%,#070807 100%);font-family:'Manrope',system-ui,sans-serif;color:#eef1eb}
+.flow-wisp-aura{position:absolute;width:360px;height:260px;border-radius:50%;background:#b6ff4a0c;filter:blur(55px);pointer-events:none}
+.flow-wisp-art{position:relative;width:116px;height:116px;display:grid;place-items:center}
+.flow-wisp-art img{position:absolute;width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 12px 30px #000)}
+.flow-wisp-art>span{position:absolute;top:-8px;right:5px;color:#c4aa6b;font-size:11px;animation:flow-wisp-float 1.8s ease-in-out infinite}
+.flow-wisp-copy{position:relative;min-width:280px}
+.flow-wisp-copy>span{display:block;color:#9da69f;font:600 9px 'DM Mono',ui-monospace,monospace;letter-spacing:.17em}
+.flow-wisp-copy strong{display:block;margin-top:9px;font-size:27px;line-height:1.05;letter-spacing:-.045em;font-weight:750}
+.flow-wisp-copy p{margin:8px 0 14px;color:#7f8982;font-size:11px}
+.flow-wisp-progress{display:flex;gap:5px}.flow-wisp-progress i{width:26px;height:2px;background:#29312b;overflow:hidden}.flow-wisp-progress i:after{content:"";display:block;width:100%;height:100%;background:#aab69e;animation:flow-wisp-pulse 1.25s ease-in-out infinite;transform:scaleX(0);transform-origin:left}.flow-wisp-progress i:nth-child(2):after{animation-delay:.12s}.flow-wisp-progress i:nth-child(3):after{animation-delay:.24s}.flow-wisp-progress i:nth-child(4):after{animation-delay:.36s}.flow-wisp-progress i:nth-child(5):after{animation-delay:.48s}
+@keyframes flow-wisp-pulse{0%,20%{transform:scaleX(0)}55%,100%{transform:scaleX(1)}}@keyframes flow-wisp-float{50%{transform:translateY(-5px)}}
+@media(max-width:560px){.flow-wisp{flex-direction:column;gap:12px;text-align:center}.flow-wisp-copy{min-width:0}.flow-wisp-progress{justify-content:center}}
+@media(prefers-reduced-motion:reduce){.flow-wisp-art>span,.flow-wisp-progress i:after{animation:none}.flow-wisp-progress i:after{transform:scaleX(1)}}
