@@ -252,3 +252,50 @@
   .gp-book-copy p{font-size:16px}
   .gp-book-visual{margin:0 22px 22px;padding:14px}
 }
+
+
+/* MASSIVE homepage velocity typography — primary UI stays Manrope; mono is reserved for micro labels. */
+.gp-degen-section .gp-section-note,
+.gp-degen-section .gp-taker-label,
+.gp-degen-section .gp-nq-input,
+.gp-degen-section .gp-outcome-story h3,
+.gp-degen-section .gp-outcome-ratio,
+.gp-degen-section .gp-fee-name b,
+.gp-degen-section .gp-fee-name small,
+.gp-degen-section .gp-outcome-reach>small,
+.gp-degen-section .gp-fee-number,
+.gp-degen-section .gp-fee-cash,
+.gp-degen-section .gp-model-note{
+  font-family:'Manrope',system-ui,sans-serif;
+}
+.gp-degen-section .gp-section-note{color:#8f9992;font-size:12px;font-weight:500;letter-spacing:-.01em}
+.gp-degen-section .gp-taker-label,
+.gp-degen-section .gp-nq-input{color:#aeb7b0;font-weight:500}
+.gp-degen-section .gp-nq-input input{
+  font-family:'Manrope',system-ui,sans-serif;
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+.gp-degen-section .gp-outcome-story .gp-eyebrow,
+.gp-degen-section .gp-fee-board-head>div>span,
+.gp-degen-section .gp-fee-rank{
+  font-family:'DM Mono',ui-monospace,monospace;
+}
+.gp-degen-section .gp-outcome-story .gp-eyebrow{color:#c0aa7d}
+.gp-degen-section .gp-outcome-ratio small,
+.gp-degen-section .gp-outcome-reach>small,
+.gp-degen-section .gp-fee-name small,
+.gp-degen-section .gp-fee-number small,
+.gp-degen-section .gp-fee-cash small{
+  color:#77837a;
+  font-weight:500;
+}
+.gp-degen-section .gp-fee-name b{font-weight:700;letter-spacing:-.015em}
+.gp-degen-section .gp-fee-number b,
+.gp-degen-section .gp-fee-cash b{font-family:'Manrope',system-ui,sans-serif;font-weight:750}
+.gp-degen-section .gp-fee-board-head strong{
+  font-family:'Manrope',system-ui,sans-serif;
+  font-weight:550;
+  color:#b1bab3;
+  letter-spacing:0;
+}
