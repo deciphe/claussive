@@ -4,6 +4,7 @@ import {canonicalTraderWallet,traderWallets} from '../../lib/trader-wallets.js';
 import {FEATURED_TRADERS} from '../../lib/trader-profiles.js';
 import {VEST_CHAINS,FLOW_SOURCES,FLOW_CONFIGS} from '../../lib/flow-config.js';
 import {combineFlows} from '../../lib/flow-metrics.js';
+import {fetchFlow} from '../../lib/flow-data.js';
 import {isPayoutRecipientTransfer} from '../../lib/flow-classification.js';
 import './profile.css';
 
@@ -60,9 +61,17 @@ export default function Profile(){
       if(!c.signal.aborted)setIdentityChecked(true);
 
       const vestSnaps=await Promise.all(VEST_CHAINS.map(s=>read(s.slug+'.json',c.signal)));
-      const vestData=combineFlows(vestSnaps,VEST_CHAINS);
+      let vestData=combineFlows(vestSnaps,VEST_CHAINS);
       let breakoutSnap=null;
       try{breakoutSnap=await read(FLOW_CONFIGS.breakout.slug+'.json',c.signal)}catch{}
+      // Show the published record immediately, then refresh each source independently.
+      // One throttled chain must not prevent the other chains from updating the profile.
+      if(!c.signal.aborted){
+        const vestFresh=await Promise.allSettled(VEST_CHAINS.map((s,i)=>fetchFlow(s,{previous:vestSnaps[i],signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})));
+        const refreshed=vestFresh.map((result,i)=>result.status==='fulfilled'?result.value:vestSnaps[i]);
+        vestData=combineFlows(refreshed,VEST_CHAINS);
+        try{breakoutSnap=await fetchFlow(FLOW_CONFIGS.breakout,{previous:breakoutSnap,signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})}catch{}
+      }
       const linked=new Set(linkedWallets);
       const seen=new Set(),rows=[];
       const collect=(data,sources,firm)=>{
