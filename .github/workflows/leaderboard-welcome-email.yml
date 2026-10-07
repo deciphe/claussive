@@ -48,8 +48,8 @@ jobs:
       - name: Send MASSIVE rank card via Resend
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          GIGAPROP_FROM: 'MASSIVE <gp@gigaprop.xyz>'
-          GIGAPROP_SEND_KEY: 'massive-welcome-${{ github.run_id }}'
+          MASSIVE_FROM: 'MASSIVE <gp@gigaprop.xyz>'
+          MASSIVE_SEND_KEY: 'massive-welcome-${{ github.run_id }}'
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
