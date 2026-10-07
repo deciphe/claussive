@@ -21,7 +21,7 @@ export default function Million(){
    if(running||controller.signal.aborted)return;running=true;setBusy(true);
    try{
     if(!previous.length){previous=await Promise.all(VEST_CHAINS.map(async c=>{
-     for(const root of ['https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/','/data/']){
+     for(const root of ['https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/','/data/']){
       try{const r=await fetch(root+c.slug+'.json?t='+Date.now(),{cache:'no-store',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(12000)])});if(!r.ok)continue;const d=await r.json();if(d.complete&&d.wallet===c.wallet&&d.chain===c.chain&&d.token===c.token)return d;}catch{}
      }return null;
     }));if(previous.every(Boolean))setData(combineFlows(previous,VEST_CHAINS));}
