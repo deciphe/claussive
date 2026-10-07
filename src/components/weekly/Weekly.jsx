@@ -66,8 +66,16 @@ export default function Weekly(){
   if(c.signal.aborted)return;
   previous=Object.fromEntries(sources.map((s,i)=>[s.slug,cached[i]]));
   if(cached.every(Boolean))setSnapshots(previous);
-  const fresh=await Promise.all(sources.map((source,i)=>fetchFlow(source,{previous:cached[i],signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})));
-  if(!c.signal.aborted){previous=Object.fromEntries(sources.map((s,i)=>[s.slug,fresh[i]]));setSnapshots(previous);setError('');setRankIntro(false);}
+  // Refresh each payout source independently. One throttled chain must not discard
+  // fresh payouts from another chain (especially Vest's Arbitrum/Base/Ethereum set).
+  const settled=await Promise.allSettled(sources.map((source,i)=>fetchFlow(source,{previous:cached[i],signal:AbortSignal.any([c.signal,AbortSignal.timeout(55000)])})));
+  const fresh=settled.map((result,i)=>result.status==='fulfilled'?result.value:cached[i]);
+  if(fresh.every(Boolean)&&!c.signal.aborted){
+   previous=Object.fromEntries(sources.map((s,i)=>[s.slug,fresh[i]]));
+   setSnapshots(previous);
+   setError(settled.some(r=>r.status==='rejected')?'Some payout sources are using the last complete snapshot; fresh sources are included.':'');
+   setRankIntro(false);
+  }else if(!c.signal.aborted)setError('Live refresh unavailable. Showing the last complete payout record.');
  }catch{if(!c.signal.aborted)setError('Live refresh unavailable. Showing the last complete payout record.');}
  finally{running=false;if(!c.signal.aborted)setBusy(false);}}
  read('season-index.json',c.signal).then(index=>{if(!c.signal.aborted)setWeeks((index.weeks||[]).filter(w=>validSeasonKey(w.week)))}).catch(()=>{});
