@@ -9,7 +9,7 @@ import { seasonBoard, seasonKey, seasonNumber, seasonStart } from '../src/lib/se
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
-const DATA_ROOT = 'https://raw.githubusercontent.com/deciphe/thepayoutlab/vestflow-data/';
+const DATA_ROOT = 'https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/';
 const SITE = 'https://massiveprop.xyz/';
 
 function parseArgs(argv) {
