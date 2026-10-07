@@ -2,7 +2,7 @@ name: Refresh MASSIVE flow trackers
 on:
   workflow_dispatch:
   schedule:
-    - cron: '7,22,37,52 * * * *'
+    - cron: '17 */4 * * *'
   push:
     branches: ["main"]
     paths: [".flow-migration-trigger"]
