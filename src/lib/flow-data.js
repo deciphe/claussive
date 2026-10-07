@@ -18,7 +18,7 @@ const {wallet:WALLET,token:TOKEN,api:API}=config;
 const minIncomingRaw=BigInt(Math.round((config.minIncomingAmount||0)*1e6));
 async function get(path){
   for(let attempt=0;attempt<4;attempt++){
-    try { const r=await fetch(API+path,{cache:'no-store',signal:AbortSignal.any([signal,AbortSignal.timeout(20000)].filter(Boolean))}); if(!r.ok)throw Error(`HTTP ${r.status}`);return await r.json(); }
+    try { const r=await fetch(API+path,{cache:'no-store',headers:{'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; MASSIVEPropFlow/1.0; +https://massiveprop.xyz)'},signal:AbortSignal.any([signal,AbortSignal.timeout(20000)].filter(Boolean))}); if(!r.ok)throw Error(`HTTP ${r.status}`);return await r.json(); }
     catch(e){if(signal?.aborted||attempt===3)throw e;await new Promise(r=>setTimeout(r,1500*(attempt+1)));}
   }
 }
