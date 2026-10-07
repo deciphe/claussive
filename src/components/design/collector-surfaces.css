@@ -138,13 +138,185 @@
 .vf .vf-core-copy>small{font-size:9px;letter-spacing:.2px;max-width:180px}
 @media(max-width:760px){.vf .vf-funding-title{grid-template-columns:1fr;padding:20px;gap:9px}.vf .vf-funding-title>strong{font-size:20px}.vf .vf-funding-title>p{grid-column:1;grid-row:auto;font-size:11px}.vf .vf-funding-steps{grid-template-columns:1fr;gap:15px;padding:20px}.vf .vf-funding-steps>i{display:none}.vf .vf-funding-steps>div{display:grid;grid-template-columns:70px 1fr;gap:5px 14px;padding-bottom:15px;border-bottom:1px solid #ffffff0b}.vf .vf-funding-steps>div:last-child{border:0;padding:0}.vf .vf-funding-steps b{grid-column:1;grid-row:1/3;padding-top:3px;font-size:7px}.vf .vf-funding-steps strong,.vf .vf-funding-steps span{grid-column:2}.vf .vf-funding-steps span{max-width:none}.vf .vf-funding-steps strong{font-size:14px}.vf .vf-core-copy>small{font-size:7px;max-width:130px}}
 
-/* Hero payout vault directory — evidence first, distinct from firm program drawers. */
-.gp-site .gp-vault-directory .gp-editions-heading a{display:inline-flex;align-items:center;gap:7px;color:#bfb6a5;text-decoration:none;font-weight:500}
-.gp-site .gp-vault-directory .gp-editions-heading a:hover{color:#ece8df}
-.gp-site .gp-vault-directory .gp-editions-grid{grid-template-columns:1fr 1fr}
-.gp-site .gp-vault-directory .gp-edition{min-height:151px;text-decoration:none}
-.gp-site .gp-vault-directory .gp-edition:last-child{grid-column:auto;min-height:151px;display:flex;grid-template-columns:none;align-items:flex-start;gap:0}
-.gp-site .gp-vault-directory .gp-edition:last-child>.firm-atmosphere{width:145px;height:140px;right:-30px;top:5px;opacity:.13}
-.gp-site .gp-vault-directory .gp-edition:last-child .gp-edition-label{width:100%;gap:0}
-.gp-site .gp-vault-directory .gp-edition-label{font-size:7px;color:#a79d8a}
-@media(max-width:760px){.gp-site .gp-vault-directory .gp-edition,.gp-site .gp-vault-directory .gp-edition:last-child{min-height:132px}}
+/* Hero payout vault — black-card portal to the four onchain flow pages. */
+.gp-site .gp-vault-directory{position:relative;min-width:0}
+.gp-site .gp-vault-shell{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:27px;
+  border:1px solid rgba(236,232,223,.085);
+  border-radius:22px;
+  background:
+    radial-gradient(ellipse at 75% 0%,rgba(212,188,125,.045),transparent 30%),
+    linear-gradient(145deg,rgba(17,17,20,.90),rgba(7,7,9,.96));
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.035),
+    0 35px 90px rgba(0,0,0,.34);
+  backdrop-filter:blur(18px);
+}
+.gp-site .gp-vault-shell:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.018),transparent 35%,rgba(212,188,125,.018));
+}
+.gp-site .gp-vault-ghost{
+  position:absolute;
+  left:22px;
+  top:48px;
+  z-index:-1;
+  max-width:95%;
+  font-size:clamp(48px,6vw,86px);
+  line-height:.82;
+  letter-spacing:-.075em;
+  font-weight:800;
+  color:rgba(236,232,223,.028);
+  white-space:nowrap;
+  user-select:none;
+}
+.gp-site .gp-vault-head{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:23px;
+}
+.gp-site .gp-vault-head>div{display:flex;flex-direction:column;gap:8px}
+.gp-site .gp-vault-head>div>span{
+  font:8px 'DM Mono',monospace;
+  letter-spacing:2.2px;
+  color:#8d877f;
+}
+.gp-site .gp-vault-head strong{
+  font-size:25px;
+  line-height:1;
+  font-weight:620;
+  letter-spacing:-.055em;
+  color:var(--massive-cream);
+}
+.gp-site .gp-vault-head>a{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding-top:3px;
+  color:#a49d93;
+  text-decoration:none;
+  font:8px 'DM Mono',monospace;
+  letter-spacing:1.5px;
+}
+.gp-site .gp-vault-head>a:hover{color:var(--massive-cream)}
+.gp-site .gp-vault-directory .gp-editions-grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.gp-site .gp-vault-directory .gp-edition,
+.gp-site .gp-vault-directory .gp-edition:last-child{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:118px;
+  padding:16px 17px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:0;
+  text-decoration:none;
+  border:1px solid rgba(236,232,223,.075);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(18,18,21,.78),rgba(9,9,11,.90));
+  box-shadow:inset 0 1px rgba(255,255,255,.018);
+  transition:transform .22s ease,border-color .22s ease,background .22s ease;
+}
+.gp-site .gp-vault-directory .gp-edition:nth-child(2n),
+.gp-site .gp-vault-directory .gp-edition:last-child{
+  background:linear-gradient(145deg,rgba(17,17,21,.80),rgba(8,8,10,.92));
+}
+.gp-site .gp-vault-directory .gp-edition:hover{
+  transform:translateY(-2px);
+  border-color:rgba(212,188,125,.22);
+  background:linear-gradient(145deg,rgba(22,21,23,.88),rgba(10,10,12,.96));
+}
+.gp-site .gp-vault-directory .gp-edition>.firm-atmosphere,
+.gp-site .gp-vault-directory .gp-edition:last-child>.firm-atmosphere{
+  width:150px;
+  height:135px;
+  right:-24px;
+  top:-8px;
+  opacity:.055;
+  filter:grayscale(1);
+  transform:rotate(-10deg);
+}
+.gp-site .gp-vault-directory .gp-edition-index{
+  position:relative;
+  font:8px 'DM Mono',monospace;
+  letter-spacing:1px;
+  color:#68645f;
+}
+.gp-site .gp-vault-directory .gp-edition-identity{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:18px 0 16px;
+}
+.gp-site .gp-vault-directory .gp-edition-identity img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  filter:grayscale(1);
+  opacity:.82;
+}
+.gp-site .gp-vault-directory .gp-edition-identity b{
+  font-size:18px;
+  font-weight:560;
+  letter-spacing:-.045em;
+  color:#e5e1da;
+}
+.gp-site .gp-vault-directory .gp-edition-label,
+.gp-site .gp-vault-directory .gp-edition:last-child .gp-edition-label{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  margin-top:auto;
+  gap:12px;
+  font:6px 'DM Mono',monospace;
+  letter-spacing:1.45px;
+  color:#77716b;
+}
+.gp-site .gp-vault-directory .gp-edition-label svg{
+  color:#bcae8c;
+  opacity:.72;
+}
+.gp-site .gp-vault-foot{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:17px 2px 0;
+  font:7px 'DM Mono',monospace;
+  letter-spacing:1.2px;
+  color:#5d5955;
+}
+@media(max-width:760px){
+  .gp-site .gp-vault-shell{padding:20px;border-radius:18px}
+  .gp-site .gp-vault-ghost{font-size:58px;top:45px;left:17px}
+  .gp-site .gp-vault-head strong{font-size:22px}
+  .gp-site .gp-vault-head>a{font-size:7px}
+  .gp-site .gp-vault-directory .gp-edition,
+  .gp-site .gp-vault-directory .gp-edition:last-child{min-height:112px;padding:14px}
+  .gp-site .gp-vault-directory .gp-edition-identity{margin:16px 0 14px}
+  .gp-site .gp-vault-directory .gp-edition-identity b{font-size:17px}
+}
+@media(max-width:430px){
+  .gp-site .gp-vault-directory .gp-editions-grid{grid-template-columns:1fr}
+  .gp-site .gp-vault-directory .gp-edition,
+  .gp-site .gp-vault-directory .gp-edition:last-child{min-height:104px}
+  .gp-site .gp-vault-ghost{font-size:48px}
+}
