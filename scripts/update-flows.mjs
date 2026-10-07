@@ -3,23 +3,31 @@ import {fetchFlow,fetchContractBalance} from '../src/lib/flow-data.js';
 import {FLOW_SOURCES} from '../src/lib/flow-config.js';
 const dest=process.argv[2]||'public/data';
 await mkdir(dest,{recursive:true});
-const results=await Promise.allSettled(FLOW_SOURCES.map(async config=>{
+const results=[];
+for(const [i,config] of FLOW_SOURCES.entries()){
  let previous;
  try{
   const response=await fetch(`https://raw.githubusercontent.com/deciphe/massiveprop/vestflow-data/${config.slug}.json`,{signal:AbortSignal.timeout(15000)});
   if(response.ok)previous=await response.json();
  }catch{}
  try{const bundled=JSON.parse(await readFile(new URL(`../public/data/${config.slug}.json`,import.meta.url),'utf8'));if(!previous||Date.parse(bundled.updatedAt)>Date.parse(previous.updatedAt))previous=bundled;}catch{}
- let snapshot;
- try{snapshot=await fetchFlow(config,{previous,onProgress:page=>{if(page%10===0)console.log(`${config.title}: page ${page}`);}});}
- catch(error){
-  if(!config.balanceRpcs||!previous?.complete)throw error;
-  // Keep transfer timestamps unchanged when only the contract balance can refresh.
-  snapshot={...previous,...await fetchContractBalance(config)};
-  console.warn(`${config.title}: transfer refresh unavailable; refreshed onchain balance only.`);
+ try{
+  let snapshot;
+  try{snapshot=await fetchFlow(config,{previous,onProgress:page=>{if(page%10===0)console.log(`${config.title} / ${config.chain}: page ${page}`);}});}
+  catch(error){
+   if(!config.balanceRpcs||!previous?.complete)throw error;
+   // Keep transfer timestamps unchanged when only the contract balance can refresh.
+   snapshot={...previous,...await fetchContractBalance(config)};
+   console.warn(`${config.title} / ${config.chain}: transfer refresh unavailable; refreshed onchain balance only.`);
+  }
+  await writeFile(`${dest}/${config.slug}.json`,JSON.stringify(snapshot));
+  console.log(`${config.title} / ${config.chain}: ${snapshot.transfers.length} transfers; balance ${snapshot.balance} USDC`);
+  results.push({status:'fulfilled'});
+ }catch(error){
+  console.error(`${config.title} / ${config.chain}:`,error);
+  results.push({status:'rejected',reason:error});
  }
- await writeFile(`${dest}/${config.slug}.json`,JSON.stringify(snapshot));
- console.log(`${config.title}: ${snapshot.transfers.length} transfers; balance ${snapshot.balance} USDC`);
-}));
-for(const [i,result] of results.entries())if(result.status==='rejected')console.error(`${FLOW_SOURCES[i].title}:`,result.reason);
+ // Blockscout public endpoints are shared by several tracked wallets. Avoid burst-rate limiting.
+ if(i<FLOW_SOURCES.length-1)await new Promise(resolve=>setTimeout(resolve,1200));
+}
 if(results.every(result=>result.status==='rejected'))process.exitCode=1;
