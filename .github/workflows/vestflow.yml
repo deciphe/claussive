@@ -1,9 +1,6 @@
 name: Refresh MASSIVE flow trackers
 on:
   workflow_dispatch:
-  schedule:
-    # Offset from busy clock boundaries. GitHub schedules are best-effort.
-    - cron: '2-59/5 * * * *'
   push:
     branches: ["main"]
     paths: [".flow-migration-trigger", ".github/workflows/vestflow.yml"]
