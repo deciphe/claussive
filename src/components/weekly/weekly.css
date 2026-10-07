@@ -198,3 +198,11 @@
 @keyframes wk-claim-haze{0%,100%{opacity:.25;transform:scale(.86) rotate(-2deg)}50%{opacity:.62;transform:scale(1.06) rotate(2deg)}}
 @keyframes wk-claim-sweep{0%,35%{background-position:150% 0;opacity:.18}55%{background-position:35% 0;opacity:.55}75%,100%{background-position:-70% 0;opacity:.18}}
 @media(prefers-reduced-motion:reduce){.wk-nav>button,.wk-nav>button:before,.wk-nav>button:after{animation:none}}
+
+
+/* #1 podium: one restrained gold haze pulse on page load */
+.wk-place-1{animation:wk-first-place-arrival 2.8s ease-out 1}
+.wk-place-1:before{content:'';position:absolute;pointer-events:none;z-index:-1;inset:-8px;border-radius:8px;background:radial-gradient(ellipse at 50% 55%,#d5b85a16 0%,#b28d3210 38%,transparent 72%);filter:blur(12px);opacity:0;animation:wk-first-place-haze 2.8s ease-out 1}
+@keyframes wk-first-place-arrival{0%,100%{border-color:#aaa5a75e;box-shadow:0 20px 70px #0008}38%{border-color:#c7ad6968;box-shadow:0 20px 70px #0008,0 0 24px #c7a84a13}}
+@keyframes wk-first-place-haze{0%,100%{opacity:0;transform:scale(.98)}35%{opacity:.42;transform:scale(1.015)}70%{opacity:.13;transform:scale(1.005)}}
+@media(prefers-reduced-motion:reduce){.wk-place-1,.wk-place-1:before{animation:none}}
