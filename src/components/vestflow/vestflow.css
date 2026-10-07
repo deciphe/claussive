@@ -110,7 +110,7 @@
 .flow-wisp{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;gap:28px;padding:28px;background:radial-gradient(circle at 50% 44%,#171c18 0,#090b0a 48%,#070807 100%);font-family:'Manrope',system-ui,sans-serif;color:#eef1eb}
 .flow-wisp-aura{position:absolute;width:360px;height:260px;border-radius:50%;background:#b6ff4a0c;filter:blur(55px);pointer-events:none}
 .flow-wisp-art{position:relative;width:116px;height:116px;display:grid;place-items:center}
-.flow-wisp-art img{position:absolute;width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 12px 30px #000)}
+.flow-wisp-art img{position:absolute;width:116px;height:116px;object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 12px 30px #0008)}
 .flow-wisp-art>span{position:absolute;top:-8px;right:5px;color:#c4aa6b;font-size:11px;animation:flow-wisp-float 1.8s ease-in-out infinite}
 .flow-wisp-copy{position:relative;min-width:280px}
 .flow-wisp-copy>span{display:block;color:#9da69f;font:600 9px 'DM Mono',ui-monospace,monospace;letter-spacing:.17em}
