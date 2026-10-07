@@ -159,3 +159,30 @@
  .wk-place-2 .wk-podium-amount{font-size:24px}
  .wk-place-3 .wk-podium-amount{font-size:22px}
 }
+
+/* Arcane rank-gathering Wisp */
+.wk-rank-wisp{position:fixed;z-index:90;left:50%;top:50%;width:min(430px,calc(100vw - 36px));min-height:190px;transform:translate(-50%,-50%);display:flex;align-items:center;gap:22px;padding:24px 27px;border:1px solid #d8bd7a35;border-radius:22px;background:linear-gradient(145deg,#15140ff2,#080a09f7 55%,#050605fa);box-shadow:0 34px 100px #000c,0 0 0 1px #ffffff08 inset,0 0 70px #b68b2a12;backdrop-filter:blur(22px) saturate(.75);-webkit-backdrop-filter:blur(22px) saturate(.75);overflow:hidden;animation:wk-rank-arrive .42s cubic-bezier(.2,.8,.2,1) both}
+.wk-rank-wisp:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 12%,#e6ca8720 48%,transparent 58%);transform:translateX(-120%);animation:wk-rank-sheen 3.8s ease-in-out infinite;pointer-events:none}
+.wk-rank-wisp:after{content:"MASSIVE / PRIVATE LEDGER";position:absolute;right:18px;top:13px;font:7px 'DM Mono',monospace;letter-spacing:1.6px;color:#bda7795e}
+.wk-rank-wisp-aura{position:absolute;width:180px;height:180px;left:-18px;top:8px;border-radius:50%;background:radial-gradient(circle,#d5b6651b 0 14%,#81652612 34%,transparent 68%);filter:blur(5px);animation:wk-rank-breathe 3.2s ease-in-out infinite}
+.wk-rank-wisp-art{position:relative;z-index:1;flex:0 0 118px;height:132px;display:grid;place-items:center;animation:wk-rank-float 2.8s ease-in-out infinite}
+.wk-rank-wisp-art:before{content:"";position:absolute;width:86px;height:86px;border:1px solid #d7bb7452;border-radius:50%;box-shadow:0 0 30px #b58b2d22,inset 0 0 30px #000;transform:rotate(12deg)}
+.wk-rank-wisp-art:after{content:"";position:absolute;bottom:5px;width:70px;height:12px;border-radius:50%;background:#000;filter:blur(7px);opacity:.8;animation:wk-rank-shadow 2.8s ease-in-out infinite}
+.wk-rank-wisp-art img{position:relative;z-index:2;width:108px;height:108px;object-fit:contain;filter:grayscale(.55) sepia(.25) brightness(.72) contrast(1.35) drop-shadow(0 9px 18px #000) drop-shadow(0 0 9px #d6b35b42)}
+.wk-rank-wisp-crown{position:absolute;z-index:3;top:2px;left:50%;transform:translateX(-50%) rotate(45deg);font-size:9px;color:#ead391;text-shadow:0 0 12px #e0bd63;animation:wk-rank-crown 1.8s ease-in-out infinite}
+.wk-rank-wisp-copy{position:relative;z-index:1;min-width:0;padding-top:8px}
+.wk-rank-wisp-copy>span{display:block;margin-bottom:9px;font:8px 'DM Mono',monospace;letter-spacing:2px;color:#b79b5e}
+.wk-rank-wisp-copy strong{display:block;font-size:24px;line-height:1.04;letter-spacing:-1px;font-weight:600;color:#f3efe3;text-shadow:0 1px 20px #d8bd7a16}
+.wk-rank-wisp-copy p{margin:9px 0 15px;font-size:11px;line-height:1.55;color:#858b82}
+.wk-rank-wisp-progress{display:flex;gap:5px;height:8px;align-items:center}
+.wk-rank-wisp-progress i{display:block;width:18px;height:1px;background:#5e5643;box-shadow:0 0 7px transparent;animation:wk-rank-pulse 1.35s ease-in-out infinite}
+.wk-rank-wisp-progress i:nth-child(2){animation-delay:.12s}.wk-rank-wisp-progress i:nth-child(3){animation-delay:.24s}.wk-rank-wisp-progress i:nth-child(4){animation-delay:.36s}.wk-rank-wisp-progress i:nth-child(5){animation-delay:.48s}
+@keyframes wk-rank-arrive{from{opacity:0;transform:translate(-50%,-46%) scale(.96);filter:blur(5px)}to{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}}
+@keyframes wk-rank-float{0%,100%{transform:translateY(5px) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+@keyframes wk-rank-shadow{0%,100%{transform:scaleX(1);opacity:.78}50%{transform:scaleX(.72);opacity:.46}}
+@keyframes wk-rank-breathe{0%,100%{transform:scale(.9);opacity:.55}50%{transform:scale(1.08);opacity:1}}
+@keyframes wk-rank-crown{0%,100%{opacity:.5;filter:brightness(.8)}50%{opacity:1;filter:brightness(1.35)}}
+@keyframes wk-rank-pulse{0%,100%{background:#514b3e;box-shadow:0 0 0 transparent}45%{background:#e0c477;box-shadow:0 0 9px #d7b75d88}}
+@keyframes wk-rank-sheen{0%,64%{transform:translateX(-120%)}88%,100%{transform:translateX(130%)}}
+@media(max-width:520px){.wk-rank-wisp{gap:14px;padding:21px 18px;min-height:164px}.wk-rank-wisp-art{flex-basis:92px;height:112px}.wk-rank-wisp-art img{width:88px;height:88px}.wk-rank-wisp-copy strong{font-size:20px}.wk-rank-wisp:after{display:none}}
+@media(prefers-reduced-motion:reduce){.wk-rank-wisp,.wk-rank-wisp:before,.wk-rank-wisp-aura,.wk-rank-wisp-art,.wk-rank-wisp-art:after,.wk-rank-wisp-crown,.wk-rank-wisp-progress i{animation:none!important}}
