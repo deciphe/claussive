@@ -2,10 +2,11 @@ name: Refresh MASSIVE flow trackers
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+    # Offset from busy clock boundaries. GitHub schedules are best-effort.
+    - cron: '2-59/5 * * * *'
   push:
     branches: ["main"]
-    paths: [".flow-migration-trigger"]
+    paths: [".flow-migration-trigger", ".github/workflows/vestflow.yml"]
 permissions:
   contents: write
 concurrency:
@@ -16,6 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
+      - name: Record refresh trigger
+        env:
+          REFRESH_EVENT: ${{ github.event_name }}
+          REFRESH_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          echo "Trigger: $REFRESH_EVENT; schedule: $REFRESH_SCHEDULE" >> "$GITHUB_STEP_SUMMARY"
+          date -u >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
