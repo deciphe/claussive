@@ -4,8 +4,6 @@ import Web3Hub from "./components/web3/Web3Hub";
 const VestPdf = lazy(() => import("./components/lessons/VestPdf"));
 const EmailTest = lazy(() => import("./components/email/EmailTest"));
 const Weekly = lazy(() => import("./components/weekly/Weekly"));
-const Million = lazy(() => import("./components/vestflow/Million"));
-const TwoMilli = lazy(() => import("./components/vestflow/TwoMilli"));
 const FlowHub = lazy(() => import("./components/vestflow/FlowHub"));
 const Vestflow = lazy(() => import("./components/vestflow/Vestflow"));
 const TheBook = lazy(() => import("./components/learn/LearnPerps"));
@@ -31,8 +29,6 @@ export default function App() {
 
   const flow=hash === "#vestflow" ? "vest" : hash === "#breakoutflow" ? "breakout" : hash === "#novaflow" ? "nova" : hash === "#proprflow" ? "propr" : null;
   if(route === "#leaderboard")return <Suspense fallback={<div style={{background:"#0a0e0c",minHeight:"100vh"}}/>}><Weekly/></Suspense>;
-  if(hash === "#1milli")return <Suspense fallback={<div style={{background:"#090b0a",minHeight:"100vh"}}/>}><Million/></Suspense>;
-  if(hash === "#2milli")return <Suspense fallback={<div style={{background:"#080a09",minHeight:"100vh"}}/>}><TwoMilli/></Suspense>;
   if(hash === "#flow")return <Suspense fallback={<div style={{background:"#090b0a",minHeight:"100vh"}}/>}><FlowHub/></Suspense>;
   return flow ? <Suspense fallback={<div style={{background:'#090b0a',color:'#b6ff4a',minHeight:'100vh',padding:40}}>Loading flow…</div>}><Vestflow key={flow} firm={flow}/></Suspense> : <Web3Hub />;
 }
