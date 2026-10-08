@@ -1,0 +1,56 @@
+{
+  "asOf": "October 8, 2026 \u00b7 15:17",
+  "rate": 0.2,
+  "days": [
+    {
+      "date": "2026-10-08",
+      "commissionCents": 270180,
+      "sales": 26
+    },
+    {
+      "date": "2026-10-07",
+      "commissionCents": 113620,
+      "sales": 21
+    },
+    {
+      "date": "2026-10-06",
+      "commissionCents": 237357,
+      "sales": 34
+    },
+    {
+      "date": "2026-10-05",
+      "commissionCents": 305424,
+      "sales": 52
+    },
+    {
+      "date": "2026-10-04",
+      "commissionCents": 41372,
+      "sales": 14
+    },
+    {
+      "date": "2026-10-03",
+      "commissionCents": 47,
+      "sales": 1
+    },
+    {
+      "date": "2026-10-02",
+      "commissionCents": 33533,
+      "sales": 8
+    },
+    {
+      "date": "2026-10-01",
+      "commissionCents": 25744,
+      "sales": 8
+    },
+    {
+      "date": "2026-09-30",
+      "commissionCents": 35102,
+      "sales": 10
+    },
+    {
+      "date": "2026-09-29",
+      "commissionCents": 390,
+      "sales": 2
+    }
+  ]
+}

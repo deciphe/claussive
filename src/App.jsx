@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import Web3Hub from "./components/web3/Web3Hub";
 
+const Affiliated = lazy(() => import("./components/affiliated/Affiliated"));
 const PerpCopier = lazy(() => import("./components/perpcopier/PerpCopier"));
 const VestPdf = lazy(() => import("./components/lessons/VestPdf"));
 const EmailTest = lazy(() => import("./components/email/EmailTest"));
@@ -27,6 +28,8 @@ export default function App() {
   if(route === "#thebook")return <Suspense fallback={<div style={{background:"#f7f3fb",minHeight:"100vh"}}/>}><TheBook/></Suspense>;
 
   if(route === "#perpcopier")return <Suspense fallback={<div style={{background:"#070708",minHeight:"100vh"}}/>}><PerpCopier/></Suspense>;
+
+  if(route === "#affiliated")return <Suspense fallback={<div style={{background:"#070708",minHeight:"100vh"}}/>}><Affiliated/></Suspense>;
 
   const flow=route === "#vestflow" ? "vest" : null;
   if(route === "#leaderboard")return <Suspense fallback={<div style={{background:"#0a0e0c",minHeight:"100vh"}}/>}><Weekly/></Suspense>;
