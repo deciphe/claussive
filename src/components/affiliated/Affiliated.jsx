@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {ArrowLeft, ArrowUpRight, MoveDown} from 'lucide-react';
+import {ArrowLeft, ArrowUpRight} from 'lucide-react';
 import data from './earnings.json';
 import './affiliated.css';
 const money = cents => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100);
@@ -7,6 +7,9 @@ const total = data.days.reduce((n,d)=>n+d.commissionCents,0);
 const count = data.days.reduce((n,d)=>n+d.sales,0);
 const best = data.days.reduce((a,b)=>a.commissionCents>b.commissionCents?a:b);
 const dateParts = date => {const d=new Date(date+'T12:00:00');return {day:d.getDate().toString().padStart(2,'0'),month:d.toLocaleDateString('en-US',{month:'short'}),weekday:d.toLocaleDateString('en-US',{weekday:'long'})}};
+const cumulative = [...data.days].reverse().reduce((points, day) => { points.push((points.at(-1)||0)+day.commissionCents); return points; }, []);
+const trendPoints = cumulative.map((value,i)=>`${12+i*376/(cumulative.length-1)},${146-value/total*126}`).join(' ');
+function EarningsTrend(){return <svg className="af-trend" viewBox="0 0 400 170" role="img" aria-label="Cumulative commissions rose to $10,627.69 from September 29 to October 8"><defs><linearGradient id="af-line" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#9b87f5" stopOpacity=".05"/><stop offset=".55" stopColor="#b8a5da" stopOpacity=".55"/><stop offset="1" stopColor="#efe6d2" stopOpacity=".85"/></linearGradient><linearGradient id="af-fill" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#b6a1dd" stopOpacity=".13"/><stop offset="1" stopColor="#b6a1dd" stopOpacity="0"/></linearGradient><filter id="af-haze" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="7"/></filter></defs><polygon points={`12,164 ${trendPoints} 388,164`} fill="url(#af-fill)"/><polyline points={trendPoints} fill="none" stroke="#ad96d6" strokeWidth="9" opacity=".26" filter="url(#af-haze)"/><polyline points={trendPoints} fill="none" stroke="url(#af-line)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="388" cy="20" r="2" fill="#e3d8c5" opacity=".6"/></svg>}
 function Amount({cents}){const [whole,decimal]=money(cents).split('.');return <>{whole}<span className="af-decimal">.{decimal}</span></>}
 export default function Affiliated(){
  const [metric,setMetric]=useState('earnings');
@@ -16,7 +19,7 @@ export default function Affiliated(){
   <div className="af-wrap">
    <section className="af-intro"><div className="af-kicker"><i/> MASSIVE × VEST <span>01 / AFFILIATE STATEMENT</span></div><h1>Affiliated<span>.</span></h1><div className="af-intro-foot"><p>The numbers speak.</p><span>SEP 29 — OCT 08, 2026</span></div></section>
    <section className="af-hero" aria-label="Affiliate earnings summary">
-    <div className="af-card-grain" aria-hidden="true"/><span className="af-ghost" aria-hidden="true">M.</span>
+    <div className="af-card-grain" aria-hidden="true"/><EarningsTrend/><span className="af-ghost" aria-hidden="true">M.</span>
     <div className="af-card-top"><span className="af-card-wordmark">MASSIVE<span> / BLACK CARD</span></span><span className="af-pending"><i/> PENDING COMMISSIONS</span></div>
     <div className="af-main-amount"><p>TOTAL EARNINGS <span>USD</span></p><div className="af-total"><Amount cents={total}/></div></div>
     <div className="af-hero-bottom"><div><span className="af-label">ESTIMATED SALES</span><strong><Amount cents={total/data.rate}/></strong></div><div><span className="af-label">SALES</span><strong>{count}<small>transactions</small></strong></div><div><span className="af-label">COMMISSION</span><strong>20<span className="af-percent">%</span></strong></div></div>
