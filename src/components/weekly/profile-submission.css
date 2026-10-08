@@ -50,3 +50,13 @@
 @keyframes wk-wisp-pulse{0%,100%{opacity:.25}50%{opacity:1}}
 @media(max-width:400px){.wk-wisp-wait{gap:9px;padding:14px 12px 14px 6px}.wk-wisp-wait-art{flex-basis:48px}.wk-wisp-wait-art img{width:48px;height:48px}.wk-wisp-wait-copy>strong{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.wk-wisp-wait-art,.wk-wisp-wait-dots i{animation:none}}
+
+
+/* Compact leaderboard profile CTA */
+.wk-claim-compact{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 20px;margin:20px 0 16px;border:1px solid rgba(228,224,216,.14);border-radius:10px;background:linear-gradient(100deg,rgba(230,224,214,.055),rgba(230,224,214,.015))}
+.wk-claim-compact>div{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.wk-claim-compact strong{font-size:11px;letter-spacing:.16em;color:#eee9df}
+.wk-claim-compact span{font-size:13px;color:#aaa4ad}
+.wk-claim-compact button{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border:1px solid rgba(230,225,216,.23);background:#dfd9ce;color:#19181b;border-radius:3px;padding:10px 15px;font:700 11px/1 inherit;letter-spacing:.06em;cursor:pointer}
+.wk-claim-compact button:hover{background:#fffaf0}
+@media(max-width:600px){.wk-claim-compact{padding:13px 14px;gap:10px}.wk-claim-compact>div{gap:4px;flex-direction:column;align-items:flex-start}.wk-claim-compact span{font-size:12px}.wk-claim-compact button{padding:10px 12px;font-size:10px}}
