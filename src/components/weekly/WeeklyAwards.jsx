@@ -1,6 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
 import {weeklyAwardRange} from '../../lib/weekly-awards.js';
-import './weekly-awards.css';
 export default function WeeklyAwards({board,rows,person,renderCard}){
  const host=useRef(null),canvas=useRef(null),[size,setSize]=useState({scale:1,height:750});
  useEffect(()=>{

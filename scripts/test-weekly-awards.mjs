@@ -13,7 +13,7 @@ try{
  for(const person of [null,...rows]){
   const html=renderToStaticMarkup(React.createElement(Card,{board,rows,profiles,firm:'vest',person,renderCard:r=>React.createElement(PodiumCard,{row:r,profiles,view:'weekly',board,selectedWeekKey:board.week,start:board.start})}));
   assert(html.includes('Sep 21 — Sep 27, 2026'));
-  assert(html.includes(person?['WEEK LEADER','SECOND PLACE','THIRD PLACE'][person.rank-1]:'WEEKLY PODIUM'));
+  assert(html.includes(person?['Week leader','Second place','Third place'][person.rank-1]:'WEEKLY PODIUM'));
   assert(!html.includes('wk-daily'));
   assert(!html.includes('24h'));
   assert(html.includes('wk-podium-card'));
@@ -25,8 +25,8 @@ try{
  const row={rank:20,total:12480,count:12};
  const card=renderToStaticMarkup(React.createElement(EmailCard,{trader,row,season:'2026-09-01',asOf:'2026-10-04T18:00:00Z'}));
  assert(card.includes('MASSIVE season payout rank card'));
- assert(card.includes('A PLACE ON THE RECORD.'));
- assert(card.includes('SEASON RANK'));
+ assert(card.includes('A place on the record.'));
+ assert(card.includes('season rank'));
  assert(card.includes('long_handle_123')===false);
  const html=emailHtml({trader,row,season:'2026-09-01',seasonNumber:1,test:true});
  assert(html.includes('cid:massiveprop-rank-card'));

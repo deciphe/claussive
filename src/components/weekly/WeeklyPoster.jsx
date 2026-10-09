@@ -1,34 +1,77 @@
 import {traderWallets} from '../../lib/trader-wallets.js';
 import {WEEKLY_FIRMS} from '../../lib/weekly-leaderboard.js';
-import {seasonEnd} from '../../lib/season-leaderboard.js';
+import {seasonEnd,seasonNumber} from '../../lib/season-leaderboard.js';
 const usd=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
 const short=a=>a.slice(0,6)+'…'+a.slice(-4);
 export const range=s=>new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'})+' — '+new Date(seasonEnd(s)-1).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'});
+
+// Shareable season artwork: one trader's rank card, or the full standings.
+// Pure SVG so it renders the same on the page, in the JPG export and in email.
+const INK='#faf9f5',DIM='#b0aea5',FAINT='#8f8d85',GOLD='#e2cb97',VIOLET='#b3a6d6',BG='#1f1e1d';
+const SANS='Geist,Manrope,system-ui,sans-serif',MONO="'Geist Mono','DM Mono',ui-monospace,monospace",SERIF="'Instrument Serif',Georgia,serif";
+const mono=(size,fill=DIM)=>({fontFamily:MONO,fontSize:size,fill});
+
 export default function WeeklyPoster({board,rows,profiles,firm,person}){
- const list=person?[person]:rows.slice(0,firm==='vest'?100:15),h=person?760:395+list.length*66;
- const label=firm==='all'?'ALL FIRMS':WEEKLY_FIRMS.find(f=>f.id===firm)?.name.toUpperCase();
+ const list=person?[person]:rows.slice(0,firm==='vest'?100:15),h=person?760:412+list.length*66;
+ const label=firm==='all'?'all firms':WEEKLY_FIRMS.find(f=>f.id===firm)?.name.toLowerCase();
  const houses=person?WEEKLY_FIRMS.filter(f=>person.firms[f.id]):[];
  const champion=Boolean(person&&person.rank===1);
- return <svg xmlns="http://www.w3.org/2000/svg" width="1200" height={h} viewBox={`0 0 1200 ${h}`} role="img" aria-label="MASSIVE season payout rank card" style={{display:'block',width:'100%',height:'auto',margin:'0 auto',fontFamily:'Manrope,sans-serif'}}>
- <defs><linearGradient id="wk-bg" x2="1" y2="1"><stop stopColor="#353437"/><stop offset=".35" stopColor="#131316"/><stop offset=".75" stopColor="#09090c"/><stop offset="1" stopColor="#272429"/></linearGradient><linearGradient id="wk-metal" x2=".8" y2="1"><stop stopColor="#faf7ed"/><stop offset=".35" stopColor="#aaa5aa"/><stop offset=".55" stopColor="#e9e4dc"/><stop offset="1" stopColor="#625c66"/></linearGradient><linearGradient id="wk-champion-metal" x2=".85" y2="1"><stop stopColor="#faf8f1"/><stop offset=".28" stopColor="#c9c6c1"/><stop offset=".52" stopColor="#ddd6c2"/><stop offset=".7" stopColor="#a99a78"/><stop offset="1" stopColor="#68656a"/></linearGradient><linearGradient id="wk-champion-edge" x2="1"><stop stopColor="#7d6841"/><stop offset=".28" stopColor="#d9bd77"/><stop offset=".55" stopColor="#f1dfad"/><stop offset=".78" stopColor="#8f7750"/><stop offset="1" stopColor="#c5c0ba"/></linearGradient><radialGradient id="wk-champion-glow" cx=".18" cy=".35" r=".72"><stop stopColor="#d4bc7d" stopOpacity=".15"/><stop offset=".52" stopColor="#d4bc7d" stopOpacity=".035"/><stop offset="1" stopColor="#d4bc7d" stopOpacity="0"/></radialGradient><linearGradient id="wk-sheen"><stop stopColor="#ffffff00"/><stop offset=".47" stopColor="#ffffff00"/><stop offset=".5" stopColor="#ffffff09"/><stop offset=".6" stopColor="#ffffff00"/></linearGradient><linearGradient id="wk-portrait-fade"><stop stopColor="black"/><stop offset=".5" stopColor="white"/><stop offset=".8" stopColor="white"/><stop offset="1" stopColor="black"/></linearGradient><linearGradient id="wk-portrait-bottom" x2="0" y2="1"><stop stopColor="black"/><stop offset=".2" stopColor="white"/><stop offset=".55" stopColor="white"/><stop offset="1" stopColor="black"/></linearGradient><mask id="wk-portrait-mask" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#wk-portrait-fade)"/></mask><mask id="wk-portrait-foot" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#wk-portrait-bottom)"/></mask></defs>
- <rect width="1200" height={h} fill="url(#wk-bg)"/>{champion&&<rect width="1200" height={h} fill="url(#wk-champion-glow)" opacity=".45"/>}<rect x="24" y="24" width="1152" height={h-48} rx="2" fill="none" stroke={champion?'#c8b27466':'#c7bcc341'} strokeWidth="1"/>{champion&&<><path d="M24 72V24H72" fill="none" stroke="#d4bc7d99" strokeWidth="2"/><path d="M1128 24h48v48" fill="none" stroke="#d4bc7d44" strokeWidth="1"/></>}<rect width="1200" height={h} fill="url(#wk-sheen)"/>
- <text x="66" y="84" fontSize="42" fontWeight="800" letterSpacing="-3" fill={champion?'#d2bd82':'#e4dfd7'}>MASSIVE.</text><text x="160" y="76" fontFamily="DM Mono,monospace" fontSize="11" letterSpacing="3" fill="#afa5af">MASSIVE / SEASON SELECT</text><text x="1134" y="76" textAnchor="end" fontFamily="DM Mono,monospace" fontSize="10" letterSpacing="1" fill="#a095a0">{board.closed?'CLOSED EDITION':'LIVE EDITION'} / {label}</text>
+ const profile=person?profiles[person.address]:null;
+ const season=Number.isFinite(board.start)?'season '+String(seasonNumber(board.start)).padStart(2,'0'):'season';
+ const wallets=person?traderWallets(person.address):[];
+ const handle=person?(profile?'@'+profile.username:short(person.address)):'';
+ return <svg xmlns="http://www.w3.org/2000/svg" width="1200" height={h} viewBox={`0 0 1200 ${h}`} role="img" aria-label="MASSIVE season payout rank card" style={{display:'block',width:'100%',height:'auto',margin:'0 auto',fontFamily:SANS}}>
+ <defs>
+  <pattern id="wk-dots" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="2.3" fill="#fff"/></pattern>
+  <radialGradient id="wk-moon-fill" gradientUnits="userSpaceOnUse" cx="1150" cy="1860" r="1700"><stop offset=".76" stopColor="#9a8fbd" stopOpacity=".05"/><stop offset=".9" stopColor="#a99bc6" stopOpacity=".2"/><stop offset=".965" stopColor="#d9cba8" stopOpacity=".55"/><stop offset="1" stopColor="#eee0be" stopOpacity=".95"/></radialGradient>
+  <mask id="wk-dot-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height={h}><rect width="1200" height={h} fill="url(#wk-dots)"/></mask>
+  <radialGradient id="wk-haze-gold" gradientUnits="userSpaceOnUse" cx="430" cy="330" r="520"><stop stopColor={GOLD} stopOpacity=".2"/><stop offset="1" stopColor={GOLD} stopOpacity="0"/></radialGradient>
+  <radialGradient id="wk-haze-violet" gradientUnits="userSpaceOnUse" cx="1160" cy="20" r="560"><stop stopColor={VIOLET} stopOpacity=".24"/><stop offset="1" stopColor={VIOLET} stopOpacity="0"/></radialGradient>
+  <linearGradient id="wk-portrait-fade"><stop stopColor="black"/><stop offset=".5" stopColor="white"/><stop offset="1" stopColor="white"/></linearGradient>
+  <linearGradient id="wk-portrait-bottom" x2="0" y2="1"><stop stopColor="black"/><stop offset=".18" stopColor="white"/><stop offset=".6" stopColor="white"/><stop offset="1" stopColor="black"/></linearGradient>
+  <mask id="wk-portrait-mask" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#wk-portrait-fade)"/></mask>
+  <mask id="wk-portrait-foot" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#wk-portrait-bottom)"/></mask>
+  <filter id="wk-mono" colorInterpolationFilters="sRGB"><feColorMatrix type="matrix" values=".34 .56 .14 0 0  .31 .53 .13 0 0  .36 .58 .16 0 .02  0 0 0 1 0"/></filter>
+  <clipPath id="wk-round" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
+  <clipPath id="wk-panel"><rect x="40" y="96" width="1120" height="524" rx="22"/></clipPath>
+ </defs>
+ <rect width="1200" height={h} fill={BG}/>
+ <rect width="1200" height={h} fill="url(#wk-haze-violet)"/>
+ <rect width="1200" height={Math.min(h,900)} fill="url(#wk-haze-gold)"/>
+ <g mask="url(#wk-dot-mask)"><circle cx="1150" cy="1860" r="1700" fill="url(#wk-moon-fill)"/></g>
+ <text x="56" y="68" fontSize="36" fontWeight="900" letterSpacing="-1.8" fill={INK}>MASSIVE.</text>
+ <text x="1144" y="64" textAnchor="end" {...mono(12)}>{season} · {label} · {board.closed?'closed edition':'live edition'}</text>
  {person?<>
- {profiles[person.address]?.avatar&&<g mask="url(#wk-portrait-foot)"><image href={profiles[person.address].avatar} x="550" y="110" width="570" height="410" preserveAspectRatio="xMidYMid slice" opacity=".50" mask="url(#wk-portrait-mask)"/></g>}
- {houses.map((f,i)=><image key={f.id} href={f.logo} x={625+i*50} y={190+i*50} width="360" height="310" opacity=".065" preserveAspectRatio="xMidYMid meet"/>)}
- <text x="600" textAnchor="middle" y="153" fontFamily="DM Mono,monospace" fontSize="11" letterSpacing="3" fill="#a499a6">A PLACE ON THE RECORD.</text>
- <text x="265" textAnchor="middle" y="375" fontSize={person.rank>99?170:235} fontWeight="800" letterSpacing="-12" fill={champion?'url(#wk-champion-metal)':'url(#wk-metal)'}>{String(person.rank).padStart(2,'0')}</text>
- <text x="265" textAnchor="middle" y="420" fontFamily="DM Mono,monospace" fontSize="12" letterSpacing="4" fill={champion?'#bda970':'#988b9b'}>SEASON RANK</text>
- {profiles[person.address]?.tag&&<text x="805" textAnchor="middle" y="320" fontSize={champion?17:15} fontWeight={champion?600:400} letterSpacing={champion?2:3} fill={champion?'#dfc37c':'#d4c1a1'}>{profiles[person.address].tag}</text>}<text x="805" textAnchor="middle" y="250" fontSize={profiles[person.address]?.username?.length>14?26:34} fontWeight="500" letterSpacing="-1" fill="#ece5e8">{profiles[person.address]?'@'+profiles[person.address].username:short(person.address)}</text>
- <text x="805" textAnchor="middle" y="283" fontFamily="DM Mono,monospace" fontSize="10" letterSpacing="2" fill="#8e8194">{profiles[person.address]?.verifiedAt?'WALLET CONTROL VERIFIED':profiles[person.address]?.editorial?'FEATURED BY MASSIVE':'UNCLAIMED PAYOUT WALLET'}</text>
- <text x="805" textAnchor="middle" y="385" fontSize="65" letterSpacing="-3" fill="#e6ded5">{usd(person.total)}</text><text x="805" textAnchor="middle" y="418" fontFamily="DM Mono,monospace" fontSize="11" letterSpacing="1" fill="#8f8295">USDC RECEIVED / {person.count} {person.count===1?'PAYOUT':'PAYOUTS'}</text>
- <line x1="70" x2="1130" y1="479" y2="479" stroke={champion?'url(#wk-champion-edge)':'#c0a9c32a'} strokeWidth={champion?1.5:1}/>
- {houses.map((f,i)=><g key={f.id} transform={`translate(${600-houses.length*120+i*240+20} 515)`}><image href={f.logo} width="26" height="23" preserveAspectRatio="xMidYMid meet"/><text x="38" y="17" fontFamily="DM Mono,monospace" fontSize="12" letterSpacing="1" fill="#b2a2bc">{f.name.toUpperCase()}</text></g>)}
- {traderWallets(person.address).map((address,i)=><text key={address} x="600" textAnchor="middle" y={573+i*20} fontFamily="DM Mono,monospace" fontSize="11" fill="#8c7d95">{address}{traderWallets(person.address).length>1?' / WALLET '+(i+1):''}</text>)}<text x="600" y="631" textAnchor="middle" fontFamily="DM Mono,monospace" fontSize="11" fill={champion?'#b9aa80':'#aa9bb2'}>{range(board.start)} · UTC</text>
+ <rect x="40" y="96" width="1120" height="524" rx="22" fill="#141413" fillOpacity=".74" stroke={champion?GOLD:INK} strokeOpacity={champion?.5:.16}/>
+ {profile?.avatar&&<g clipPath="url(#wk-panel)"><g mask="url(#wk-portrait-foot)"><image href={profile.avatar} x="780" y="96" width="380" height="380" preserveAspectRatio="xMidYMid slice" filter="url(#wk-mono)" mask="url(#wk-portrait-mask)"/></g></g>}
+ <text x="84" y="152" {...mono(13,champion?GOLD:DIM)}>// season rank</text>
+ <text x="70" y="478" fontSize={person.rank>99?230:340} fontWeight="900" letterSpacing={person.rank>99?-12:-20} fill={champion?GOLD:INK}>{String(person.rank).padStart(2,'0')}</text>
+ <text x="84" y="574" fontFamily={SERIF} fontStyle="italic" fontSize="26" fill={DIM}>A place on the record.</text>
+ <text x="530" y="300" fontSize={handle.length>16?40:handle.length>11?52:62} fontWeight="800" letterSpacing="-2" fill={INK}>{handle}</text>
+ <text x="532" y="332" {...mono(13)}>{profile?.verifiedAt?'wallet control verified':profile?.editorial?'featured by MASSIVE':'unclaimed payout wallet'}</text>
+ {profile?.tag&&<text x="532" y="374" fontFamily={SERIF} fontStyle="italic" fontSize="26" fill={GOLD}>{profile.tag}</text>}
+ <line x1="532" x2="1120" y1="404" y2="404" stroke={INK} strokeOpacity=".16"/>
+ <text x="528" y="500" fontSize="88" fontWeight="800" letterSpacing="-4.4" fill={INK}>{usd(person.total)}</text>
+ <text x="532" y="536" {...mono(13)}>usdc received · {person.count} {person.count===1?'payout':'payouts'}</text>
+ {houses.map((f,i)=><g key={f.id} transform={`translate(${532+i*110} 562)`}><image href={f.logo} width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="28" y="15" {...mono(13)}>{f.name.toLowerCase()}</text></g>)}
+ {wallets.slice(0,wallets.length>2?1:2).map((address,i)=><text key={address} x="56" y={654+i*18} {...mono(12,INK)}>{address}{wallets.length>1?' / wallet '+(i+1):''}</text>)}
+ {wallets.length>2&&<text x="56" y="672" {...mono(12)}>+ {wallets.length-1} more wallets combined</text>}
+ <text x="1144" y="654" textAnchor="end" fontSize="15" fontWeight="600" fill={INK}>massiveprop.xyz/#leaderboard</text>
+ <text x="1144" y="676" textAnchor="end" {...mono(12)}>{range(board.start)} · utc</text>
  </>:<>
- <text x="66" y="161" fontSize="62" fontWeight="800" letterSpacing="-3" fill="url(#wk-metal)">{firm==='vest'?'THE TOP 100.':'THE TOP FIFTEEN.'}</text><text x="69" y="199" fontFamily="DM Mono,monospace" fontSize="13" fill="#a092ab">{range(board.start)} · UTC</text>
- {list.map((r,i)=><g key={r.address}><rect x="52" y={236+i*66} width="1096" height="60" rx="1" fill={i===0?'#bfb0c314':i%2?'#ffffff03':'transparent'}/><text x="72" y={277+i*66} fontSize="25" fontWeight="500" fill={i<3?'#d8cdd6':'#76677f'}>{String(r.rank).padStart(2,'0')}</text>{profiles[r.address]?.avatar&&<image href={profiles[r.address].avatar} x="130" y={236+i*66} width="360" height="60" preserveAspectRatio="xMidYMid slice" opacity=".27" mask="url(#wk-portrait-mask)"/>}<text x="147" y={276+i*66} fontSize={profiles[r.address]?.username?.length>14?18:24} fontWeight="500" fill="#d2c7d8">{profiles[r.address]?'@'+profiles[r.address].username:short(r.address)}</text><text x="580" y={276+i*66} fontFamily="DM Mono,monospace" fontSize="11" fill="#8e7b99">{Object.keys(r.firms).map(id=>WEEKLY_FIRMS.find(f=>f.id===id)?.name).join(' · ')}</text><text x="1125" y={276+i*66} textAnchor="end" fontSize="26" fill={i<3?'#e2d9d1':'#b8a9c0'}>{usd(r.total)}</text></g>)}
+ <text x="52" y="184" fontSize="84" fontWeight="900" letterSpacing="-4.6" fill={INK}>The top <tspan fontFamily={SERIF} fontStyle="italic" fontWeight="400" letterSpacing="-1" fontSize="92" fill={GOLD}>{firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
+ <text x="58" y="222" {...mono(13)}>{range(board.start)} · utc</text>
+ {list.map((r,i)=>{const p=profiles[r.address],y=252+i*66;return <g key={r.address}>
+  <rect x="40" y={y} width="1120" height="58" rx="12" fill="#141413" fillOpacity={i<3?.78:.6} stroke={i===0?GOLD:INK} strokeOpacity={i===0?.5:.1}/>
+  <text x="62" y={y+38} fontSize="24" fontWeight="800" letterSpacing="-1" fill={i<3?GOLD:FAINT}>{String(r.rank).padStart(2,'0')}</text>
+  {p?.avatar?<image href={p.avatar} x="118" y={y+9} width="40" height="40" preserveAspectRatio="xMidYMid slice" clipPath="url(#wk-round)" filter="url(#wk-mono)"/>:<circle cx="138" cy={y+29} r="19" fill="none" stroke={INK} strokeOpacity=".3" strokeDasharray="1.5 4" strokeLinecap="round" strokeWidth="1.5"/>}
+  <text x="174" y={y+37} fontSize={p?.username?.length>14?19:23} fontWeight="600" letterSpacing="-.5" fill={INK}>{p?'@'+p.username:short(r.address)}</text>
+  <text x="640" y={y+35} {...mono(12)}>{Object.keys(r.firms).map(id=>WEEKLY_FIRMS.find(f=>f.id===id)?.name.toLowerCase()).join(' · ')} · {r.count} {r.count===1?'payout':'payouts'}</text>
+  <text x="1138" y={y+38} textAnchor="end" fontSize="25" fontWeight="700" letterSpacing="-1" fill={INK}>{usd(r.total)}</text>
+ </g>})}
  </>}
- <line x1="66" x2="1134" y1={h-100} y2={h-100} stroke="#b8a5c02d"/><text x="66" y={h-70} fontFamily="DM Mono,monospace" fontSize="10" fill="#8f7a9b">ELIGIBLE USDC RECEIVED · RECIPIENT RANKING, NOT TRADING PNL</text><text x="66" y={h-48} fontFamily="DM Mono,monospace" fontSize="9" fill="#6d587b">As of {new Date(board.asOf).toISOString().replace('T',' ').slice(0,16)} UTC · known internal wallets, bridges and dust excluded.</text><text x="1134" y={h-56} textAnchor="end" fontFamily="DM Mono,monospace" fontSize="12" fill="#bca6c7">massiveprop.xyz/#leaderboard</text>
+ <line x1="56" x2="1144" y1={h-58} y2={h-58} stroke={INK} strokeOpacity=".14"/>
+ <text x="56" y={h-30} {...mono(11.5)}>eligible usdc received · recipient ranking, not trading pnl · as of {new Date(board.asOf).toISOString().replace('T',' ').slice(0,16)} utc · known internal wallets, bridges and dust excluded</text>
+ {!person&&<text x="1144" y={h-74} textAnchor="end" fontSize="15" fontWeight="600" fill={INK}>massiveprop.xyz/#leaderboard</text>}
  </svg>;
 }
