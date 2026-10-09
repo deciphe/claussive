@@ -8,9 +8,9 @@ export const range=s=>new Date(s).toLocaleDateString('en-US',{month:'short',day:
 // Shareable season artwork: one trader's rank card, or the full standings.
 // Pure SVG so it renders the same on the page, in the JPG export and in email.
 const INK='#faf9f5',DIM='#b0aea5',FAINT='#8f8d85',GOLD='#e2cb97',VIOLET='#b3a6d6',BG='#1f1e1d';
-const SANS='Archivo,Manrope,system-ui,sans-serif',SERIF="'Instrument Serif',Georgia,serif";
-// small tracked capitals for labels; expanded black for display
-const mono=(size,fill=DIM)=>({fontSize:size-1.5,fontWeight:600,letterSpacing:1.3,fill,style:{textTransform:'uppercase'}});
+const SANS='Manrope,system-ui,sans-serif',MONO="'DM Mono',ui-monospace,monospace",SERIF="'Instrument Serif',Georgia,serif";
+// DM Mono spaced capitals for labels; Manrope 800 for display
+const mono=(size,fill=DIM)=>({fontFamily:MONO,fontSize:size-2,fontWeight:400,letterSpacing:1.9,fill,style:{textTransform:'uppercase'}});
 const WIDE={fontStretch:'100%'};
 
 export default function WeeklyPoster({board,rows,profiles,firm,person}){
@@ -41,35 +41,35 @@ export default function WeeklyPoster({board,rows,profiles,firm,person}){
  <rect width="1200" height={h} fill="url(#wk-haze-violet)"/>
  <rect width="1200" height={Math.min(h,900)} fill="url(#wk-haze-gold)"/>
  <g mask="url(#wk-dot-mask)"><circle cx="1150" cy="1860" r="1700" fill="url(#wk-moon-fill)"/></g>
- <text x="56" y="68" fontSize="38" fontWeight="900" letterSpacing="-2" fill={INK} style={WIDE}>MASSIVE.</text>
+ <text x="56" y="68" fontSize="38" fontWeight="800" letterSpacing="-2" fill={INK} style={WIDE}>MASSIVE.</text>
  <text x="1144" y="64" textAnchor="end" {...mono(12)}>{season} · {label} · {board.closed?'closed edition':'live edition'}</text>
  {person?<>
  <rect x="40" y="96" width="1120" height="524" rx="22" fill="#141413" fillOpacity=".74" stroke={champion?GOLD:INK} strokeOpacity={champion?.5:.16}/>
  {profile?.avatar&&<g clipPath="url(#wk-panel)"><g mask="url(#wk-portrait-foot)"><image href={profile.avatar} x="780" y="96" width="380" height="380" preserveAspectRatio="xMidYMid slice" filter="url(#wk-mono)" mask="url(#wk-portrait-mask)"/></g></g>}
  <text x="84" y="152" {...mono(13,champion?GOLD:DIM)}>season rank</text>
- <text x="72" y="474" fontSize={person.rank>99?230:340} fontWeight="900" letterSpacing={person.rank>99?-12:-20} fill={champion?GOLD:INK} style={WIDE}>{String(person.rank).padStart(2,'0')}</text>
+ <text x="72" y="474" fontSize={person.rank>99?230:340} fontWeight="800" letterSpacing={person.rank>99?-12:-20} fill={champion?GOLD:INK} style={WIDE}>{String(person.rank).padStart(2,'0')}</text>
  <text x="84" y="572" {...mono(14)}>A place on the record.</text>
  <text x="530" y="300" fontSize={handle.length>16?40:handle.length>11?52:62} fontWeight="800" letterSpacing="-2" fill={INK} style={{fontStretch:'100%'}}>{handle}</text>
  <text x="532" y="332" {...mono(13)}>{profile?.verifiedAt?'wallet control verified':profile?.editorial?'featured by MASSIVE':'unclaimed payout wallet'}</text>
  {profile?.tag&&<text x="532" y="374" fontFamily={SERIF} fontStyle="italic" fontSize="26" fill={GOLD}>{profile.tag}</text>}
  <line x1="532" x2="1120" y1="404" y2="404" stroke={INK} strokeOpacity=".16"/>
- <text x="528" y="500" fontSize="88" fontWeight="800" letterSpacing="-4.4" fill={INK} style={{fontStretch:'100%'}}>{usd(person.total)}</text>
+ <text x="528" y="500" fontSize="84" fontWeight="500" letterSpacing="-4.2" fill={INK}>{usd(person.total)}</text>
  <text x="532" y="536" {...mono(13)}>usdc received · {person.count} {person.count===1?'payout':'payouts'}</text>
  {houses.map((f,i)=><g key={f.id} transform={`translate(${532+i*110} 562)`}><image href={f.logo} width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="28" y="15" {...mono(13)}>{f.name.toLowerCase()}</text></g>)}
- {wallets.slice(0,wallets.length>2?1:2).map((address,i)=><text key={address} x="56" y={654+i*18} fontSize="12.5" fontWeight="500" letterSpacing=".4" fill={INK}>{address}{wallets.length>1?' / wallet '+(i+1):''}</text>)}
+ {wallets.slice(0,wallets.length>2?1:2).map((address,i)=><text key={address} x="56" y={654+i*18} fontFamily={MONO} fontSize="12" fill={INK}>{address}{wallets.length>1?' / wallet '+(i+1):''}</text>)}
  {wallets.length>2&&<text x="56" y="672" {...mono(12)}>+ {wallets.length-1} more wallets combined</text>}
  <text x="1144" y="654" textAnchor="end" fontSize="15" fontWeight="600" fill={INK}>massiveprop.xyz/#leaderboard</text>
  <text x="1144" y="676" textAnchor="end" {...mono(12)}>{range(board.start)} · utc</text>
  </>:<>
- <text x="52" y="184" fontSize="84" fontWeight="900" letterSpacing="-4" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{list.length===3?'three.':firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
+ <text x="52" y="184" fontSize="84" fontWeight="800" letterSpacing="-4" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{list.length===3?'three.':firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
  <text x="58" y="222" {...mono(13)}>{range(board.start)} · utc</text>
  {list.map((r,i)=>{const p=profiles[r.address],y=252+i*66;return <g key={r.address}>
   <rect x="40" y={y} width="1120" height="58" rx="12" fill="#141413" fillOpacity={i<3?.78:.6} stroke={i===0?GOLD:INK} strokeOpacity={i===0?.5:.1}/>
-  <text x="62" y={y+38} fontSize="22" fontWeight="900" letterSpacing="-1" fill={i<3?GOLD:FAINT} style={WIDE}>{String(r.rank).padStart(2,'0')}</text>
+  <text x="62" y={y+38} fontSize="22" fontWeight="800" letterSpacing="-1" fill={i<3?GOLD:FAINT} style={WIDE}>{String(r.rank).padStart(2,'0')}</text>
   {p?.avatar?<image href={p.avatar} x="118" y={y+9} width="40" height="40" preserveAspectRatio="xMidYMid slice" clipPath="url(#wk-round)" filter="url(#wk-mono)"/>:<circle cx="138" cy={y+29} r="19" fill="none" stroke={INK} strokeOpacity=".3" strokeDasharray="1.5 4" strokeLinecap="round" strokeWidth="1.5"/>}
   <text x="174" y={y+37} fontSize={p?.username?.length>14?19:23} fontWeight="600" letterSpacing="-.5" fill={INK}>{p?'@'+p.username:short(r.address)}</text>
   <text x="640" y={y+35} {...mono(12)}>{Object.keys(r.firms).map(id=>WEEKLY_FIRMS.find(f=>f.id===id)?.name.toLowerCase()).join(' · ')} · {r.count} {r.count===1?'payout':'payouts'}</text>
-  <text x="1138" y={y+38} textAnchor="end" fontSize="24" fontWeight="800" letterSpacing="-1" fill={INK} style={{fontStretch:'100%'}}>{usd(r.total)}</text>
+  <text x="1138" y={y+38} textAnchor="end" fontSize="23" fontWeight="600" letterSpacing="-1" fill={INK}>{usd(r.total)}</text>
  </g>})}
  </>}
  <line x1="56" x2="1144" y1={h-58} y2={h-58} stroke={INK} strokeOpacity=".14"/>

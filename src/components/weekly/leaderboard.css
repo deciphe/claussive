@@ -1,10 +1,12 @@
 /* MASSIVE leaderboard.
    Dark Claude grey, a colossal halftone moon, smoked glass, heavy type.
-   One typeface (Archivo, using its width and weight axes); the italic serif
-   appears only on trader tag links.
+   Type follows the original site: Manrope for everything read, DM Mono for
+   small labels. The italic serif appears only on trader tag links.
    Everything is scoped under .wk so no other page is affected. */
 
-@font-face{font-family:'Archivo';src:url('../../assets/fonts/archivo.woff') format('woff');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap}
+@font-face{font-family:'Manrope';src:url('../../assets/fonts/manrope.woff') format('woff');font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Mono';src:url('../../assets/fonts/dm-mono-400.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Mono';src:url('../../assets/fonts/dm-mono-500.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:'Instrument Serif';src:url('../../assets/fonts/instrument-serif-italic.woff') format('woff');font-weight:400;font-style:italic;font-display:swap}
 
 .wk{
@@ -13,7 +15,8 @@
  --gold:#e2cb97;--gold-line:rgba(226,203,151,.46);--gold-wash:rgba(226,203,151,.10);
  --violet:#b3a6d6;--violet-line:rgba(179,166,214,.4);
  --glass:rgba(20,20,19,.56);--glass-deep:rgba(18,18,17,.78);
- --sans:'Archivo',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+ --sans:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+ --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
  --ease:cubic-bezier(.2,.7,.2,1);
  position:relative;isolation:isolate;min-height:100vh;overflow-x:clip;
@@ -46,7 +49,7 @@
 
 /* ---------- nav ---------- */
 .wk-nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,28px);padding:22px 0}
-.wk-brand{font-weight:900;font-size:26px;line-height:1;letter-spacing:-.05em}
+.wk-brand{font-size:27px;line-height:1}
 .wk-nav-title{font-size:12px;color:var(--dim)}
 .wk-flow-link{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;color:var(--dim);transition:color .2s}
 .wk-flow-link:hover{color:var(--ink)}
@@ -60,7 +63,7 @@
 .wk-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:wk-pulse 2.6s var(--ease) infinite}
 @keyframes wk-pulse{0%{box-shadow:0 0 0 0 rgba(226,203,151,.45)}70%,100%{box-shadow:0 0 0 12px rgba(226,203,151,0)}}
 .wk-hero-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,430px);align-items:center;gap:clamp(24px,4.5vw,72px);margin-top:clamp(10px,1.6vw,20px)}
-.wk-hero h1{margin:0;font-size:clamp(56px,10.4vw,150px);line-height:.84;letter-spacing:-.055em;white-space:nowrap;filter:drop-shadow(0 10px 36px rgba(20,20,19,.55))}
+.wk-hero h1{margin:0;font-size:clamp(58px,10.6vw,152px);line-height:.86;white-space:nowrap;filter:drop-shadow(0 10px 36px rgba(20,20,19,.55))}
 .wk-hero h1 em{display:block}
 .wk-hero-copy p{margin:clamp(16px,2vw,24px) 0 0;font-size:clamp(17px,1.5vw,20px);color:var(--dim);text-shadow:0 0 14px rgba(31,30,29,.95),0 0 4px rgba(31,30,29,.9)}
 .wk-hero-copy p strong{color:var(--ink);font-weight:700}
@@ -69,7 +72,7 @@
 .wk-vest-mark{display:block;width:88%;height:auto;margin:0 auto;aspect-ratio:549/339;filter:drop-shadow(0 0 46px rgba(226,203,151,.28)) drop-shadow(0 18px 30px rgba(20,20,19,.6))}
 .wk-hero-panel{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--glass-deep)}
 .wk-league-seal{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;padding:16px 18px 0}
-.wk-league-seal strong{font-size:15px;font-weight:800;font-stretch:100%;letter-spacing:-.01em}
+.wk-league-seal strong{font-size:15px;font-weight:700;letter-spacing:-.02em}
 .wk-league-seal span{color:var(--dim)}
 .wk-season-clock{display:flex;flex-direction:column;gap:9px;padding:14px 18px 18px}
 .wk-season-clock>div{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -154,7 +157,7 @@
 .wk-card-edition{position:absolute;z-index:3;left:22px;bottom:11px;color:var(--faint)}
 .wk-card-body{display:flex;flex-direction:column;gap:14px;padding:20px 22px 20px}
 .wk-card-who{display:flex;flex-direction:column;gap:4px;min-width:0}
-.wk-wallet-name{display:flex;align-items:center;gap:8px;font-size:23px;font-weight:800;font-stretch:100%;line-height:1.2;letter-spacing:-.03em;overflow-wrap:anywhere}
+.wk-wallet-name{display:flex;align-items:center;gap:8px;font-size:23px;font-weight:800;line-height:1.2;letter-spacing:-.03em;overflow-wrap:anywhere}
 .wk-wallet-name svg{flex:none;color:var(--gold)}
 .wk-identity{color:var(--dim)}
 .wk-trader-tag{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;max-width:100%;min-height:36px;padding:0 12px;border:1px solid var(--gold-line);border-radius:10px;background:var(--gold-wash);color:var(--gold);font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.2;transition:background .2s,color .2s}
@@ -262,7 +265,7 @@
 .wk-frequent-copy strong em,.wk-claim-compact>strong em{color:var(--gold)}
 .wk-frequent-joke{font-size:15px;color:var(--dim)}
 .wk-frequent-count{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
-.wk-frequent-count b{font-size:clamp(72px,9vw,128px);font-weight:900;line-height:.8;letter-spacing:-.07em;color:var(--gold);text-shadow:0 0 70px rgba(226,203,151,.22)}
+.wk-frequent-count b{font-size:clamp(72px,9vw,128px);line-height:.82}
 .wk-frequent-count span{margin-top:10px;font-size:11px;color:var(--dim)}
 .wk-frequent-person{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding-top:14px;border-top:1px solid var(--line);font-size:14px}
 .wk-frequent-person b{font-weight:600}
@@ -319,7 +322,7 @@
 .wk-close:hover{color:var(--ink);border-color:var(--line-strong)}
 .wk-profile-label{display:block;font-size:11.5px;color:var(--dim)}
 .wk-profile-portrait{width:104px;height:104px;margin-top:20px;border-radius:50%;object-fit:cover;border:1px solid var(--line-strong)}
-.wk-profile-rank{margin-top:14px;font-size:84px;font-weight:900;line-height:.85;letter-spacing:-.06em;color:var(--gold)}
+.wk-profile-rank{margin-top:14px;font-size:84px;line-height:.9}
 .wk-modal h2{margin:10px 0 8px;font-size:32px;font-weight:800;line-height:1.1;letter-spacing:-.035em;overflow-wrap:anywhere}
 .wk-social{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-left:12px;font-size:14px;color:var(--dim)}
 .wk-social:hover{color:var(--ink)}
@@ -350,7 +353,8 @@
 .wk-poster>svg{display:block}
 /* keeps the tag serif in the exported image: the renderer only embeds fonts it finds on HTML elements */
 .wk-font-probe{position:absolute;left:0;top:0;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none}
-.wk-font-probe b{font-weight:400}
+.wk-font-probe{font-family:var(--serif);font-style:italic}
+.wk-font-probe b{font-family:var(--mono);font-style:normal;font-weight:400}
 
 /* claim form */
 .wk-claim-form{display:flex;flex-direction:column;gap:16px}
@@ -409,28 +413,34 @@
 .wk-award-signoff{display:flex;justify-content:space-between;gap:16px;padding-top:20px;font-size:11px;color:var(--dim)}
 .wk-award-signoff span{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--gold)}
 
-/* ---------- type system: one family, three voices ---------- */
-/* display: normal width, black, tight, uppercase, with a smoked-metal fill (never stretched wide) */
-.wk-brand,.wk-hero h1,.wk-arena-title h2,.wk-table-title h2,.wk-monument-rank,.wk-frequent-count b,.wk-profile-rank,.wk-frequent-copy strong,.wk-claim-compact>strong,.wk-weekly-awards-head h3,.wk-modal h2,.wk-empty h2,.wk-award-heading>b{font-stretch:100%;font-weight:900;text-transform:uppercase;word-spacing:.14em}
-.wk-hero h1,.wk-arena-title h2,.wk-table-title h2,.wk-monument-rank,.wk-frequent-copy strong,.wk-claim-compact>strong,.wk-weekly-awards-head h3{background:linear-gradient(172deg,#ffffff 8%,#f3efe6 38%,#cbc4b6 66%,#958da6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.wk-hero h1 em,.wk-arena-title h2 em,.wk-table-title h2 em,.wk-place-1 .wk-monument-rank,.wk-frequent-count b,.wk-profile-rank,.wk-frequent-copy strong em,.wk-claim-compact>strong em,.wk-weekly-awards-head h3 em{background:linear-gradient(172deg,#fbeec8 6%,#e2cb97 42%,#b3975c 74%,#8a7a9c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* the biggest pieces of type break up into halftone dots at the foot */
-.wk-hero h1,.wk-monument-rank,.wk-frequent-count b{-webkit-mask-image:radial-gradient(circle,#000 1.9px,transparent 2.4px),linear-gradient(#000 54%,transparent 96%);mask-image:radial-gradient(circle,#000 1.9px,transparent 2.4px),linear-gradient(#000 54%,transparent 96%);-webkit-mask-size:6px 6px,100% 100%;mask-size:6px 6px,100% 100%}
-.wk-hero h1{-webkit-mask-image:none;mask-image:none}
-.wk-hero h1 em{-webkit-mask-image:radial-gradient(circle,#000 2.2px,transparent 2.8px),linear-gradient(#000 50%,transparent 97%);mask-image:radial-gradient(circle,#000 2.2px,transparent 2.8px),linear-gradient(#000 50%,transparent 97%);-webkit-mask-size:7px 7px,100% 100%;mask-size:7px 7px,100% 100%;padding-bottom:.04em}
-.wk-arena-title h2,.wk-table-title h2{font-size:clamp(28px,4vw,54px);letter-spacing:-.05em;line-height:.95}
-.wk-frequent-copy strong,.wk-claim-compact>strong{font-size:clamp(26px,3.1vw,42px);letter-spacing:-.05em}
-.wk-weekly-awards-head h3{font-size:24px;letter-spacing:-.04em}
-.wk-modal h2{font-size:26px;letter-spacing:-.04em}
-.wk-brand{letter-spacing:-.06em}
-/* figures: heavy, tabular */
-.wk-overview strong,.wk-podium-amount,.wk-row-amount strong,.wk-profile-total,.wk-rank{font-stretch:100%;font-weight:800;font-variant-numeric:tabular-nums}
-/* labels: small tracked capitals */
-.wk-nav-title,.wk-eyebrow,.wk-overview span,.wk-week label,.wk-league-seal span,.wk-season-clock span,.wk-vest-offer small,.wk-podium-top,.wk-card-edition,.wk-identity,.wk .wk-daily em,.wk-podium-foot,.wk-badges>span,.wk-table-head,.wk-arena-title>span,.wk-arena-title>b,.wk-table-title h2 span,.wk-frequent-kicker,.wk-frequent-count span,.wk-weekly-awards-head span,.wk-weekly-tools>span,.wk-profile-label,.wk-method summary span,.wk-rank-wisp-copy span,.wk-view-switch button span,.wk-evidence-title span,.wk-award-heading>span,.wk-award-heading>small,.wk-award-signoff,.wk .massive-freshness.is-compact strong{font-family:var(--sans);font-size:10.5px;font-weight:600;font-stretch:100%;letter-spacing:.115em;text-transform:uppercase;line-height:1.4;-webkit-text-fill-color:currentColor}
-.wk-card-edition{font-size:9px}
+/* ---------- type system ---------- */
+/* display: Manrope 800, tight, with a soft metal fill */
+.wk-brand,.wk-hero h1,.wk-arena-title h2,.wk-table-title h2,.wk-monument-rank,.wk-frequent-count b,.wk-profile-rank,.wk-frequent-copy strong,.wk-claim-compact>strong,.wk-weekly-awards-head h3,.wk-modal h2,.wk-empty h2,.wk-award-heading>b{font-weight:800;letter-spacing:-.055em}
+.wk-hero h1{text-transform:uppercase;letter-spacing:-.07em}
+.wk-hero h1,.wk-arena-title h2,.wk-table-title h2,.wk-frequent-copy strong,.wk-claim-compact>strong,.wk-weekly-awards-head h3{background:linear-gradient(100deg,#fbfaf6 0%,#f1eee7 42%,#bdbab4 78%,#8a8790 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.wk-hero h1 em,.wk-arena-title h2 em,.wk-table-title h2 em,.wk-frequent-copy strong em,.wk-claim-compact>strong em,.wk-weekly-awards-head h3 em{background:linear-gradient(100deg,#f8ecc9 0%,#e2cb97 40%,#b79c63 78%,#8f7f9c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* rank numerals: polished metal, silver for the field and champagne for the leader */
+.wk-monument-rank{background:linear-gradient(112deg,#fdfcf8 4%,#c6c3bd 28%,#f5f2ea 46%,#9b98a2 70%,#e4e0d6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.wk-place-1 .wk-monument-rank,.wk-frequent-count b,.wk-profile-rank{background:linear-gradient(112deg,#fff7de 4%,#d8bf89 28%,#f7edd2 46%,#a68d5d 70%,#ead9ad 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.wk-arena-title h2,.wk-table-title h2{font-size:clamp(26px,3.3vw,42px);line-height:1.05}
+.wk-frequent-copy strong,.wk-claim-compact>strong{font-size:clamp(26px,3vw,40px);line-height:1.05}
+.wk-weekly-awards-head h3{font-size:26px}
+.wk-modal h2{font-size:28px}
+/* figures: lighter and precise, the way money should read */
+.wk-overview strong,.wk-podium-amount,.wk-profile-total{font-weight:500;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.wk-row-amount strong{font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.wk-rank{font-family:var(--mono);font-weight:400;letter-spacing:0;font-variant-numeric:tabular-nums}
+.wk-wallet-name{font-weight:600;letter-spacing:-.035em}
+.wk-row-text strong{font-weight:600}
+.wk-daily b{font-weight:500;letter-spacing:-.035em}
+.wk-row-cash{font-weight:600}
+.wk-row-move{font-weight:700}
+/* labels: DM Mono, small, spaced capitals */
+.wk-nav-title,.wk-eyebrow,.wk-overview span,.wk-week label,.wk-league-seal span,.wk-season-clock span,.wk-vest-offer small,.wk-podium-top,.wk-card-edition,.wk-identity,.wk .wk-daily em,.wk-podium-foot,.wk-badges>span,.wk-table-head,.wk-arena-title>span,.wk-arena-title>b,.wk-table-title h2 span,.wk-frequent-kicker,.wk-frequent-count span,.wk-weekly-awards-head span,.wk-weekly-tools>span,.wk-profile-label,.wk-method summary span,.wk-rank-wisp-copy span,.wk-view-switch button span,.wk-evidence-title span,.wk-award-heading>span,.wk-award-heading>small,.wk-award-signoff,.wk .massive-freshness.is-compact strong,.wk-tag-ghost{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.17em;text-transform:uppercase;line-height:1.5;-webkit-text-fill-color:currentColor}
+.wk-card-edition{font-size:8.5px}
 .wk-table-title h2 span{background:none;color:var(--faint);-webkit-text-fill-color:var(--faint)}
-.wk-row-text small,.wk-profile-address,.wk-evidence small,.wk .massive-freshness small,.wk-frequent-person span,.wk-refresh-note{font-variant-numeric:tabular-nums}
-.wk-award-signoff span{font-family:var(--sans);font-style:normal;font-size:10.5px;color:var(--gold)}
+.wk-row-text small,.wk-profile-address,.wk-evidence small,.wk .massive-freshness small,.wk-frequent-person span,.wk-refresh-note,.wk-row-amount small{font-family:var(--mono);font-size:11px;letter-spacing:0}
+.wk-award-signoff span{font-family:var(--mono);font-style:normal;font-size:10px;color:var(--gold)}
 
 /* ---------- responsive ---------- */
 @media (max-width:1080px){
