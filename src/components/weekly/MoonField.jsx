@@ -43,9 +43,9 @@ float moon(vec2 p,out float outside){
  vec3 L=normalize(vec3(-.42,.80,.43));
  float b=pow(max(dot(n,L),0.),.9);
  float depth=-outside;
- b*=.035+.965*exp(-depth/(W*.075+60.*u_dpr));
+ b*=.02+.98*exp(-depth/(W*.06+50.*u_dpr));
  b*=smoothstep(0.,5.*u_dpr,depth);
- return clamp(b*.9+.008,0.,1.);
+ return clamp(b*.8+.006,0.,1.);
 }
 void main(){
  vec2 p=gl_FragCoord.xy;
@@ -53,28 +53,28 @@ void main(){
  // haze: gold along the lit limb, violet in the far sky
  float o0;float m0=moon(p,o0);
  vec2 uv=p/u_res;
- float limbGlow=exp(-max(o0,0.)/(u_res.x*.07))*smoothstep(1.2,.2,uv.x)*.16;
+ float limbGlow=exp(-max(o0,0.)/(u_res.x*.07))*smoothstep(1.2,.2,uv.x)*.20;
  float inner=m0>=0.?exp(o0/(u_res.x*.05))*.07:0.;
  vec3 col=bg+vec3(.886,.796,.592)*(limbGlow+inner);
  col+=vec3(.66,.61,.82)*.11*exp(-distance(uv,vec2(.95,.98))*2.6);
  col*=1.-.28*smoothstep(.35,1.25,distance(uv,vec2(.5,.55)));
  // halftone screen
- float pitch=6.5*u_dpr;
+ float pitch=5.*u_dpr;
  vec2 g=p/pitch;float row=floor(g.y);float shift=mod(row,2.)*.5;
  vec2 cell=vec2(floor(g.x-shift)+.5+shift,row+.5);
  float o1;float b=moon(cell*pitch,o1);
  float d=length(g-cell);
  float aa=.75/pitch;
  if(b>=0.){
-  float r=.64*sqrt(b);
+  float r=.50*sqrt(b);
   float a=smoothstep(r+aa,r-aa,d)*step(.012,b)*mix(.5,1.,smoothstep(.15,.85,uv.x))*(1.-.3*clamp(u_res.y/u_res.x-.9,0.,1.));
   vec3 ink=mix(vec3(.50,.46,.64),vec3(.93,.88,.745),clamp(b*2.6-.10,0.,1.));
-  col=mix(col,ink,a*.66);
+  col=mix(col,ink,a*.36);
  }else{
   // a few faint stars, as dots
   float st=hash(cell+91.7);
   float tw=.6+.4*sin(u_time*.7+st*40.);
-  float r=st>.9935?.20+.22*hash(cell+3.3):0.;
+  float r=st>.9955?.16+.18*hash(cell+3.3):0.;
   col=mix(col,vec3(.93,.90,.82),smoothstep(r+aa,r-aa,d)*step(.001,r)*.55*tw);
  }
  col+=(hash(p+fract(u_time)*61.)-.5)*.012;

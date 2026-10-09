@@ -8,8 +8,8 @@ export const range=s=>new Date(s).toLocaleDateString('en-US',{month:'short',day:
 // Shareable season artwork: one trader's rank card, or the full standings.
 // Pure SVG so it renders the same on the page, in the JPG export and in email.
 const INK='#faf9f5',DIM='#b0aea5',FAINT='#8f8d85',GOLD='#e2cb97',VIOLET='#b3a6d6',BG='#1f1e1d';
-const SANS='Manrope,system-ui,sans-serif',MONO="'DM Mono',ui-monospace,monospace",SERIF="'Instrument Serif',Georgia,serif";
-// DM Mono spaced capitals for labels; Manrope 800 for display
+const SANS="'DM Sans',Manrope,system-ui,sans-serif",MONO="'DM Mono',ui-monospace,monospace",SERIF="'Instrument Serif',Georgia,serif";
+// DM Mono spaced capitals for labels; DM Sans for display
 const mono=(size,fill=DIM)=>({fontFamily:MONO,fontSize:size-2,fontWeight:400,letterSpacing:1.9,fill,style:{textTransform:'uppercase'}});
 const WIDE={fontStretch:'100%'};
 
@@ -61,7 +61,7 @@ export default function WeeklyPoster({board,rows,profiles,firm,person}){
  <text x="1144" y="654" textAnchor="end" fontSize="15" fontWeight="600" fill={INK}>massiveprop.xyz/#leaderboard</text>
  <text x="1144" y="676" textAnchor="end" {...mono(12)}>{range(board.start)} · utc</text>
  </>:<>
- <text x="52" y="184" fontSize="84" fontWeight="800" letterSpacing="-4" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{list.length===3?'three.':firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
+ <text x="52" y="184" fontSize="84" fontWeight="800" letterSpacing="-1.6" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{list.length===3?'three.':firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
  <text x="58" y="222" {...mono(13)}>{range(board.start)} · utc</text>
  {list.map((r,i)=>{const p=profiles[r.address],y=252+i*66;return <g key={r.address}>
   <rect x="40" y={y} width="1120" height="58" rx="12" fill="#141413" fillOpacity={i<3?.78:.6} stroke={i===0?GOLD:INK} strokeOpacity={i===0?.5:.1}/>

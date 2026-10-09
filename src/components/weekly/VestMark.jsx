@@ -24,7 +24,7 @@ export default function VestMark({className=''}){
     if(!shapes.some(shape=>ctx.isPointInPath(shape,x,y)))continue;
     const t=Math.min(1,Math.max(0,x/W*.55+y/H*.55));
     const light=1-.62*t*t;
-    const radius=PITCH*.58*Math.sqrt(light);
+    const radius=PITCH*.44*Math.sqrt(light);
     const k=Math.min(1,Math.max(0,t*1.1-.3));
     ctx.fillStyle=`rgb(${Math.round(GOLD[0]+(VIOLET[0]-GOLD[0])*k)},${Math.round(GOLD[1]+(VIOLET[1]-GOLD[1])*k)},${Math.round(GOLD[2]+(VIOLET[2]-GOLD[2])*k)})`;
     ctx.beginPath();ctx.arc(x*SCALE,y*SCALE,radius*SCALE,0,Math.PI*2);ctx.fill();
