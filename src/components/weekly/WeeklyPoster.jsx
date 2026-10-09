@@ -61,7 +61,7 @@ export default function WeeklyPoster({board,rows,profiles,firm,person}){
  <text x="1144" y="654" textAnchor="end" fontSize="15" fontWeight="600" fill={INK}>massiveprop.xyz/#leaderboard</text>
  <text x="1144" y="676" textAnchor="end" {...mono(12)}>{range(board.start)} · utc</text>
  </>:<>
- <text x="52" y="184" fontSize="84" fontWeight="900" letterSpacing="-4" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
+ <text x="52" y="184" fontSize="84" fontWeight="900" letterSpacing="-4" fill={INK} style={{...WIDE,textTransform:'uppercase'}}>The top <tspan fill={GOLD}>{list.length===3?'three.':firm==='vest'?'hundred.':'fifteen.'}</tspan></text>
  <text x="58" y="222" {...mono(13)}>{range(board.start)} · utc</text>
  {list.map((r,i)=>{const p=profiles[r.address],y=252+i*66;return <g key={r.address}>
   <rect x="40" y={y} width="1120" height="58" rx="12" fill="#141413" fillOpacity={i<3?.78:.6} stroke={i===0?GOLD:INK} strokeOpacity={i===0?.5:.1}/>
