@@ -9,6 +9,7 @@ const Weekly = lazy(() => import("./components/weekly/Weekly"));
 const FlowHub = lazy(() => import("./components/vestflow/FlowHub"));
 const Vestflow = lazy(() => import("./components/vestflow/Vestflow"));
 const TheBook = lazy(() => import("./components/learn/LearnPerps"));
+const VestVault = lazy(() => import("./VestVault.jsx"));
 
 export default function App() {
   const [hash, setHash] = useState(() => typeof window === "undefined" ? "" : window.location.hash);
@@ -23,6 +24,7 @@ export default function App() {
   }, []);
 
   const route = hash.split("?")[0];
+  if(route === "#vault") return <Suspense fallback={<div style={{background:"#080809",minHeight:"100vh"}}/>}><VestVault/></Suspense>;
   if(["#vestpdf","#vestatm","#lesson1"].includes(route))return <Suspense fallback={<div style={{background:"#090a0e",minHeight:"100vh"}}/>}><VestPdf/></Suspense>;
   if(route === "#massiveprop")return <Suspense fallback={<div style={{background:"#0a0b0d",minHeight:"100vh"}}/>}><EmailTest/></Suspense>;
   if(route === "#thebook")return <Suspense fallback={<div style={{background:"#f7f3fb",minHeight:"100vh"}}/>}><TheBook/></Suspense>;
